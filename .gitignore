@@ -1,0 +1,6 @@
+# java build result
+*.class
+
+# idea's files
+.idea/*
+*.iml
