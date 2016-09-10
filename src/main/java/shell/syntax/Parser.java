@@ -1,5 +1,7 @@
 package shell.syntax;
 
+import shell.commands.Assignment;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,7 +20,7 @@ public class Parser {
                 commandNodes.add(new CommandNode(argsList.toArray(new String[argsList.size()])));
                 argsList = new LinkedList<>();
             } else if (token.getType() == Token.Type.ASSIGN) {
-                argsList.add("$=");
+                argsList.add(Assignment.TAG);
                 int eqIdx = token.getToken().indexOf('=');
                 argsList.add(token.getToken().substring(0, eqIdx));
                 argsList.add(token.getToken().substring(eqIdx + 1));

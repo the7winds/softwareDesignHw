@@ -10,6 +10,16 @@ import java.io.OutputStream;
 
 class Pipe extends Command {
 
+    Pipe(InputStream inputStream) throws IOException {
+        super(new String[0]);
+        this.inputStream = inputStream;
+    }
+
+    Pipe(OutputStream outputStream) throws IOException {
+        super(new String[0]);
+        this.outputStream = outputStream;
+    }
+
     Pipe(InputStream inputStream, OutputStream outputStream) throws IOException {
         super(new String[0]);
         this.inputStream = inputStream;
@@ -24,5 +34,7 @@ class Pipe extends Command {
             int read = inputStream.read(buffer);
             outputStream.write(buffer, 0, read);
         }
+
+        outputStream.flush();
     }
 }

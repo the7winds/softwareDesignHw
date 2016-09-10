@@ -1,5 +1,6 @@
 package shell;
 
+import shell.commands.Chain;
 import shell.syntax.*;
 
 import java.io.BufferedReader;
@@ -22,22 +23,26 @@ public class Shell {
             try {
                 System.out.print(PROMPT);
                 String rawInput = bufferedReader.readLine();
-                if (rawInput.equals("exit")) {
-                    return;
-                } else {
-                    process(rawInput);
+                if (rawInput.length() > 0) {
+                    if (rawInput.equals("exit")) {
+                        return;
+                    } else {
+                        process(rawInput);
+                    }
                 }
             } catch (SyntaxException e) {
                 System.out.println("syntax error");
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
             }
         }
     }
 
-    private static void process(String rawInput) throws SyntaxException {
+    private static void process(String rawInput) throws Exception {
         List<RawToken> rawTokens = Tokeniser.rawTokenise(rawInput);
         List<Token> tokens = Tokeniser.tokenise(rawTokens);
         List<CommandNode> commandNodes = Parser.parse(tokens);
-        // Chain chain = new Chain(commandNodes);
-        // chain.run();
+        Chain chain = new Chain(commandNodes);
+        chain.run();
     }
 }
