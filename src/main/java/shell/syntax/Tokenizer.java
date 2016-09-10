@@ -1,7 +1,6 @@
 package shell.syntax;
 
 import shell.Environment;
-import shell.commands.Assignment;
 
 import java.util.*;
 
@@ -13,13 +12,13 @@ public class Tokenizer {
 
     static final char END = '#';
 
-    public static List<RawToken> rawTokenize(String rawInput) {
+    public static List<RawToken> rawTokenize(String rawInput) throws SyntaxException {
         List<RawToken> rawTokens = new LinkedList<>();
 
         final Set<Character> separator = new HashSet<>(Arrays.asList('|', ' '));
         final Set<Character> quotes = new HashSet<>(Arrays.asList('\'', '\"'));
 
-        boolean quoted = false;
+        char quoted = 0;
 
         rawInput += END;
 
@@ -27,10 +26,10 @@ public class Tokenizer {
         int end = 0;
 
         while (end < rawInput.length()) {
-            if (!quoted) {
+            if (quoted == 0) {
                 if (!separator.contains(rawInput.charAt(end))) {
                     if (quotes.contains(rawInput.charAt(end))) {
-                        quoted = true;
+                        quoted = rawInput.charAt(end);
                     }
                     end++;
                 } else {
@@ -43,8 +42,8 @@ public class Tokenizer {
                     start = ++end;
                 }
             } else {
-                if (quotes.contains(rawInput.charAt(end))) {
-                    quoted = false;
+                if (quoted == rawInput.charAt(end)) {
+                    quoted = 0;
                 }
                 end++;
             }
@@ -52,6 +51,10 @@ public class Tokenizer {
 
         if (start != end - 1) {
             rawTokens.add(new RawToken(rawInput.substring(start, end - 1)));
+        }
+
+        if (quoted != 0) {
+            throw new SyntaxException();
         }
 
         return rawTokens;
@@ -154,7 +157,7 @@ public class Tokenizer {
 
         stringBuilder.append(string.substring(start, end));
 
-        if (isStrong || isQuoted) {
+        if (isQuoted) {
             throw new SyntaxException();
         }
 
