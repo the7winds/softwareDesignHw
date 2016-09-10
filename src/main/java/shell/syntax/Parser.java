@@ -17,6 +17,11 @@ public class Parser {
             if (token.getType() == Token.Type.PIPE) {
                 commandNodes.add(new CommandNode(argsList.toArray(new String[argsList.size()])));
                 argsList = new LinkedList<>();
+            } else if (token.getType() == Token.Type.ASSIGN) {
+                argsList.add("$=");
+                int eqIdx = token.getToken().indexOf('=');
+                argsList.add(token.getToken().substring(0, eqIdx));
+                argsList.add(token.getToken().substring(eqIdx + 1));
             } else {
                 argsList.add(token.getToken());
             }

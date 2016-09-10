@@ -11,7 +11,8 @@ public class Token {
     public enum Type {
         CMD,
         ARG,
-        PIPE
+        PIPE,
+        ASSIGN
     }
 
     private String token;

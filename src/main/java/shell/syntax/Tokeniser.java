@@ -62,13 +62,21 @@ public class Tokeniser {
         Token.Type type = Token.Type.CMD;
 
         for (RawToken rawToken : rawTokens) {
-            String string = expand(rawToken.getString());
+            String string = rawToken.getString();
+
+            if (type == Token.Type.CMD && isAssignment(string)) {
+                type = Token.Type.ASSIGN;
+            }
+
+            string = expand(string);
 
             if (string.equals("|")) {
                 type = Token.Type.PIPE;
             }
 
-            tokens.add(new Token(string, type));
+            if (!(string.equals("") && type == Token.Type.ARG)) {
+                tokens.add(new Token(string, type));
+            }
 
             switch (type) {
                 case CMD:
@@ -84,6 +92,11 @@ public class Tokeniser {
         }
 
         return tokens;
+    }
+
+    public static boolean isAssignment(String string) {
+        int eqIndex = string.indexOf('=');
+        return eqIndex != -1 && string.substring(0, eqIndex).chars().allMatch(Character::isLetterOrDigit);
     }
 
     public static String expand(String string) throws SyntaxException {
