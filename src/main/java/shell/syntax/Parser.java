@@ -11,7 +11,7 @@ import java.util.List;
 
 public class Parser {
 
-    public static List<CommandNode> parse(List<Token> tokens) {
+    public static List<CommandNode> parse(List<Token> tokens) throws SyntaxException {
         List<CommandNode> commandNodes = new LinkedList<>();
         List<String> argsList = new LinkedList<>();
 

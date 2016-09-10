@@ -10,18 +10,23 @@ import java.io.OutputStream;
 
 class Pipe extends Command {
 
-    Pipe(InputStream inputStream) throws IOException {
+    private final boolean close;
+
+    Pipe(boolean close, InputStream inputStream) throws IOException {
         super(new String[0]);
+        this.close = close;
         this.inputStream = inputStream;
     }
 
-    Pipe(OutputStream outputStream) throws IOException {
+    Pipe(boolean close, OutputStream outputStream) throws IOException {
         super(new String[0]);
+        this.close = close;
         this.outputStream = outputStream;
     }
 
-    Pipe(InputStream inputStream, OutputStream outputStream) throws IOException {
+    Pipe(boolean close, InputStream inputStream, OutputStream outputStream) throws IOException {
         super(new String[0]);
+        this.close = close;
         this.inputStream = inputStream;
         this.outputStream = outputStream;
     }
@@ -35,6 +40,8 @@ class Pipe extends Command {
             outputStream.write(buffer, 0, read);
         }
 
-        outputStream.flush();
+        if (close) {
+            outputStream.close();
+        }
     }
 }

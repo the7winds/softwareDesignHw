@@ -1,6 +1,7 @@
 package shell.syntax;
 
 import shell.Environment;
+import shell.commands.Assignment;
 
 import java.util.*;
 
@@ -8,11 +9,11 @@ import java.util.*;
  * Created by the7winds on 10.09.16.
  */
 
-public class Tokeniser {
+public class Tokenizer {
 
     static final char END = '#';
 
-    public static List<RawToken> rawTokenise(String rawInput) {
+    public static List<RawToken> rawTokenize(String rawInput) {
         List<RawToken> rawTokens = new LinkedList<>();
 
         final Set<Character> separator = new HashSet<>(Arrays.asList('|', ' '));
@@ -56,7 +57,7 @@ public class Tokeniser {
         return rawTokens;
     }
 
-    public static List<Token> tokenise(List<RawToken> rawTokens) throws SyntaxException {
+    public static List<Token> tokenize(List<RawToken> rawTokens) throws SyntaxException {
         List<Token> tokens = new LinkedList<>();
 
         Token.Type type = Token.Type.CMD;
@@ -67,8 +68,6 @@ public class Tokeniser {
             if (type == Token.Type.CMD && isAssignment(string)) {
                 type = Token.Type.ASSIGN;
             }
-
-            string = expand(string);
 
             if (string.equals("|")) {
                 type = Token.Type.PIPE;
@@ -99,7 +98,7 @@ public class Tokeniser {
         return eqIndex != -1 && string.substring(0, eqIndex).chars().allMatch(Character::isLetterOrDigit);
     }
 
-    public static String expand(String string) throws SyntaxException {
+    private static String rawExpand(String string) throws SyntaxException {
 
         final char strong = '\'';
         final char weak = '\"';
@@ -160,5 +159,28 @@ public class Tokeniser {
         }
 
         return stringBuilder.substring(0, stringBuilder.length() - 1);
+    }
+
+    public static String expand(String string) throws SyntaxException {
+        if (!isAssignment(string)) {
+            string = rawExpand(string);
+        } else {
+            int eqIdx = string.indexOf('=');
+            string = string.substring(0, eqIdx) + "=" + expand(string.substring(eqIdx + 1));
+        }
+        return string;
+    }
+
+    public static List<RawToken> tokenize2level(String rawInput) throws SyntaxException {
+        List<RawToken> rawTokens = Tokenizer.rawTokenize(rawInput);
+        StringJoiner stringJoiner = new StringJoiner(" ");
+
+        for (RawToken rawToken : rawTokens) {
+            stringJoiner.add(Tokenizer.expand(rawToken.getString()));
+        }
+
+        rawTokens = Tokenizer.rawTokenize(stringJoiner.toString());
+
+        return rawTokens;
     }
 }

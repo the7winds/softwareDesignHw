@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
+import java.util.StringJoiner;
 
 /**
  * Created by the7winds on 07.09.16.
@@ -39,10 +40,11 @@ public class Shell {
     }
 
     private static void process(String rawInput) throws Exception {
-        List<RawToken> rawTokens = Tokeniser.rawTokenise(rawInput);
-        List<Token> tokens = Tokeniser.tokenise(rawTokens);
+        List<RawToken> rawTokens = Tokenizer.tokenize2level(rawInput);
+        List<Token> tokens = Tokenizer.tokenize(rawTokens);
         List<CommandNode> commandNodes = Parser.parse(tokens);
         Chain chain = new Chain(commandNodes);
+
         chain.run();
     }
 }

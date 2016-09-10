@@ -17,7 +17,7 @@ public class Chain {
 
     public Chain(List<CommandNode> commandNodes) throws Exception  {
 
-        Pipe pipeInput = new Pipe(System.in);
+        Pipe pipeInput = new Pipe(true, System.in);
         Command first = pipeInput;
         Command second = null;
 
@@ -27,12 +27,12 @@ public class Chain {
             first = second;
         }
 
-        Pipe pipeOutput = new Pipe(System.out);
+        Pipe pipeOutput = new Pipe(false, System.out);
         connect(second, pipeOutput);
     }
 
     private void connect(Command first, Command second) throws IOException {
-        Pipe pipeCommand = new Pipe(first.getOutputStreamOnRead(), second.getInputStreamOnWrite());
+        Pipe pipeCommand = new Pipe(true, first.getOutputStreamOnRead(), second.getInputStreamOnWrite());
 
         if (commands.isEmpty() || commands.getLast() != first) {
             commands.add(first);

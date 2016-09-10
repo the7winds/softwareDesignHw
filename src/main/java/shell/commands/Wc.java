@@ -20,29 +20,31 @@ public class Wc extends Command {
     @Override
     public void execute() throws FileNotFoundException {
         try (PrintStream printStream = new PrintStream(outputStream)) {
+            int lines = 0;
+            int words = 0;
+            long bytes = 0;
+
             if (args.length == 1) {
                 Scanner scanner = new Scanner(inputStream);
-                String line = scanner.nextLine();
-                printStream.printf("%d\t%d\t%d\n"
-                        , 1
-                        , Arrays.stream(line.split("\\s+")).filter(s -> s.length() > 0).count()
-                        , line.getBytes().length);
+                while (scanner.hasNextLine()) {
+                    String line = scanner.nextLine();
+                    lines++;
+                    words += Arrays.stream(line.split("\\s+")).filter(s -> s.length() > 0).count();
+                    bytes += line.getBytes().length;
+                }
+                printStream.printf("%d\t%d\t%d\n", lines, words, bytes);
             } else {
                 for (int i = 1; i < args.length; i++) {
                     File file = new File(args[i]);
                     try (Scanner scanner = new Scanner(file)) {
-                        int lines = 0;
-                        int words = 0;
-                        long bytes = file.length();
-
                         while (scanner.hasNextLine()) {
                             String line = scanner.nextLine();
                             lines++;
                             words += Arrays.stream(line.split("\\s+")).filter(s -> s.length() > 0).count();
+                            bytes += line.getBytes().length;
                         }
-
-                        printStream.printf("%d\t%d\t%d\t%s\n", lines, words, bytes, args[i]);
                     }
+                    printStream.printf("%d\t%d\t%d\t%s\n", lines, words, bytes, args[i]);
                 }
             }
         }
