@@ -4,3 +4,4 @@
 # idea's files
 .idea/*
 *.iml
+/target/*
