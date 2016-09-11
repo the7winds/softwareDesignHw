@@ -22,6 +22,7 @@ public class Environment {
         commands.put("$=", Assignment.class);
         commands.put("echo", Echo.class);
         commands.put("cat", Cat.class);
+        commands.put("pwd", Pwd.class);
         commands.put("wc", Wc.class);
     }
 
