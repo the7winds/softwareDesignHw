@@ -12,8 +12,8 @@ public class Tokenizer {
 
     static final char END = '#';
 
-    public static List<RawToken> rawTokenize(String rawInput) throws SyntaxException {
-        List<RawToken> rawTokens = new LinkedList<>();
+    public static List<String> rawTokenize(String rawInput) throws SyntaxException {
+        List<String> rawTokens = new LinkedList<>();
 
         final Set<Character> separator = new HashSet<>(Arrays.asList('|', ' '));
         final Set<Character> quotes = new HashSet<>(Arrays.asList('\'', '\"'));
@@ -34,10 +34,10 @@ public class Tokenizer {
                     end++;
                 } else {
                     if (start != end) {
-                        rawTokens.add(new RawToken(rawInput.substring(start, end)));
+                        rawTokens.add(rawInput.substring(start, end));
                     }
                     if (rawInput.charAt(end) == '|') {
-                        rawTokens.add(new RawToken("|"));
+                        rawTokens.add("|");
                     }
                     start = ++end;
                 }
@@ -50,7 +50,7 @@ public class Tokenizer {
         }
 
         if (start != end - 1) {
-            rawTokens.add(new RawToken(rawInput.substring(start, end - 1)));
+            rawTokens.add(rawInput.substring(start, end - 1));
         }
 
         if (quoted != 0) {
@@ -60,13 +60,13 @@ public class Tokenizer {
         return rawTokens;
     }
 
-    public static List<Token> tokenize(List<RawToken> rawTokens) throws SyntaxException {
+    public static List<Token> tokenize(List<String> rawTokens) throws SyntaxException {
         List<Token> tokens = new LinkedList<>();
 
         Token.Type type = Token.Type.CMD;
 
-        for (RawToken rawToken : rawTokens) {
-            String string = rawToken.getString();
+        for (String rawToken : rawTokens) {
+            String string = rawToken;
 
             if (type == Token.Type.CMD && isAssignment(string)) {
                 type = Token.Type.ASSIGN;
@@ -101,7 +101,17 @@ public class Tokenizer {
         return eqIndex != -1 && string.substring(0, eqIndex).chars().allMatch(Character::isLetterOrDigit);
     }
 
-    private static String rawExpand(String string) throws SyntaxException {
+    public static String substitution(String string) throws SyntaxException {
+        if (!isAssignment(string)) {
+            string = rawSubstitution(string);
+        } else {
+            int eqIdx = string.indexOf('=');
+            string = string.substring(0, eqIdx) + "=" + rawSubstitution(string.substring(eqIdx + 1));
+        }
+        return string;
+    }
+
+    public static String rawSubstitution(String string) throws SyntaxException {
 
         final char strong = '\'';
         final char weak = '\"';
@@ -123,17 +133,17 @@ public class Tokenizer {
                     if (!isQuoted && string.charAt(end) == strong) {
                         stringBuilder.append(string.substring(start, end));
                         isQuoted = isStrong = true;
-                        start = ++end;
+                        start = end++;
                     } else if (string.charAt(end) == weak) {
                         stringBuilder.append(string.substring(start, end));
                         isQuoted = !isQuoted;
-                        start = ++end;
+                        start = end++;
                     } else if (string.charAt(end) == '$') {
                         isVariable = true;
                         stringBuilder.append(string.substring(start, end));
                         start = ++end;
                     } else {
-                        ++end;
+                        end++;
                     }
                 } else {
                     if (Character.isLetterOrDigit(string.charAt(end))) {
@@ -148,7 +158,7 @@ public class Tokenizer {
                 if (string.charAt(end) == strong) {
                     isQuoted = isStrong = false;
                     stringBuilder.append(string.substring(start, end));
-                    start = ++end;
+                    start = end++;
                 } else {
                     end++;
                 }
@@ -164,26 +174,61 @@ public class Tokenizer {
         return stringBuilder.substring(0, stringBuilder.length() - 1);
     }
 
-    public static String expand(String string) throws SyntaxException {
-        if (!isAssignment(string)) {
-            string = rawExpand(string);
-        } else {
-            int eqIdx = string.indexOf('=');
-            string = string.substring(0, eqIdx) + "=" + expand(string.substring(eqIdx + 1));
+    public static String noQuotes(String string) throws SyntaxException {
+
+        final Set<Character> quotes = new HashSet<>(Arrays.asList('\'', '\"'));
+
+        char isQuoted = 0;
+
+        StringBuilder stringBuilder = new StringBuilder();
+
+        int start = 0;
+        int end = 0;
+
+        while (end < string.length()) {
+            if (isQuoted == 0) {
+                if (quotes.contains(string.charAt(end))) {
+                    stringBuilder.append(string.substring(start, end));
+                    isQuoted = string.charAt(end);
+                    start = ++end;
+                } else {
+                    ++end;
+                }
+            } else {
+                if (isQuoted == string.charAt(end)) {
+                    stringBuilder.append(string.substring(start, end));
+                    isQuoted = 0;
+                    start = ++end;
+                } else {
+                    ++end;
+                }
+            }
         }
-        return string;
+
+        stringBuilder.append(string.substring(start, end));
+
+        if (isQuoted != 0) {
+            throw new SyntaxException();
+        }
+
+        return stringBuilder.toString();
     }
 
-    public static List<RawToken> tokenize2level(String rawInput) throws SyntaxException {
-        List<RawToken> rawTokens = Tokenizer.rawTokenize(rawInput);
+    public static List<String> tokenize2level(String rawInput) throws SyntaxException {
+        List<String> rawTokens1 = Tokenizer.rawTokenize(rawInput);
         StringJoiner stringJoiner = new StringJoiner(" ");
 
-        for (RawToken rawToken : rawTokens) {
-            stringJoiner.add(Tokenizer.expand(rawToken.getString()));
+        for (String rawToken : rawTokens1) {
+            stringJoiner.add(Tokenizer.substitution(rawToken));
         }
 
-        rawTokens = Tokenizer.rawTokenize(stringJoiner.toString());
+        List<String> tmp = Tokenizer.rawTokenize(stringJoiner.toString());
+        List<String> rawTokens2 = new LinkedList<>();
 
-        return rawTokens;
+        for (String rawToken : tmp) {
+            rawTokens2.add(Tokenizer.noQuotes(rawToken));
+        }
+
+        return rawTokens2;
     }
 }

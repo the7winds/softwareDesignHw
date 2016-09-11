@@ -39,7 +39,7 @@ public class Shell {
     }
 
     private static void process(String rawInput) throws Exception {
-        List<RawToken> rawTokens = Tokenizer.tokenize2level(rawInput);
+        List<String> rawTokens = Tokenizer.tokenize2level(rawInput);
         List<Token> tokens = Tokenizer.tokenize(rawTokens);
         List<CommandNode> commandNodes = Parser.parse(tokens);
         Chain chain = new Chain(commandNodes);
