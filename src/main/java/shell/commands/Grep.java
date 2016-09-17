@@ -33,6 +33,11 @@ public class Grep extends Command {
     @Parameter
     private List<String> other = new LinkedList<>();
 
+    /**
+     * handles parses grep args and calls doGrep to search
+     * @throws Exception
+     */
+
     @Override
     void execute() throws Exception {
         new JCommander(this, args);
@@ -51,6 +56,11 @@ public class Grep extends Command {
         }
     }
 
+    /**
+     * search pattern
+     * @param pattern
+     * @param scanner
+     */
     private void doGrep(String pattern, Scanner scanner) {
         if (ignoreCase) {
             StringBuilder chars = new StringBuilder();
