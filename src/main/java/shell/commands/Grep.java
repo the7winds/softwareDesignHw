@@ -43,16 +43,16 @@ public class Grep extends Command {
         new JCommander(this, args);
 
         String pattern = other.get(1);
-        List<String> files = other.subList(2, other.size());
+        List<String> filenames = other.subList(2, other.size());
 
-        List<Scanner> scanners = new LinkedList<>();
-        for (String filename : files) {
-            scanners.add(new Scanner(new File(filename)));
+        Map<String, Scanner> files = new HashMap<>();
+        for (String filename : filenames) {
+            files.put(filename, new Scanner(new File(filename)));
         }
 
-        scanners.add(new Scanner(inputStream));
-        for (Scanner scanner : scanners) {
-            doGrep(pattern, scanner);
+        files.put("stdin", new Scanner(inputStream));
+        for (Map.Entry<String, Scanner> entry : files.entrySet()) {
+            doGrep(pattern, entry.getKey(), entry.getValue());
         }
     }
 
@@ -61,7 +61,7 @@ public class Grep extends Command {
      * @param pattern
      * @param scanner
      */
-    private void doGrep(String pattern, Scanner scanner) {
+    private void doGrep(String pattern, String filename, Scanner scanner) {
         if (ignoreCase) {
             StringBuilder chars = new StringBuilder();
             boolean f = false;
@@ -80,6 +80,7 @@ public class Grep extends Command {
         }
         pattern = ".*" + pattern + ".*";
 
+        int lcnt = 0;
         int cnt = nStringsAfterMatch;
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
@@ -88,13 +89,14 @@ public class Grep extends Command {
             }
             if (line.matches(pattern)) {
                 cnt = nStringsAfterMatch;
-                printStream.println(line);
+                printStream.printf("%s(%d):%s\n", filename, lcnt, line);
             } else {
                 if (cnt > 0) {
-                    printStream.println(line);
+                    printStream.printf("%s(%d):%s\n", filename, lcnt, line);
                 }
                 cnt--;
             }
+            ++lcnt;
         }
     }
 }
