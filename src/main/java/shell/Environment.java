@@ -22,6 +22,7 @@ public class Environment {
      * inits map: command name -> command class
      */
     public Environment() {
+        commands.put("grep", Grep.class);
         commands.put("$=", Assignment.class);
         commands.put("echo", Echo.class);
         commands.put("cat", Cat.class);
