@@ -12,6 +12,12 @@ public class Tokenizer {
 
     static final char END = '#';
 
+    /**
+     * gets string and separates it by '|' or ' ' if it wasn't quoted
+     * @param rawInput
+     * @return
+     * @throws SyntaxException
+     */
     public static List<String> rawTokenize(String rawInput) throws SyntaxException {
         List<String> rawTokens = new LinkedList<>();
 
@@ -60,6 +66,12 @@ public class Tokenizer {
         return rawTokens;
     }
 
+    /**
+     * gets splited input and interpreters it like commands, args, pipes and assignment
+     * @param rawTokens
+     * @return
+     * @throws SyntaxException
+     */
     public static List<Token> tokenize(List<String> rawTokens) throws SyntaxException {
         List<Token> tokens = new LinkedList<>();
 
@@ -96,11 +108,23 @@ public class Tokenizer {
         return tokens;
     }
 
+    /**
+     * checks  input  whether it is an assignment
+     * @param string
+     * @return
+     */
     public static boolean isAssignment(String string) {
         int eqIndex = string.indexOf('=');
         return eqIndex != -1 && string.substring(0, eqIndex).chars().allMatch(Character::isLetterOrDigit);
     }
 
+    /**
+     * substitutes variable value to string if input is an assignment,
+     * changes only value part else changes all
+     * @param string
+     * @return
+     * @throws SyntaxException
+     */
     public static String substitution(String string) throws SyntaxException {
         if (!isAssignment(string)) {
             string = rawSubstitution(string);
@@ -111,6 +135,12 @@ public class Tokenizer {
         return string;
     }
 
+    /**
+     * substitutes variable values to string without any string checking
+     * @param string
+     * @return
+     * @throws SyntaxException
+     */
     public static String rawSubstitution(String string) throws SyntaxException {
 
         final char strong = '\'';
@@ -174,6 +204,12 @@ public class Tokenizer {
         return stringBuilder.substring(0, stringBuilder.length() - 1);
     }
 
+    /**
+     * removes quotes from string if it wasn't quoted
+     * @param string
+     * @return
+     * @throws SyntaxException
+     */
     public static String noQuotes(String string) throws SyntaxException {
 
         final Set<Character> quotes = new HashSet<>(Arrays.asList('\'', '\"'));
@@ -214,6 +250,12 @@ public class Tokenizer {
         return stringBuilder.toString();
     }
 
+    /**
+     * makes first tokenization, then substitutes, then makes second tokenization and removes quotes
+     * @param rawInput
+     * @return
+     * @throws SyntaxException
+     */
     public static List<String> tokenize2level(String rawInput) throws SyntaxException {
         List<String> rawTokens1 = Tokenizer.rawTokenize(rawInput);
         StringJoiner stringJoiner = new StringJoiner(" ");

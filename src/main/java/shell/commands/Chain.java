@@ -31,6 +31,12 @@ public class Chain {
         connect(second, pipeOutput);
     }
 
+    /**
+     * connects output first command and input second command via Pipe class
+     * @param first
+     * @param second
+     * @throws IOException
+     */
     private void connect(Command first, Command second) throws IOException {
         Pipe pipeCommand = new Pipe(true, first.getOutputStreamOnRead(), second.getInputStreamOnWrite());
 

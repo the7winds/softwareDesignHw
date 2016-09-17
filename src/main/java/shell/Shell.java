@@ -16,6 +16,12 @@ public class Shell {
 
     private static final String PROMPT = "#";
 
+    /**
+     * reads input from keyboard and calls functions to handle it
+     * @param args
+     * @throws IOException
+     */
+
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 
@@ -38,6 +44,11 @@ public class Shell {
         }
     }
 
+    /**
+     * handles raw input: parses then builds chain of commands then runs it
+     * @param rawInput
+     * @throws Exception
+     */
     private static void process(String rawInput) throws Exception {
         List<String> rawTokens = Tokenizer.tokenize2level(rawInput);
         List<Token> tokens = Tokenizer.tokenize(rawTokens);

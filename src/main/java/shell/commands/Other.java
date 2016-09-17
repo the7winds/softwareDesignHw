@@ -29,6 +29,10 @@ public class Other extends Command {
         return process.getOutputStream();
     }
 
+    /**
+     * executes external command
+     * @throws Exception
+     */
     @Override
     public void execute() throws Exception {
         process.waitFor();

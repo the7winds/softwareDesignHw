@@ -18,6 +18,9 @@ public class Environment {
     private Map<String, String> variables = new Hashtable<>();
     private Map<String, Class<?>> commands = new Hashtable<>();
 
+    /**
+     * inits map: command name -> command class
+     */
     public Environment() {
         commands.put("$=", Assignment.class);
         commands.put("echo", Echo.class);
@@ -30,10 +33,20 @@ public class Environment {
         return INSTANCE;
     }
 
+    /**
+     * modifies value of variable
+     * @param variable
+     * @param value
+     */
     public void variableAssignment(String variable, String value) {
         variables.put(variable, value);
     }
 
+    /**
+     * would return value of variable, empty string if variable didn't existed
+     * @param variable
+     * @return
+     */
     public String getValue(String variable) {
         return variables.getOrDefault(variable, "");
     }

@@ -22,10 +22,18 @@ public abstract class Command {
         ((PipedOutputStream) outputStream).connect(outputStreamOnRead);
     }
 
+    /**
+     * returns piped inputStream for reading command's output
+     * @return
+     */
     public InputStream getOutputStreamOnRead() {
         return outputStreamOnRead;
     }
 
+    /**
+     * returns piped outputStream for writing to command's input
+     * @return
+     */
     public OutputStream getInputStreamOnWrite() {
         return inputStreamOnWrite;
     }

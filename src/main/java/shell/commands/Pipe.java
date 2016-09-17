@@ -31,6 +31,10 @@ class Pipe extends Command {
         this.outputStream = outputStream;
     }
 
+    /**
+     * transfers bytes from one command to another
+     * @throws Exception
+     */
     @Override
     void execute() throws Exception {
         byte[] buffer = new byte[1 << 12];

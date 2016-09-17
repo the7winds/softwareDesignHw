@@ -11,6 +11,12 @@ import java.util.List;
 
 public class Parser {
 
+    /**
+     * create some kind of AST: groups command with it's args
+     * @param tokens
+     * @return
+     * @throws SyntaxException
+     */
     public static List<CommandNode> parse(List<Token> tokens) throws SyntaxException {
         List<CommandNode> commandNodes = new LinkedList<>();
         List<String> argsList = new LinkedList<>();

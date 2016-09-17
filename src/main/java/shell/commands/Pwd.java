@@ -12,6 +12,10 @@ public class Pwd extends Command {
         super(args);
     }
 
+    /**
+     * prints current directory
+     * @throws Exception
+     */
     @Override
     void execute() throws Exception {
         outputStream.write((Paths.get(".").toAbsolutePath().toString() + "\n").getBytes());
