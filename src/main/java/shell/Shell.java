@@ -30,7 +30,7 @@ public class Shell {
                 System.out.print(PROMPT);
                 String rawInput = bufferedReader.readLine();
                 if (rawInput.length() > 0) {
-                    if (rawInput.equals("exit")) {
+                    if (rawInput.matches("\\s*exit\\s*")) {
                         return;
                     } else {
                         process(rawInput);
