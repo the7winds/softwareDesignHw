@@ -8,6 +8,10 @@ import java.io.OutputStream;
  * Created by the7winds on 10.09.16.
  */
 
+/**
+ * class to help with transferring output one program to another
+ */
+
 class Pipe extends Command {
 
     private final boolean close;

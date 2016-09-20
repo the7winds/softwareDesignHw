@@ -11,6 +11,10 @@ import java.util.List;
  * Created by the7winds on 08.09.16.
  */
 
+/**
+ * create commands list with connected input-output
+ */
+
 public class Chain {
 
     private final LinkedList<Command> commands = new LinkedList<>();
@@ -33,8 +37,6 @@ public class Chain {
 
     /**
      * connects output first command and input second command via Pipe class
-     * @param first
-     * @param second
      * @throws IOException
      */
     private void connect(Command first, Command second) throws IOException {

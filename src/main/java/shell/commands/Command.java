@@ -6,6 +6,10 @@ import java.io.*;
  * Created by the7winds on 07.09.16.
  */
 
+/**
+ * basic class for all commands, provides methods to get input, output and run
+ */
+
 public abstract class Command {
 
     protected String args[];
@@ -24,7 +28,6 @@ public abstract class Command {
 
     /**
      * returns piped inputStream for reading command's output
-     * @return
      */
     public InputStream getOutputStreamOnRead() {
         return outputStreamOnRead;
@@ -32,7 +35,6 @@ public abstract class Command {
 
     /**
      * returns piped outputStream for writing to command's input
-     * @return
      */
     public OutputStream getInputStreamOnWrite() {
         return inputStreamOnWrite;

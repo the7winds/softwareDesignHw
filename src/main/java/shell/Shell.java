@@ -12,13 +12,16 @@ import java.util.List;
  * Created by the7winds on 07.09.16.
  */
 
+/**
+ * main class which calls all other method
+ */
+
 public class Shell {
 
     private static final String PROMPT = "#";
 
     /**
      * reads input from keyboard and calls functions to handle it
-     * @param args
      * @throws IOException
      */
 
@@ -46,7 +49,6 @@ public class Shell {
 
     /**
      * handles raw input: parses then builds chain of commands then runs it
-     * @param rawInput
      * @throws Exception
      */
     private static void process(String rawInput) throws Exception {

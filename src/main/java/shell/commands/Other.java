@@ -8,6 +8,10 @@ import java.io.OutputStream;
  * Created by the7winds on 08.09.16.
  */
 
+/**
+ * class which create to operate with external programs
+ */
+
 public class Other extends Command {
 
     private final ProcessBuilder processBuilder;
