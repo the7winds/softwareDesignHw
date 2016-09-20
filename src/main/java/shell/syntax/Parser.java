@@ -32,6 +32,8 @@ public class Parser {
                 int eqIdx = token.getToken().indexOf('=');
                 argsList.add(token.getToken().substring(0, eqIdx));
                 argsList.add(token.getToken().substring(eqIdx + 1));
+                commandNodes.add(new CommandNode(argsList.toArray(new String[argsList.size()])));
+                argsList = new LinkedList<>();
             } else {
                 argsList.add(token.getToken());
             }

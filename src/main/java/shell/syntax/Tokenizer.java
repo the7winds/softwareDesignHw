@@ -101,6 +101,8 @@ public class Tokenizer {
                 case PIPE:
                     type = Token.Type.CMD;
                     break;
+                case ASSIGN:
+                    type = Token.Type.CMD;
             }
         }
 
