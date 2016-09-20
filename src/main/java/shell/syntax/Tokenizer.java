@@ -155,7 +155,8 @@ public class Tokenizer {
                 if (!isVariable) {
                     if (!isQuoted && string.charAt(end) == strong) {
                         stringBuilder.append(string.substring(start, end));
-                        isQuoted = isStrong = true;
+                        isQuoted = true;
+                        isStrong = true;
                         start = end++;
                     } else if (string.charAt(end) == weak) {
                         stringBuilder.append(string.substring(start, end));
@@ -179,7 +180,8 @@ public class Tokenizer {
                 }
             } else {
                 if (string.charAt(end) == strong) {
-                    isQuoted = isStrong = false;
+                    isQuoted = false;
+                    isStrong = false;
                     stringBuilder.append(string.substring(start, end));
                     start = end++;
                 } else {
