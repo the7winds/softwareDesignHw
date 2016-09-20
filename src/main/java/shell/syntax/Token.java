@@ -4,6 +4,10 @@ package shell.syntax;
  * Created by the7winds on 10.09.16.
  */
 
+/**
+ * Contains string with type of one syntax entity: CMD, ARG, PIP, ASSIGN
+ */
+
 public class Token {
 
     public enum Type {

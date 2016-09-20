@@ -12,6 +12,10 @@ import java.util.List;
  * Created by the7winds on 07.09.16.
  */
 
+/**
+ * main class which calls all other method
+ */
+
 public class Shell {
 
     private static final String PROMPT = "#";

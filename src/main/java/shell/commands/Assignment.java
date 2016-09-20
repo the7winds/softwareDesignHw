@@ -8,6 +8,10 @@ import java.io.IOException;
  * Created by the7winds on 10.09.16.
  */
 
+/**
+ * contains variable and assignable value
+ */
+
 public class Assignment extends Command {
 
     public static final String TAG = "$=";

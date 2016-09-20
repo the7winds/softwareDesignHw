@@ -11,6 +11,12 @@ import java.util.Map;
 /**
  * Created by the7winds on 07.09.16.
  */
+
+/**
+ * Contains all shell data like variables and command's name mapping.
+ * Provides methods to assign variables and get command class by name.
+ */
+
 public class Environment {
 
     private static final Environment INSTANCE = new Environment();
@@ -34,18 +40,14 @@ public class Environment {
     }
 
     /**
-     * modifies value of variable
-     * @param variable
-     * @param value
+     * modifies variable's value
      */
     public void variableAssignment(String variable, String value) {
         variables.put(variable, value);
     }
 
     /**
-     * would return value of variable, empty string if variable didn't existed
-     * @param variable
-     * @return
+     * returns value of variable, empty string if variable don't existed
      */
     public String getValue(String variable) {
         return variables.getOrDefault(variable, "");

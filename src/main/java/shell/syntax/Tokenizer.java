@@ -8,15 +8,17 @@ import java.util.*;
  * Created by the7winds on 10.09.16.
  */
 
+/**
+ * provides methods to split input string into token entities
+ */
+
 public class Tokenizer {
 
     static final char END = '#';
 
     /**
      * gets string and separates it by '|' or ' ' if it wasn't quoted
-     * @param rawInput
-     * @return
-     * @throws SyntaxException
+     * @throws SyntaxException when it has problems with quotation
      */
     public static List<String> rawTokenize(String rawInput) throws SyntaxException {
         List<String> rawTokens = new LinkedList<>();
@@ -68,11 +70,8 @@ public class Tokenizer {
 
     /**
      * gets splited input and interpreters it like commands, args, pipes and assignment
-     * @param rawTokens
-     * @return
-     * @throws SyntaxException
      */
-    public static List<Token> tokenize(List<String> rawTokens) throws SyntaxException {
+    public static List<Token> tokenize(List<String> rawTokens) {
         List<Token> tokens = new LinkedList<>();
 
         Token.Type type = Token.Type.CMD;
@@ -109,9 +108,7 @@ public class Tokenizer {
     }
 
     /**
-     * checks  input  whether it is an assignment
-     * @param string
-     * @return
+     * checks input whether it is an assignment
      */
     public static boolean isAssignment(String string) {
         int eqIndex = string.indexOf('=');
@@ -121,9 +118,7 @@ public class Tokenizer {
     /**
      * substitutes variable value to string if input is an assignment,
      * changes only value part else changes all
-     * @param string
-     * @return
-     * @throws SyntaxException
+     * @throws SyntaxException when there are problems with quotation
      */
     public static String substitution(String string) throws SyntaxException {
         if (!isAssignment(string)) {
@@ -137,9 +132,7 @@ public class Tokenizer {
 
     /**
      * substitutes variable values to string without any string checking
-     * @param string
-     * @return
-     * @throws SyntaxException
+     * @throws SyntaxException when quoting isn't finished
      */
     public static String rawSubstitution(String string) throws SyntaxException {
 
@@ -206,9 +199,7 @@ public class Tokenizer {
 
     /**
      * removes quotes from string if it wasn't quoted
-     * @param string
-     * @return
-     * @throws SyntaxException
+     * @throws SyntaxException - when quotation isn't finished
      */
     public static String noQuotes(String string) throws SyntaxException {
 
@@ -252,9 +243,7 @@ public class Tokenizer {
 
     /**
      * makes first tokenization, then substitutes, then makes second tokenization and removes quotes
-     * @param rawInput
-     * @return
-     * @throws SyntaxException
+     * @throws SyntaxException - when it contains some syntax mistakes like unfinished quotation
      */
     public static List<String> tokenize2level(String rawInput) throws SyntaxException {
         List<String> rawTokens1 = Tokenizer.rawTokenize(rawInput);

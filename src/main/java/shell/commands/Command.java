@@ -6,6 +6,10 @@ import java.io.*;
  * Created by the7winds on 07.09.16.
  */
 
+/**
+ * basic class for all commands, provides methods to get input, output and run
+ */
+
 public abstract class Command {
 
     protected String args[];

@@ -9,13 +9,15 @@ import java.util.List;
  * Created by the7winds on 08.09.16.
  */
 
+/**
+ * provide method to get AST tree from  user's input
+ */
+
 public class Parser {
 
     /**
      * create some kind of AST: groups command with it's args
-     * @param tokens
-     * @return
-     * @throws SyntaxException
+     * @throws SyntaxException often when it has problems with quotes
      */
     public static List<CommandNode> parse(List<Token> tokens) throws SyntaxException {
         List<CommandNode> commandNodes = new LinkedList<>();
