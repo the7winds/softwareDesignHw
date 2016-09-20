@@ -28,7 +28,6 @@ public abstract class Command {
 
     /**
      * returns piped inputStream for reading command's output
-     * @return
      */
     public InputStream getOutputStreamOnRead() {
         return outputStreamOnRead;
@@ -36,7 +35,6 @@ public abstract class Command {
 
     /**
      * returns piped outputStream for writing to command's input
-     * @return
      */
     public OutputStream getInputStreamOnWrite() {
         return inputStreamOnWrite;
