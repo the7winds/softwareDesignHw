@@ -16,32 +16,52 @@ import static org.junit.Assert.assertEquals;
 public class TokenizerTest {
 
     @Test
-    public void substitution() throws Exception {
+    public void strongQuoteRawSubstitutionTest() throws SyntaxException {
         Environment.getInstance().variableAssignment("a", "42");
         assertEquals("\'$a\'", Tokenizer.rawSubstitution("\'$a\'"));
+    }
+
+    @Test
+    public void WeakQuoteRawSubstitutionTest() throws SyntaxException {
+        Environment.getInstance().variableAssignment("a", "42");
         assertEquals("\"42\"", Tokenizer.rawSubstitution("\"$a\""));
+    }
+
+    @Test
+    public void noQuotesRawSubstitutionTest() throws SyntaxException {
+        Environment.getInstance().variableAssignment("a", "42");
         assertEquals("42", Tokenizer.rawSubstitution("$a"));
+    }
+    @Test
+    public void weakInnerQuotes01RawSubstitutionTest() throws SyntaxException {
+        Environment.getInstance().variableAssignment("a", "42");
         assertEquals("a=\"echo \"42\"\"", Tokenizer.rawSubstitution("a=\"echo \"$a\"\""));
+    }
+
+    @Test
+    public void weakInnerQuotes02RawSubstitutionTest() throws SyntaxException {
+        Environment.getInstance().variableAssignment("a", "42");
         assertEquals("a=\"echo \'42\'\"", Tokenizer.rawSubstitution("a=\"echo \'$a\'\""));
     }
 
     @Test
-    public void rawSubstitution() throws Exception {
+    public void innerQuoteNoQuotesTest() throws SyntaxException {
         Environment.getInstance().variableAssignment("a", "42");
-        assertEquals("\'$a\'", Tokenizer.rawSubstitution("\'$a\'"));
-        assertEquals("\"42\"", Tokenizer.rawSubstitution("\"$a\""));
-        assertEquals("42", Tokenizer.rawSubstitution("$a"));
+        assertEquals("as\'dasd", Tokenizer.noQuotes("\"as\'d\"asd"));
     }
 
     @Test
-    public void noQuotes() throws Exception {
-        assertEquals("as\'dasd", Tokenizer.noQuotes("\"as\'d\"asd"));
+    public void allTypesOfQuotes01NoQuotesTest() throws SyntaxException {
         assertEquals("asdasd", Tokenizer.noQuotes("\"as\"da\'sd\'"));
+    }
+
+    @Test
+    public void allTypesOfQuotes02NoQuotesTest() throws SyntaxException {
         assertEquals("as\'das\'d", Tokenizer.noQuotes("\"as\'\"d\"as\'d\""));
     }
 
     @Test
-    public void tokenize2level() throws Exception {
+    public void tokenize2levelTest() throws Exception {
         Environment.getInstance().variableAssignment("a", "42");
         Environment.getInstance().variableAssignment("b", "echo $a");
 
@@ -78,7 +98,7 @@ public class TokenizerTest {
     }
 
     @Test
-    public void tokenize() throws Exception {
+    public void tokenize01Test() {
         Environment.getInstance().variableAssignment("a", "42");
 
         assertEquals(Arrays.asList(Token.Type.CMD, Token.Type.ARG),
@@ -86,6 +106,11 @@ public class TokenizerTest {
                         .stream()
                         .map(Token::getType)
                         .collect(Collectors.toList()));
+    }
+
+    @Test
+    public void tokenize02Test() {
+        Environment.getInstance().variableAssignment("a", "42");
 
         assertEquals(Arrays.asList(Token.Type.CMD, Token.Type.ARG, Token.Type.PIPE, Token.Type.CMD),
                 Tokenizer.tokenize(Arrays.asList("echo", "$a", "|", "cat"))
@@ -95,7 +120,7 @@ public class TokenizerTest {
     }
 
     @Test
-    public void rawTokenize() throws Exception {
+    public void rawTokenizeTests() throws Exception {
         List<String> rawTokens;
         List<String> tokens;
 
