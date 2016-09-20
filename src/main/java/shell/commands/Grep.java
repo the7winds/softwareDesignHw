@@ -4,6 +4,7 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.*;
@@ -35,11 +36,11 @@ public class Grep extends Command {
 
     /**
      * handles parses grep args and calls doGrep to search
-     * @throws Exception
+     * @throws Exception - exactly FileNotFoundException
      */
 
     @Override
-    void execute() throws Exception {
+    void execute() throws FileNotFoundException {
         new JCommander(this, args);
 
         String pattern = other.get(1);
@@ -58,14 +59,14 @@ public class Grep extends Command {
 
     /**
      * search pattern
-     * @param pattern
-     * @param scanner
+     * @param inputPattern user's input pattern
+     * @param scanner scanner associated with one of input files or standard input
      */
-    private void doGrep(String pattern, String filename, Scanner scanner) {
+    private void doGrep(String inputPattern, String filename, Scanner scanner) {
         if (ignoreCase) {
             StringBuilder chars = new StringBuilder();
             boolean f = false;
-            for (char c : pattern.toCharArray()) {
+            for (char c : inputPattern.toCharArray()) {
                 if (f) {
                     f = false;
                 } else {
@@ -73,12 +74,12 @@ public class Grep extends Command {
                     f = c == '\\';
                 }
             }
-            pattern = chars.toString();
+            inputPattern = chars.toString();
         }
         if (searchWholeWord) {
-            pattern = "\\b" + pattern + "\\b";
+            inputPattern = "\\b" + inputPattern + "\\b";
         }
-        pattern = ".*" + pattern + ".*";
+        String inlinePattern = ".*" + inputPattern + ".*";
 
         int lcnt = 0;
         int cnt = nStringsAfterMatch;
@@ -87,7 +88,7 @@ public class Grep extends Command {
             if (ignoreCase) {
                 line.toLowerCase();
             }
-            if (line.matches(pattern)) {
+            if (line.matches(inlinePattern)) {
                 cnt = nStringsAfterMatch;
                 printStream.printf("%s(%d):%s\n", filename, lcnt, line);
             } else {
