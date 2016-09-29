@@ -13,14 +13,19 @@ public class Cd extends Command {
         super(args);
     }
 
+    /**
+     * goes into directory in first arg
+     * @throws Exception
+     */
+
     @Override
     void execute() throws Exception {
-        String directory_name = args[1];
+        String directoryName = args[1];
 
         File directory;       // Desired current working directory
 
-        directory = new File(directory_name).getAbsoluteFile();
-        if (directory.exists() || directory.mkdirs())
+        directory = new File(directoryName).getAbsoluteFile();
+        if (directory.exists())
         {
             System.setProperty("user.dir", directory.getAbsolutePath());
         }
