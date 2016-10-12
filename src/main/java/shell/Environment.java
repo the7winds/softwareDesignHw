@@ -37,6 +37,7 @@ public class Environment {
         commands.put("pwd", Pwd.class);
         commands.put("wc", Wc.class);
         commands.put("ls", Ls.class);
+        commands.put("cd", Cd.class);
     }
 
     public static Environment getInstance() {

@@ -6,11 +6,19 @@ import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 
+/**
+ * Implements <i> ls </i> command.
+ */
+
 public class Ls extends Command {
     public Ls(String[] args) throws IOException {
         super(args);
     }
 
+    /**
+     * If in args there were no directories, prints all files and subdirectories of current directory.
+     * Otherwise prints content (files ans subdirectories) of all directories given in args.
+     */
     @Override
     public void execute() throws IOException {
         Path currentPath = Environment.getInstance().getCurrentPath();
