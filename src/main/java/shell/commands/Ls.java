@@ -46,7 +46,6 @@ public class Ls extends Command {
                 result.append("\n");
             }
         }
-        System.out.println(result.toString());
         outputStream.write(result.toString().getBytes());
     }
 }
