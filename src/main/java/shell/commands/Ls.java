@@ -20,7 +20,7 @@ public class Ls extends Command {
      * Otherwise prints content (files ans subdirectories) of all directories given in args.
      */
     @Override
-    public void execute() throws IOException {
+    public void execute() throws Exception {
         Path currentPath = Environment.getInstance().getCurrentPath();
         if (args.length == 1) {
             outputStream.write((String.join(" ", Arrays.asList(currentPath.toFile().list())) + "\n").getBytes());
@@ -36,17 +36,17 @@ public class Ls extends Command {
                 result.append(args[i] + ":\n");
             }
             File file = new File(args[i]);
+            if (!file.isAbsolute()) {
+                file = currentPath.resolve(args[i]).toFile();
+            }
             if (file.isDirectory()) {
-                if (file.isAbsolute()) {
-                    result.append(String.join(" ", Arrays.asList(file.list())) + "\n");
-                } else {
-                    result.append(String.join(" ", Arrays.asList(currentPath.resolve(args[i]).toFile().list())) + "\n");
-                }
+                result.append(String.join(" ", Arrays.asList(file.list())) + "\n");
             }
             if (i != args.length - 1) {
                 result.append("\n");
             }
         }
+        System.out.println(result.toString());
         outputStream.write(result.toString().getBytes());
     }
 }
