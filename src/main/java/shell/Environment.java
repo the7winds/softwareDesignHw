@@ -1,12 +1,12 @@
 package shell;
 
 import shell.commands.*;
-import shell.syntax.CommandNode;
+import shell.syntax.*;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Hashtable;
-import java.util.Map;
+import java.io.*;
+import java.lang.reflect.*;
+import java.nio.file.*;
+import java.util.*;
 
 /**
  * Created by the7winds on 07.09.16.
@@ -24,6 +24,8 @@ public class Environment {
     private Map<String, String> variables = new Hashtable<>();
     private Map<String, Class<?>> commands = new Hashtable<>();
 
+    private Path currentPath = Paths.get("").toAbsolutePath();
+
     /**
      * inits map: command name -> command class
      */
@@ -34,6 +36,7 @@ public class Environment {
         commands.put("cat", Cat.class);
         commands.put("pwd", Pwd.class);
         commands.put("wc", Wc.class);
+        commands.put("ls", Ls.class);
     }
 
     public static Environment getInstance() {
@@ -60,5 +63,13 @@ public class Environment {
         } else {
             return new Other(commandNode.getArgs());
         }
+    }
+
+    public Path getCurrentPath() {
+        return currentPath;
+    }
+
+    public void setCurrentPath(Path currentPath) {
+        this.currentPath = currentPath;
     }
 }
