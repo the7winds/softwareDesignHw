@@ -65,7 +65,6 @@ public class ChatView extends JLayeredPane {
                             enterMessageArea.getText());
                     model.sendMessage(enterMessageArea.getText());
                     enterMessageArea.setText("");
-                    messages.add(new Label(enterMessageArea.getText()));
                 }
             }
         });
