@@ -45,16 +45,20 @@ public class Model {
             try {
                 while (receiverTransmitter.isActive()) {
                     int type = receiverTransmitter.preReadMessage();
-                    switch (ProtocolType.values()[type]) {
-                        case GREETING:
-                            handleGreeting();
-                            break;
-                        case MESSAGE:
-                            handleMessage();
-                            break;
-                        case BYE:
-                            handleBye();
-                            break;
+                    if (0 <= type && type < ProtocolType.values().length) {
+                        switch (ProtocolType.values()[type]) {
+                            case GREETING:
+                                handleGreeting();
+                                break;
+                            case MESSAGE:
+                                handleMessage();
+                                break;
+                            case BYE:
+                                handleBye();
+                                break;
+                        }
+                    } else {
+                        LOG.log(WARNING, "SOME TRASH HAS ARRIVED");
                     }
                 }
             } catch (IOException e) {
