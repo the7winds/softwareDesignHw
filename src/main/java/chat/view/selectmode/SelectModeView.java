@@ -11,6 +11,10 @@ import java.awt.event.MouseEvent;
 /**
  * Created by the7winds on 26.10.16.
  */
+
+/**
+ * asks host (if need), port and mode either server or client
+ */
 public class SelectModeView extends JLayeredPane {
 
     private final JButton serverStart;
@@ -63,6 +67,11 @@ public class SelectModeView extends JLayeredPane {
             }
         });
     }
+
+    /**
+     * blocks/ublocks ui
+     * @param enabled
+     */
 
     @Override
     public void setEnabled(boolean enabled) {

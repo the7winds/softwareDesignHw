@@ -5,6 +5,11 @@ import javax.swing.*;
 /**
  * Created by the7winds on 26.10.16.
  */
+
+/**
+ * shows one message unit
+ */
+
 public class SingleMessageView extends JPanel {
 
     private final JLabel time;

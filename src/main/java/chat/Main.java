@@ -10,13 +10,15 @@ import javax.swing.*;
  */
 public class Main {
 
+    /**
+     * creates model and gui
+     */
+
     public static void main(String[] args) {
         Model model = new Model();
 
         final AppFrame appFrame = new AppFrame(model);
 
-        SwingUtilities.invokeLater(() -> {
-            appFrame.setVisible(true);
-        });
+        SwingUtilities.invokeLater(() -> appFrame.setVisible(true));
     }
 }

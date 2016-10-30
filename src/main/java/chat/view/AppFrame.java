@@ -10,6 +10,12 @@ import java.awt.event.WindowEvent;
 /**
  * Created by the7winds on 26.10.16.
  */
+
+/**
+ * Class describes app's window
+ * It has two modes: selectMode(server/client) and chatMode
+ * At the beginning it stays in selectMode
+ */
 public class AppFrame extends JFrame {
 
     private SelectModeView selectModeView;
@@ -38,18 +44,38 @@ public class AppFrame extends JFrame {
         this.model = model;
     }
 
+    /**
+     *  tunes into selectMode
+     */
+
     public void setSelectModeView() {
         setContentPane(selectModeView = new SelectModeView(model));
         revalidate();
     }
 
+    /**
+     * Adds message view to chat
+     * @param author who send the message
+     * @param time message's send time
+     * @param txt message's content
+     */
+
     public void addMessage(String author, long time, String txt) {
         chatView.addMessage(author, Long.toString(time / 1000), txt);
     }
 
+    /**
+     * shows message when conversation is finished and another user
+     * us unavailable
+     */
+
     public void showBye() {
         chatView.showBye();
     }
+
+    /**
+     * tunes into chatMode
+     */
 
     public void setChatModeView() {
         setContentPane(chatView = new ChatView(model));

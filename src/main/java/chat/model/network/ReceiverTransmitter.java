@@ -11,6 +11,11 @@ import java.net.Socket;
 /**
  * Created by the7winds on 26.10.16.
  */
+
+/**
+ * get interface to send write message without thinking about socket
+ */
+
 public class ReceiverTransmitter {
 
     private String host;

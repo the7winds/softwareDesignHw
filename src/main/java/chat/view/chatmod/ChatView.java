@@ -14,6 +14,12 @@ import static javax.swing.JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED;
 /**
  * Created by the7winds on 26.10.16.
  */
+
+/**
+ * gets able to send/receive messages and change your
+ * name during the conversation
+ */
+
 public class ChatView extends JLayeredPane {
 
     private JPanel messages;

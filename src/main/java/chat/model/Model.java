@@ -16,6 +16,11 @@ import static java.util.logging.Level.*;
 /**
  * Created by the7winds on 26.10.16.
  */
+
+/**
+ * operates listening to socket and get interface for network
+ */
+
 public class Model {
 
     private final Logger LOG = Logger.getLogger(Model.class.getSimpleName());
