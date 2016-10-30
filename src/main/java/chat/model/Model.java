@@ -30,7 +30,9 @@ public class Model {
     private Runnable listenHandler = new Runnable() {
         public void run() {
             try {
+                LOG.log(INFO, "trying to start receiving-transmitting");
                 receiverTransmitter.start();
+                LOG.log(INFO, "receiving-transmitting has started");
             } catch (IOException e) {
                 LOG.log(WARNING, e.getLocalizedMessage());
                 SwingUtilities.invokeLater(() -> appFrame.setSelectModeView());
@@ -39,10 +41,10 @@ public class Model {
 
             SwingUtilities.invokeLater(() -> appFrame.setChatModeView());
 
+            LOG.log(INFO, "start listening to socket");
             try {
                 while (receiverTransmitter.isActive()) {
                     int type = receiverTransmitter.preReadMessage();
-                    LOG.log(INFO, "received new message");
                     switch (ProtocolType.values()[type]) {
                         case GREETING:
                             handleGreeting();
@@ -77,6 +79,7 @@ public class Model {
 
     public void finishAllTasks() {
         try {
+            LOG.log(INFO, "finishing socket listener, stopping receiving-transmitting");
             listenHandlerThread.interrupt();
             receiverTransmitter.stop();
         } catch (IOException e) {
@@ -85,24 +88,29 @@ public class Model {
     }
 
     private void handleMessage() throws IOException {
+        LOG.log(INFO, "received text message");
         final Message message = new Message();
         receiverTransmitter.readMessage(message);
         SwingUtilities.invokeLater(() -> appFrame.addMessage(companion, message.getSendTime(), message.getMessage()));
     }
 
     private void handleGreeting() throws IOException {
+        LOG.log(INFO, "received greeting message");
         Greeting greeting = new Greeting();
         receiverTransmitter.readMessage(greeting);
         companion = greeting.getName();
     }
 
     private void handleBye() throws IOException {
+        LOG.log(INFO, "received bye message");
         receiverTransmitter.stop();
     }
 
     public void sendMessage(String text) {
         try {
+            LOG.log(INFO, "sending text message");
             receiverTransmitter.sendMessage(new Message(text));
+            LOG.log(INFO, "the text message has sent");
         } catch (IOException e) {
             LOG.log(WARNING, e.getLocalizedMessage());
             try {
@@ -117,7 +125,9 @@ public class Model {
         if (!name.equals(this.name)) {
             this.name = name;
             try {
+                LOG.log(INFO, "sending greeting message");
                 receiverTransmitter.sendMessage(new Greeting(name));
+                LOG.log(INFO, "the greeting message has sent");
             } catch (IOException e) {
                 LOG.log(WARNING, e.getLocalizedMessage());
                 try {
@@ -136,7 +146,9 @@ public class Model {
 
     public void sendBye() {
         try {
+            LOG.log(INFO, "sending bye message");
             receiverTransmitter.sendMessage(new Bye());
+            LOG.log(INFO, "the bye has sent");
         } catch (IOException e) {
             LOG.log(WARNING, e.getLocalizedMessage());
             try {
