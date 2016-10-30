@@ -86,7 +86,8 @@ public class Model {
         this.appFrame = appFrame;
     }
 
-    public void finishAllTasks() {
+    public void prepareToClose() {
+        sendBye();
         try {
             LOG.log(INFO, "finishing socket listener, stopping receiving-transmitting");
             listenHandlerThread.interrupt();
@@ -115,11 +116,16 @@ public class Model {
         receiverTransmitter.stop();
     }
 
-    public void sendMessage(String text) {
+    public void startListening() {
+        listenHandlerThread = new Thread(listenHandler);
+        listenHandlerThread.start();
+    }
+
+    private void sendBye() {
         try {
-            LOG.log(INFO, "sending text message");
-            receiverTransmitter.sendMessage(new Message(text));
-            LOG.log(INFO, "the text message has sent");
+            LOG.log(INFO, "sending bye message");
+            receiverTransmitter.sendMessage(new Bye());
+            LOG.log(INFO, "the bye has sent");
         } catch (IOException e) {
             LOG.log(WARNING, e.getLocalizedMessage());
             try {
@@ -130,34 +136,18 @@ public class Model {
         }
     }
 
-    public void sendGreeting(String name) {
-        if (!name.equals(this.name)) {
-            this.name = name;
-            try {
+    public void send(String nameStr, String text, long time) {
+        try {
+            if (!nameStr.equals(name)) {
                 LOG.log(INFO, "sending greeting message");
+                name = nameStr;
                 receiverTransmitter.sendMessage(new Greeting(name));
                 LOG.log(INFO, "the greeting message has sent");
-            } catch (IOException e) {
-                LOG.log(WARNING, e.getLocalizedMessage());
-                try {
-                    receiverTransmitter.stop();
-                } catch (IOException e1) {
-                    LOG.log(SEVERE, e1.getLocalizedMessage());
-                }
             }
-        }
-    }
 
-    public void startListening() {
-        listenHandlerThread = new Thread(listenHandler);
-        listenHandlerThread.start();
-    }
-
-    public void sendBye() {
-        try {
-            LOG.log(INFO, "sending bye message");
-            receiverTransmitter.sendMessage(new Bye());
-            LOG.log(INFO, "the bye has sent");
+            LOG.log(INFO, "sending text message");
+            receiverTransmitter.sendMessage(new Message(text, time));
+            LOG.log(INFO, "the text message has sent");
         } catch (IOException e) {
             LOG.log(WARNING, e.getLocalizedMessage());
             try {

@@ -66,12 +66,14 @@ public class ChatView extends JLayeredPane {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                model.sendGreeting(name.getText());
                 if (name.getText().length() > 0 && enterMessageArea.getText().length() > 0) {
-                    addMessage(name.getText(),
-                            Long.toString(System.currentTimeMillis() / 1000),
-                            enterMessageArea.getText());
-                    model.sendMessage(enterMessageArea.getText());
+                    String nameStr = name.getText();
+                    long time = System.currentTimeMillis() / 1000;
+                    String text = enterMessageArea.getText();
+
+                    model.send(nameStr, text, time);
+
+                    addMessage(nameStr, Long.toString(time), text);
                     enterMessageArea.setText("");
                 }
             }

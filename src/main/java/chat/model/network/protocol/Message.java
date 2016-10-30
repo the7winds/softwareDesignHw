@@ -18,9 +18,9 @@ final public class Message extends BasicMessage {
 
     }
 
-    public Message(String message) {
+    public Message(String message, long time) {
         super.type = MESSAGE;
-        this.sendTime = System.currentTimeMillis();
+        this.sendTime = time;
         this.message = message;
     }
 

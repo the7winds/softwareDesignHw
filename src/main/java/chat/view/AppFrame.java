@@ -34,8 +34,7 @@ public class AppFrame extends JFrame {
 
         addWindowStateListener(e -> {
             if (e.getID() == WindowEvent.WINDOW_CLOSING) {
-                model.sendBye();
-                model.finishAllTasks();
+                model.prepareToClose();
             }
         });
 
@@ -61,7 +60,7 @@ public class AppFrame extends JFrame {
      */
 
     public void addMessage(String author, long time, String txt) {
-        chatView.addMessage(author, Long.toString(time / 1000), txt);
+        chatView.addMessage(author, Long.toString(time), txt);
     }
 
     /**

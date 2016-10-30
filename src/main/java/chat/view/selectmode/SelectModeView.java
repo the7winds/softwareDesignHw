@@ -1,7 +1,6 @@
 package chat.view.selectmode;
 
 import chat.model.Model;
-import chat.view.AppFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -70,7 +69,6 @@ public class SelectModeView extends JLayeredPane {
 
     /**
      * blocks/ublocks ui
-     * @param enabled
      */
 
     @Override

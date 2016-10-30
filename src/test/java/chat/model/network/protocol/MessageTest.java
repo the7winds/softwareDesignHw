@@ -23,12 +23,13 @@ public class MessageTest {
         DataInputStream dataInputStream = new DataInputStream(inputStream);
         DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
 
-        Message sent = new Message("test");
+        Message sent = new Message("test", 10);
         sent.sendTo(dataOutputStream);
 
         Message received = new Message();
         received.receiveFrom(dataInputStream);
 
         Assert.assertEquals(sent.getMessage(), received.getMessage());
+        Assert.assertEquals(sent.getSendTime(), 10);
     }
 }
