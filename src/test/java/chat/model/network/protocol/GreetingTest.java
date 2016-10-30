@@ -1,0 +1,34 @@
+package chat.model.network.protocol;
+
+import org.junit.Assert;
+import org.junit.Test;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
+
+import static org.junit.Assert.*;
+
+/**
+ * Created by the7winds on 30.10.16.
+ */
+public class GreetingTest {
+    @Test
+    public void simpleSendReceiveTest() throws Exception {
+        PipedInputStream inputStream = new PipedInputStream();
+        PipedOutputStream outputStream = new PipedOutputStream();
+        inputStream.connect(outputStream);
+
+        DataInputStream dataInputStream = new DataInputStream(inputStream);
+        DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
+
+        Greeting sent = new Greeting("test");
+        sent.sendTo(dataOutputStream);
+
+        Greeting received = new Greeting();
+        received.receiveFrom(dataInputStream);
+
+        Assert.assertEquals(sent.getName(), received.getName());
+    }
+}
