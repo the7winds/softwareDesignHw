@@ -37,6 +37,8 @@ public class ChatView extends JLayeredPane {
         add(new JScrollPane(messages, VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_NEVER), gbc);
 
         name = new JTextField("username");
+        name.setPreferredSize(new Dimension(80, 20));
+        name.setMinimumSize(new Dimension(80, 20));
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.weighty = 0;
         gbc.gridwidth = 1;

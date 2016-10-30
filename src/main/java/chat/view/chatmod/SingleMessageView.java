@@ -18,6 +18,7 @@ public class SingleMessageView extends JPanel {
         message = new JTextArea(text);
         message.setLineWrap(true);
         message.setEditable(false);
+        message.setColumns(20);
 
         Box hbox = Box.createHorizontalBox();
 
