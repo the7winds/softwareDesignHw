@@ -14,7 +14,7 @@ final public class Greeting extends BasicMessage {
     private String name;
 
     public Greeting() {
-
+        super.type = GREETING;
     }
 
     public Greeting(String name) {

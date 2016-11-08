@@ -68,7 +68,7 @@ public class SelectModeView extends JLayeredPane {
     }
 
     /**
-     * blocks/ublocks ui
+     * block/unblock ui
      */
 
     @Override

@@ -15,7 +15,7 @@ final public class Message extends BasicMessage {
     private String message;
 
     public Message() {
-
+        super.type = MESSAGE;
     }
 
     public Message(String message, long time) {
