@@ -1,4 +1,4 @@
-package roguelike.gameObject;
+package roguelike.entities;
 
 /**
  * Created by the7winds on 27.11.16.

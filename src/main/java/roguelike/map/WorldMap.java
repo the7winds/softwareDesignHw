@@ -1,14 +1,13 @@
 package roguelike.map;
 
 import java.io.PrintStream;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.Random;
-import java.util.Set;
 
 /**
  * Created by the7winds on 27.11.16.
  */
-public class Map {
+public class WorldMap {
 
     private static final int MAX_WIDTH = 100;
     private static final int MAX_HEIGHT = 50;
@@ -16,9 +15,11 @@ public class Map {
     private static final int MAX_ROOMS = 20;
 
     private Position map[][] = new Position[MAX_WIDTH][MAX_HEIGHT];
-    private Set<Position> positions = new HashSet<Position>();
 
-    private Map(int seed, int roomsNumber) {
+    ArrayList<Position> positions = new ArrayList<>();
+    private int top = 0;
+
+    private WorldMap(int seed, int roomsNumber) {
         Random random = new Random(seed);
 
         for (int i = 0; i < roomsNumber; ++i) {
@@ -34,20 +35,28 @@ public class Map {
                 int x0 = (int) (random.nextGaussian() * d + x);
                 int y0 = (int) (random.nextGaussian() * d + y);
 
-                if (0 <= x0 && x0 < MAX_WIDTH && 0 <= y0 && y0 < MAX_HEIGHT) {
+                if (0 <= x0 && x0 < MAX_WIDTH && 0 <= y0 && y0 < MAX_HEIGHT && map[x0][y0] == null) {
                     map[x0][y0] = new Position(x0, y0);
-                    positions.add(map[x][y]);
+                    positions.add(map[x0][y0]);
                 }
             }
         }
+
+        for (int i = 0; i < positions.size(); ++i) {
+            int j = random.nextInt(positions.size());
+            Position pi = positions.get(i);
+            Position pj = positions.get(j);
+            positions.set(i, pj);
+            positions.set(j, pi);
+        }
     }
 
-    public static Map generateMap(int seed, int roomsNumber) {
-        return new Map(seed, roomsNumber);
+    public static WorldMap generateMap(int seed, int roomsNumber) {
+        return new WorldMap(seed, roomsNumber);
 
     }
 
-    public static Map randomMap() {
+    public static WorldMap randomMap() {
         int seed0 = (int) System.currentTimeMillis();
         int seed1 = (int) System.currentTimeMillis();
         int rooms = new Random(seed1).nextInt(MAX_ROOMS);
@@ -61,5 +70,13 @@ public class Map {
             }
             printStream.println();
         }
+    }
+
+    public Position allocatePosition() {
+        return positions.get(top++);
+    }
+
+    public void freePosition(Position position) {
+        top--;
     }
 }

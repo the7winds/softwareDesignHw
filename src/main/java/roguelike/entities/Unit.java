@@ -1,4 +1,4 @@
-package roguelike.gameObject;
+package roguelike.entities;
 
 import roguelike.map.Position;
 
