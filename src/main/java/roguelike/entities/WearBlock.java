@@ -1,12 +1,27 @@
 package roguelike.entities;
 
 import roguelike.entities.hero.Wear;
+import roguelike.logic.World;
 import roguelike.map.Position;
 
 /**
  * Created by the7winds on 27.11.16.
  */
-public class WearBlock {
+public class WearBlock extends GameObject {
+
     private Position position;
     private Wear wear;
+
+    public WearBlock(World world) {
+        super(world);
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
+
+    public Wear getWear() {
+        return wear;
+    }
 }
