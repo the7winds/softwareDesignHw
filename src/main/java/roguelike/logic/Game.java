@@ -16,23 +16,22 @@ public class Game {
     private boolean finished = false;
 
     public Game(Random random, Client client) {
-        world = World.generateWorld(random);
         this.client = client;
+        int x = client.getPrinter().getScreenWidth() / 2;
+        int y = client.getPrinter().getScreenHeight() / 2;
+        world = World.generateWorld(random, x, y);
         world.getHero().bindToClient(client);
     }
 
-    public void play() {
+    public void play() throws InterruptedException {
         try {
-            client.getPrinter().render(world);
-
+            client.getPrinter().initialRender(world.getHero(), world.getWorldMap());
             while (!isFinished()) {
                 List<Unit> units = world.getUnits();
                 for (Unit unit : units) {
                     UnitScript unitScript = unit.getUnitScript();
                     unitScript.execute(this);
                 }
-
-                client.getPrinter().render(world);
             }
         } catch (IOException e) {
             client.getPrinter().log(e.getMessage());

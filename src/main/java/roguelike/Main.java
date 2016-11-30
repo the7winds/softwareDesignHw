@@ -3,6 +3,7 @@ package roguelike;
 import roguelike.logic.Client;
 import roguelike.logic.Game;
 
+import java.io.IOException;
 import java.util.Random;
 
 /**
@@ -10,7 +11,7 @@ import java.util.Random;
  */
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, InterruptedException {
         Random random = new Random(4);
         Client client = new Client(System.in, System.out);
         Game game = new Game(random, client);

@@ -3,6 +3,7 @@ package roguelike.entities.enemy;
 import roguelike.entities.EmptyBlock;
 import roguelike.entities.Unit;
 import roguelike.entities.Visitor;
+import roguelike.entities.WearBlock;
 import roguelike.entities.hero.Wear;
 import roguelike.logic.UnitScript;
 import roguelike.logic.World;
@@ -29,7 +30,7 @@ public class Enemy extends Unit {
     public void attacked(int damage) {
         health -= damage;
         if (!isAlive()) {
-            getPosition().setGameObject(new EmptyBlock(getWorld()));
+            getPosition().setGameObject(new WearBlock(getWorld(), loot));
             getWorld().getEnemies().remove(this);
         }
     }

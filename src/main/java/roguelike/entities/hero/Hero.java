@@ -31,13 +31,13 @@ public class Hero extends Unit {
 
     @Override
     public void attacked(int damage) {
-        int realDamage = damage - (new Random()).nextInt(luck);
+        int realDamage = damage - (new Random()).nextInt(getLuck());
         health -= realDamage > 0 ? realDamage : 0;
     }
 
     @Override
     public int evalDamage() {
-        return strength + (new Random()).nextInt(luck);
+        return getStrength() + (new Random()).nextInt(getLuck());
     }
 
     public boolean putOn(Wear wear) {
@@ -69,5 +69,13 @@ public class Hero extends Unit {
 
     public static Hero generateHero(World world) {
         return new Hero(world);
+    }
+
+    public int getStrength() {
+        return strength + ammunition.getStrengthBonus();
+    }
+
+    public int getLuck() {
+        return luck + ammunition.getLuckBonus();
     }
 }

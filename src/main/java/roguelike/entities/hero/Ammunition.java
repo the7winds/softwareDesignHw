@@ -41,4 +41,12 @@ public class Ammunition {
     public void add(Wear wear) {
         wears.add(wear);
     }
+
+    public int getStrengthBonus() {
+        return on.stream().mapToInt(Wear::getStrengthBonus).sum();
+    }
+
+    public int getLuckBonus() {
+        return on.stream().mapToInt(Wear::getLuckBonus).sum();
+    }
 }

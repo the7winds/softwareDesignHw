@@ -41,6 +41,10 @@ public abstract class Unit extends GameObject {
         gameObject.accept(new TouchVisitor());
     }
 
+    public int getHealth() {
+        return health;
+    }
+
     class TouchVisitor extends Visitor {
 
         @Override

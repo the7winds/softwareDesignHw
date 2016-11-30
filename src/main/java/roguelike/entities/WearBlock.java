@@ -12,8 +12,9 @@ public class WearBlock extends GameObject {
     private Position position;
     private Wear wear;
 
-    public WearBlock(World world) {
+    public WearBlock(World world, Wear wear) {
         super(world);
+        this.wear = wear;
     }
 
     @Override

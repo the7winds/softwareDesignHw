@@ -2,10 +2,11 @@ package roguelike.logic;
 
 import roguelike.entities.GameObject;
 import roguelike.entities.Unit;
-import roguelike.entities.Visitor;
 import roguelike.entities.hero.Ammunition;
 import roguelike.entities.hero.Wear;
 import roguelike.map.Position;
+
+import java.io.IOException;
 
 /**
  * Created by the7winds on 29.11.16.
@@ -41,7 +42,7 @@ public class Utils {
 
     public static abstract class Command {
 
-        public abstract void execute(Game game);
+        public abstract void execute(Game game) throws IOException;
 
         public abstract boolean deserialize(String string);
 
@@ -50,9 +51,15 @@ public class Utils {
             private static final String tag = "li";
 
             @Override
-            public void execute(Game game) {
-                Visitor listPrinter = game.getClient().getPrinter().getListInventoryPrinter();
-                game.getWorld().getHero().accept(listPrinter);
+            public void execute(Game game) throws IOException {
+                basicScript(game);
+
+                game.getClient()
+                        .getPrinter()
+                        .listInventory(
+                                game.getWorld()
+                                        .getHero()
+                        );
             }
 
             @Override
@@ -67,10 +74,12 @@ public class Utils {
             private int index;
 
             @Override
-            public void execute(Game game) {
+            public void execute(Game game) throws IOException {
                 Ammunition ammunition = game.getWorld().getHero().getAmmunition();
                 Wear wear = ammunition.getWearByNumber(index);
                 ammunition.putOff(wear);
+
+                basicScript(game);
             }
 
             @Override
@@ -92,10 +101,12 @@ public class Utils {
             private int index;
 
             @Override
-            public void execute(Game game) {
+            public void execute(Game game) throws IOException {
                 Ammunition ammunition = game.getWorld().getHero().getAmmunition();
                 Wear wear = ammunition.getWearByNumber(index);
                 ammunition.putOn(wear);
+
+                basicScript(game);
             }
 
             @Override
@@ -117,8 +128,12 @@ public class Utils {
             private Direction direction;
 
             @Override
-            public void execute(Game game) {
-                game.getWorld().getHero().move(direction);
+            public void execute(Game game) throws IOException {
+                game.getWorld()
+                        .getHero()
+                        .move(direction);
+
+                basicScript(game);
             }
 
             @Override
@@ -163,6 +178,34 @@ public class Utils {
             public boolean deserialize(String string) {
                 return string.equals(tag);
             }
+        }
+
+        protected static void basicScript(Game game) throws IOException {
+            game.getClient()
+                    .getPrinter()
+                    .clear();
+
+            game.getClient()
+                    .getPrinter()
+                    .printHeroCharacter(
+                            game.getWorld()
+                                    .getHero()
+                    );
+
+            game.getWorld()
+                    .getWorldMap()
+                    .setVisible(
+                            game.getWorld()
+                                    .getHero()
+                                    .getPosition()
+                    );
+
+            game.getClient()
+                    .getPrinter()
+                    .drawMap(
+                            game.getWorld()
+                                    .getWorldMap()
+                    );
         }
     }
 }

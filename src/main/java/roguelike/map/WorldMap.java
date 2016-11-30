@@ -13,20 +13,24 @@ import java.util.Random;
  */
 public class WorldMap {
 
-    public static final int MAX_WIDTH = 100;
-    public static final int MAX_HEIGHT = 50;
+    public int width;
+    public int height;
     private static final int MAX_DISPERSION = 30;
     private static final int MAX_ROOMS = 20;
 
-    private Position map[][] = new Position[MAX_WIDTH][MAX_HEIGHT];
+    private Position map[][];
 
     ArrayList<Position> positions = new ArrayList<>();
     private int top = 0;
 
-    private WorldMap(World world, Random random) {
+    private WorldMap(World world, Random random, int width, int height) {
+        this.width = width;
+        this.height = height;
 
-        for (int i = 0; i < MAX_HEIGHT; ++i) {
-            for (int j = 0; j < MAX_WIDTH; ++j) {
+        map = new Position[width][height];
+
+        for (int i = 0; i < height; ++i) {
+            for (int j = 0; j < width; ++j) {
                 map[j][i] = new Position(j, i);
                 map[j][i].setGameObject(new WallBlock(world));
             }
@@ -34,8 +38,8 @@ public class WorldMap {
 
         int roomsNumber = 1 + random.nextInt(MAX_ROOMS - 1);
         for (int i = 0; i < roomsNumber; ++i) {
-            int x = 1 + random.nextInt(MAX_WIDTH - 1);
-            int y = 1 + random.nextInt(MAX_HEIGHT - 1);
+            int x = 1 + random.nextInt(width - 1);
+            int y = 1 + random.nextInt(height - 1);
             int n = random.nextInt(MAX_DISPERSION * MAX_DISPERSION);
             int d = 1 + random.nextInt(MAX_DISPERSION - 1);
 
@@ -45,8 +49,8 @@ public class WorldMap {
                 int x0 = (int) (random.nextGaussian() * d + x);
                 int y0 = (int) (random.nextGaussian() * d + y);
 
-                if (0 < x0 && x0 < MAX_WIDTH - 1
-                        && 0 < y0 && y0 < MAX_HEIGHT - 1
+                if (0 < x0 && x0 < width - 1
+                        && 0 < y0 && y0 < height - 1
                         && map[x0][y0].getGameObject() instanceof WallBlock) {
                     positions.add(map[x0][y0]);
                     map[x0][y0].setGameObject(new EmptyBlock(world));
@@ -63,8 +67,8 @@ public class WorldMap {
         }
     }
 
-    public static WorldMap generateMap( World world, Random random) {
-        return new WorldMap(world, random);
+    public static WorldMap generateMap( World world, Random random, int width, int height) {
+        return new WorldMap(world, random, width, height);
     }
 
     public Position allocatePosition() {
@@ -86,13 +90,13 @@ public class WorldMap {
         if (x > 0) {
             map[x - 1][y].visible = true;
         }
-        if (x + 1 < MAX_WIDTH) {
+        if (x + 1 < width) {
             map[x + 1][y].visible = true;
         }
         if (y > 0) {
             map[x][y - 1].visible = true;
         }
-        if (y + 1 < MAX_HEIGHT) {
+        if (y + 1 < height) {
             map[x][y + 1].visible = true;
         }
 
@@ -100,5 +104,13 @@ public class WorldMap {
 
     public boolean isVisible(int x, int y) {
         return map[x][y].isVisible();
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
     }
 }

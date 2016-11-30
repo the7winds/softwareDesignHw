@@ -14,7 +14,7 @@ public class Client {
     private DataInput dataInput;
     private Printer printer;
 
-    public Client(InputStream inputStream, PrintStream printStream) {
+    public Client(InputStream inputStream, PrintStream printStream) throws IOException, InterruptedException {
         dataInput = new DataInputStream(inputStream);
         printer = new Printer(printStream);
     }
@@ -25,7 +25,7 @@ public class Client {
 
     public UnitScript getUnitScript() {
         return game -> {
-            Utils.Command command = null;
+            Utils.Command command;
             for (Class<?> clazz : Utils.Command.class.getClasses()) {
                 try {
                     command = (Utils.Command) clazz.getConstructors()[0].newInstance();
@@ -35,15 +35,10 @@ public class Client {
                 }
 
                 if (command.deserialize(rawCommand)) {
-                    break;
+                    command.execute(game);
+                    return;
                 }
             }
-
-            if (command != null) {
-                command.execute(game);
-            }
-
-            game.getWorld().getWorldMap().setVisible(game.getWorld().getHero().getPosition());
         };
     }
 

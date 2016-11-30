@@ -18,9 +18,11 @@ public class World {
     private WorldMap worldMap;
     private Set<Unit> enemies;
     private Hero hero;
+    private int height;
+    private int width;
 
-    private World(Random random) {
-        worldMap = WorldMap.generateMap(this, random);
+    private World(Random random, int width, int height) {
+        worldMap = WorldMap.generateMap(this, random, width, height);
         hero =  Hero.generateHero(this);
         worldMap.setVisible(hero.getPosition());
 
@@ -31,8 +33,8 @@ public class World {
         }
     }
 
-    public static World generateWorld(Random random) {
-        return new World(random);
+    public static World generateWorld(Random random, int width, int height) {
+        return new World(random, width, height);
     }
 
     public Hero getHero() {

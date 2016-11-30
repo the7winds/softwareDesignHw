@@ -21,28 +21,32 @@ public class Printer {
 
     private PrintStream printStream;
 
+    private static final String CLEAR = "\000\033[H\033[2J";
+    private static final String CUP = "\000\033[1;1H";
+    private static final String DL1 = "\000\033[1M";
+    private static final int MAX_WIDTH = 100;
+    private static final int MAX_HEIGHT = 50;
+
     public Printer(PrintStream printStream) {
         this.printStream = printStream;
     }
 
-    public Visitor getListInventoryPrinter() {
-        return new Visitor() {
-            @Override
-            public void visit(Hero hero) {
-                Ammunition ammunition = hero.getAmmunition();
-                printStream.printf("--AMMUNITION--\n");
-                printStream.printf("#\tstrength bonus\tluck bonus\n");
-                int cnt = 0;
-                for (Wear w : ammunition.getWears()) {
-                    if (ammunition.isOn(w)) {
-                        printStream.printf("%d\t%d\t%d\n"
-                                , cnt++
-                                , w.getStrengthBonus()
-                                , w.getLuckBonus());
-                    }
-                }
-            }
-        };
+    public void listInventory(Hero hero) {
+        Ammunition ammunition = hero.getAmmunition();
+        printStream.printf("--AMMUNITION--\n");
+        printStream.printf("#\tS\tL\tO\n");
+        int cnt = 0;
+        for (Wear w : ammunition.getWears()) {
+            printStream.printf("%d\t%d\t%d\t%s\n"
+                    , cnt++
+                    , w.getStrengthBonus()
+                    , w.getLuckBonus()
+                    , ammunition.isOn(w) ? "x" : " ");
+        }
+    }
+
+    public void printHeroCharacter(Hero hero) {
+        printStream.printf("Health: %d\tStrength: %d\tLuck: %d\n", hero.getHealth(), hero.getStrength(), hero.getLuck());
     }
 
     public void gameNotify(String message) {
@@ -53,12 +57,12 @@ public class Printer {
         printStream.printf("LOG: %s", message);
     }
 
-    public void render(World world) throws IOException {
-        for (int i = 0; i < WorldMap.MAX_HEIGHT; ++i) {
-            for (int j = 0; j < WorldMap.MAX_WIDTH; ++j) {
-                boolean visible = world.getWorldMap().isVisible(j, i);
-                world.getWorldMap()
-                        .getGameObject(j, i)
+    public void drawMap(WorldMap worldMap) throws IOException {
+        for (int i = 0; i < worldMap.getHeight(); ++i) {
+            for (int j = 0; j < worldMap.getWidth(); ++j) {
+
+                boolean visible = worldMap.isVisible(j, i);
+                worldMap.getGameObject(j, i)
                         .accept(new Visitor() {
 
                             static final String INVISIBLE = ".";
@@ -90,6 +94,31 @@ public class Printer {
                         });
             }
             printStream.println();
+        }
+    }
+
+    /**
+     * calls once before running, because some terms interprets it like scroll
+     */
+    public void initialRender(Hero hero, WorldMap worldMap) throws IOException {
+        printStream.print(CUP);
+        printStream.print(CLEAR);
+        printHeroCharacter(hero);
+        drawMap(worldMap);
+    }
+
+    public int getScreenWidth() {
+        return MAX_WIDTH;
+    }
+
+    public int getScreenHeight() {
+        return MAX_HEIGHT;
+    }
+
+    public void clear() {
+        printStream.print(CUP);
+        for (int i = 0; i < MAX_HEIGHT; ++i) {
+            printStream.print(DL1);
         }
     }
 }
