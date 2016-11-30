@@ -23,18 +23,15 @@ public final class Position {
     }
 
     public void setGameObject(GameObject gameObject) {
-        if (this.gameObject != null) {
-                this.gameObject.setPosition(null);
+        Position anotherPosition = gameObject.getPosition();
+        if (anotherPosition != null) {
+            EmptyBlock emptyBlock = new EmptyBlock(gameObject.getWorld());
+            emptyBlock.setPosition(anotherPosition);
+            anotherPosition.gameObject = emptyBlock;
         }
 
         this.gameObject = gameObject;
-
-        if (gameObject.getPosition() != null) {
-            gameObject.getPosition().gameObject = new EmptyBlock(gameObject.getWorld());
-            gameObject.getPosition().gameObject.setPosition(gameObject.getPosition());
-        }
-
-        gameObject.setPosition(this);
+        this.gameObject.setPosition(this);
     }
 
     @Override

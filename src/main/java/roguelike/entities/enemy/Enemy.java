@@ -1,12 +1,14 @@
 package roguelike.entities.enemy;
 
-import roguelike.entities.EmptyBlock;
 import roguelike.entities.Unit;
 import roguelike.entities.Visitor;
 import roguelike.entities.WearBlock;
 import roguelike.entities.hero.Wear;
 import roguelike.logic.UnitScript;
+import roguelike.logic.Utils;
 import roguelike.logic.World;
+
+import java.util.Random;
 
 /**
  * Created by the7winds on 27.11.16.
@@ -43,7 +45,8 @@ public class Enemy extends Unit {
     @Override
     public UnitScript getUnitScript() {
         return world -> {
-            // TODO: make random turn;
+            Utils.Direction values[] = Utils.Direction.values();
+            move(values[new Random().nextInt(values.length)]);
         };
     }
 
