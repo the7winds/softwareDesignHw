@@ -14,7 +14,7 @@ public class Client {
     private DataInput dataInput;
     private Printer printer;
 
-    public Client(InputStream inputStream, PrintStream printStream) throws IOException, InterruptedException {
+    public Client(InputStream inputStream, PrintStream printStream) throws IOException {
         dataInput = new DataInputStream(inputStream);
         printer = new Printer(printStream);
     }
@@ -38,6 +38,10 @@ public class Client {
                     command.execute(game);
                     return;
                 }
+
+                game.getClient()
+                        .getPrinter()
+                        .gameNotify("Unknown command\n");
             }
         };
     }
@@ -45,6 +49,4 @@ public class Client {
     public Printer getPrinter() {
         return printer;
     }
-
-    // create notify method to provide err message info during the game
 }

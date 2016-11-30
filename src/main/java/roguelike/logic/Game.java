@@ -23,7 +23,7 @@ public class Game {
         world.getHero().bindToClient(client);
     }
 
-    public void play() throws InterruptedException {
+    public void play() {
         try {
             client.getPrinter().initialRender(world.getHero(), world.getWorldMap());
             while (!isFinished()) {

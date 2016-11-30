@@ -23,7 +23,6 @@ public abstract class GameObject {
 
     /**
      * called only by Position
-     * @param position
      */
     public void setPosition(Position position) {
         this.position = position;

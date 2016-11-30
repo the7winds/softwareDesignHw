@@ -11,7 +11,7 @@ import java.util.Random;
  */
 public class Main {
 
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) throws IOException {
         Random random = new Random(4);
         Client client = new Client(System.in, System.out);
         Game game = new Game(random, client);
