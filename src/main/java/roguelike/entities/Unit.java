@@ -15,11 +15,12 @@ public abstract class Unit extends GameObject {
 
     protected int health;
 
-    public Unit(World world) {
+    public Unit(World world, int health) {
         super(world);
+        this.health = health;
     }
 
-    public void attack(Unit enemy) {
+    private void attack(Unit enemy) {
         enemy.attacked(evalDamage());
     }
 

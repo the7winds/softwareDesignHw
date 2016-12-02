@@ -9,7 +9,6 @@ import roguelike.map.Position;
  */
 public class WearBlock extends GameObject {
 
-    private Position position;
     private Wear wear;
 
     public WearBlock(World world, Wear wear) {
