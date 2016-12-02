@@ -38,11 +38,11 @@ public class Client {
                     command.execute(game);
                     return;
                 }
-
-                game.getClient()
-                        .getPrinter()
-                        .gameNotify("Unknown command\n");
             }
+
+            game.getClient()
+                    .getPrinter()
+                    .gameNotify("Unknown command\n");
         };
     }
 

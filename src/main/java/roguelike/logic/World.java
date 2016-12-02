@@ -20,9 +20,11 @@ public class World {
     private Hero hero;
     private int height;
     private int width;
+    private Random random;
 
     private World(Random random, int width, int height) {
-        worldMap = WorldMap.generateMap(this, random, width, height);
+        this.random = random;
+        worldMap = WorldMap.generateMap(this, width, height);
         hero =  Hero.generateHero(this);
         worldMap.setVisible(hero.getPosition());
 
@@ -58,5 +60,9 @@ public class World {
 
     public WorldMap getWorldMap() {
         return worldMap;
+    }
+
+    public Random getRandom() {
+        return random;
     }
 }

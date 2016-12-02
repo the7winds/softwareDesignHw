@@ -6,7 +6,6 @@ import roguelike.entities.WallBlock;
 import roguelike.logic.World;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Created by the7winds on 27.11.16.
@@ -23,7 +22,7 @@ public class WorldMap {
     ArrayList<Position> positions = new ArrayList<>();
     private int top = 0;
 
-    private WorldMap(World world, Random random, int width, int height) {
+    private WorldMap(World world, int width, int height) {
         this.width = width;
         this.height = height;
 
@@ -36,18 +35,18 @@ public class WorldMap {
             }
         }
 
-        int roomsNumber = 1 + random.nextInt(MAX_ROOMS - 1);
+        int roomsNumber = 1 + world.getRandom().nextInt(MAX_ROOMS - 1);
         for (int i = 0; i < roomsNumber; ++i) {
-            int x = 1 + random.nextInt(width - 1);
-            int y = 1 + random.nextInt(height - 1);
-            int n = random.nextInt(MAX_DISPERSION * MAX_DISPERSION);
-            int d = 1 + random.nextInt(MAX_DISPERSION - 1);
+            int x = 1 + world.getRandom().nextInt(width - 1);
+            int y = 1 + world.getRandom().nextInt(height - 1);
+            int n = world.getRandom().nextInt(MAX_DISPERSION * MAX_DISPERSION);
+            int d = 1 + world.getRandom().nextInt(MAX_DISPERSION - 1);
 
             positions.add(map[x][y]);
 
             for (int j = 0; j < n; ++j) {
-                int x0 = (int) (random.nextGaussian() * d + x);
-                int y0 = (int) (random.nextGaussian() * d + y);
+                int x0 = (int) (world.getRandom().nextGaussian() * d + x);
+                int y0 = (int) (world.getRandom().nextGaussian() * d + y);
 
                 if (0 < x0 && x0 < width - 1
                         && 0 < y0 && y0 < height - 1
@@ -59,7 +58,7 @@ public class WorldMap {
         }
 
         for (int i = 0; i < positions.size(); ++i) {
-            int j = random.nextInt(positions.size());
+            int j = world.getRandom().nextInt(positions.size());
             Position pi = positions.get(i);
             Position pj = positions.get(j);
             positions.set(i, pj);
@@ -67,8 +66,8 @@ public class WorldMap {
         }
     }
 
-    public static WorldMap generateMap( World world, Random random, int width, int height) {
-        return new WorldMap(world, random, width, height);
+    public static WorldMap generateMap(World world, int width, int height) {
+        return new WorldMap(world, width, height);
     }
 
     public Position allocatePosition() {

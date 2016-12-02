@@ -15,10 +15,9 @@ import java.util.Random;
  */
 public class Enemy extends Unit {
 
-    private static final int MAX_HEALTH = 20;
-    private static final int MIN_STRENGTH = 2;
+    private static final int MAX_HEALTH = 60;
+    private static final int MIN_STRENGTH = 5;
 
-    private int strength = MIN_STRENGTH;
     private Wear loot;
 
     private Enemy(World world, Wear loot) {
@@ -39,7 +38,7 @@ public class Enemy extends Unit {
 
     @Override
     public int evalDamage() {
-        return strength;
+        return MIN_STRENGTH;
     }
 
     @Override
@@ -51,7 +50,7 @@ public class Enemy extends Unit {
     }
 
     public static Enemy generateEnemy(World world) {
-        Wear loot = Wear.generateRandomWear();
+        Wear loot = Wear.generateWear(world.getRandom());
         return new Enemy(world, loot);
     }
 

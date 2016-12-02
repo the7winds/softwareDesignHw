@@ -21,11 +21,11 @@ public class Wear {
         return new Wear(random.nextInt(MAX_LUCK_BONUS), random.nextInt(MAX_STRENGTH_BONUS));
     }
 
-    int getLuckBonus() {
+    public int getLuckBonus() {
         return luckBonus;
     }
 
-    int getStrengthBonus() {
+    public int getStrengthBonus() {
         return strengthBonus;
     }
 }

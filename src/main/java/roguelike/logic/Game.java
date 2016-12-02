@@ -38,7 +38,7 @@ public class Game {
         }
     }
 
-    public boolean isFinished() {
+    private boolean isFinished() {
         return finished || !world.getHero().isAlive();
     }
 

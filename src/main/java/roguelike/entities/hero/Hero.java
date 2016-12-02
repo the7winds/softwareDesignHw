@@ -19,8 +19,6 @@ public class Hero extends Unit {
     private static final int MIN_LUCK = 5;
 
     private Client client;
-    private int strength = MIN_STRENGTH;
-    private int luck = MIN_LUCK;
     private Ammunition ammunition = new Ammunition();
 
     private Hero(World world) {
@@ -38,14 +36,6 @@ public class Hero extends Unit {
     @Override
     public int evalDamage() {
         return getStrength() + (new Random()).nextInt(getLuck());
-    }
-
-    public boolean putOn(Wear wear) {
-        return ammunition.putOn(wear);
-    }
-
-    public void putOff(Wear wear) {
-        ammunition.putOff(wear);
     }
 
     public Ammunition getAmmunition() {
@@ -72,10 +62,10 @@ public class Hero extends Unit {
     }
 
     public int getStrength() {
-        return strength + ammunition.getStrengthBonus();
+        return MIN_STRENGTH + ammunition.getStrengthBonus();
     }
 
     public int getLuck() {
-        return luck + ammunition.getLuckBonus();
+        return MIN_LUCK + ammunition.getLuckBonus();
     }
 }
