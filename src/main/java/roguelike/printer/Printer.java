@@ -8,7 +8,6 @@ import roguelike.entities.enemy.Enemy;
 import roguelike.entities.hero.Ammunition;
 import roguelike.entities.hero.Hero;
 import roguelike.entities.hero.Wear;
-import roguelike.logic.World;
 import roguelike.map.WorldMap;
 
 import java.io.IOException;

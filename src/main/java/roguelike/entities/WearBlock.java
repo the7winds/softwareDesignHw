@@ -2,7 +2,6 @@ package roguelike.entities;
 
 import roguelike.entities.hero.Wear;
 import roguelike.logic.World;
-import roguelike.map.Position;
 
 /**
  * Created by the7winds on 27.11.16.
