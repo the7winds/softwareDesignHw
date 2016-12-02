@@ -11,6 +11,10 @@ import java.io.IOException;
 /**
  * Created by the7winds on 27.11.16.
  */
+
+/**
+ * describes alive entities like hero and enemies
+ */
 public abstract class Unit extends GameObject {
 
     protected int health;
@@ -24,8 +28,14 @@ public abstract class Unit extends GameObject {
         enemy.attacked(evalDamage());
     }
 
+    /**
+     * applying damage to this
+     */
     public abstract void attacked(int damage);
 
+    /**
+     * returns real damage
+     */
     public abstract int evalDamage();
 
     public abstract UnitScript getUnitScript() throws IOException;

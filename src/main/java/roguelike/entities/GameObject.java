@@ -6,6 +6,11 @@ import roguelike.map.Position;
 /**
  * Created by the7winds on 27.11.16.
  */
+
+/**
+ * all objects which stays on the map is derived from this class
+ */
+
 public abstract class GameObject {
 
     private final World world;
