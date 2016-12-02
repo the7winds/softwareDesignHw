@@ -18,8 +18,6 @@ public class World {
     private WorldMap worldMap;
     private Set<Unit> enemies;
     private Hero hero;
-    private int height;
-    private int width;
     private Random random;
 
     private World(Random random, int width, int height) {

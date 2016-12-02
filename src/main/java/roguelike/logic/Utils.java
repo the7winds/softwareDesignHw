@@ -17,16 +17,18 @@ public class Utils {
      */
     public enum Direction {
 
-        NORTH(new Position(0, -1)),
-        SOUTH(new Position(0, 1)),
-        WEST(new Position(-1, 0)),
-        EAST(new Position(1, 0)),
-        NONE(new Position(0, 0));
+        NORTH(0, -1),
+        SOUTH(0, 1),
+        WEST(-1, 0),
+        EAST(1, 0),
+        NONE(0, 0);
 
-        private Position shift;
+        private int dx;
+        private int dy;
 
-        Direction(Position shift) {
-            this.shift = shift;
+        Direction(int dx, int dy) {
+            this.dx = dx;
+            this.dy = dy;
         }
 
         public void move(Unit unit, World world) {
@@ -34,7 +36,7 @@ public class Utils {
                 return;
             }
 
-            Position newPosition = unit.getPosition().addShift(shift);
+            Position newPosition = unit.getPosition().addShift(dx, dy);
             GameObject gameObject = world.getWorldMap().getGameObject(newPosition);
             unit.touch(gameObject);
         }

@@ -18,8 +18,8 @@ public final class Position {
         this.y = y;
     }
 
-    public Position addShift(Position position) {
-        return new Position(x + position.x, y + position.y);
+    public Position addShift(int dx, int dy) {
+        return new Position(x + dx, y + dy);
     }
 
     public void setGameObject(GameObject gameObject) {
