@@ -5,30 +5,27 @@ import java.util.Random;
 /**
  * Created by the7winds on 27.11.16.
  */
-public interface Wear {
+public class Wear {
 
-    int MAX_LUCK_BONUS = 10;
-    int MAX_STRENGTH_BONUS = 20;
+    private static final int MAX_LUCK_BONUS = 10;
+    private static final int MAX_STRENGTH_BONUS = 20;
+    private final int luckBonus;
+    private final int strengthBonus;
 
-    int getLuckBonus();
-    int getStrengthBonus();
+    private Wear(int luckBonus, int strengthBonus) {
+        this.luckBonus = luckBonus;
+        this.strengthBonus = strengthBonus;
+    }
 
-    static Wear generateRandomWear() {
-        Random random = new Random();
+    public static Wear generateWear(Random random) {
+        return new Wear(random.nextInt(MAX_LUCK_BONUS), random.nextInt(MAX_STRENGTH_BONUS));
+    }
 
-        int luck = random.nextInt(MAX_LUCK_BONUS);
-        int strength = random.nextInt(MAX_STRENGTH_BONUS);
+    int getLuckBonus() {
+        return luckBonus;
+    }
 
-        return new Wear() {
-            @Override
-            public int getLuckBonus() {
-                return luck;
-            }
-
-            @Override
-            public int getStrengthBonus() {
-                return strength;
-            }
-        };
+    int getStrengthBonus() {
+        return strengthBonus;
     }
 }
