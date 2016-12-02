@@ -5,6 +5,10 @@ import java.util.Random;
 /**
  * Created by the7winds on 27.11.16.
  */
+
+/**
+ * some kind of inventory
+ */
 public class Wear {
 
     private static final int MAX_LUCK_BONUS = 10;

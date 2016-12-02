@@ -1,4 +1,4 @@
-package roguelike.printer;
+package roguelike.entities.client;
 
 import roguelike.entities.EmptyBlock;
 import roguelike.entities.Visitor;
@@ -16,10 +16,17 @@ import java.io.PrintStream;
 /**
  * Created by the7winds on 29.11.16.
  */
+
+/**
+ * some-kind of TUI-driver
+ */
 public class Printer {
 
     private PrintStream printStream;
 
+    /**
+     * Strongly platform depend part, but it's keep my term clear :)
+     */
     private static final String CLEAR = "\000\033[H\033[2J";
     private static final String CUP = "\000\033[1;1H";
     private static final String DL1 = "\000\033[1M";
@@ -48,10 +55,16 @@ public class Printer {
         printStream.printf("Health: %d\tStrength: %d\tLuck: %d\n", hero.getHealth(), hero.getStrength(), hero.getLuck());
     }
 
+    /**
+     * to notify if player do something wrong
+     */
     public void gameNotify(String message) {
         printStream.printf("GAME: %s", message);
     }
 
+    /**
+     * to display fatal errors
+     */
     public void log(String message) {
         printStream.printf("LOG: %s", message);
     }

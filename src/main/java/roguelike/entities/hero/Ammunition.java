@@ -6,6 +6,10 @@ import java.util.List;
 /**
  * Created by the7winds on 27.11.16.
  */
+
+/**
+ * stores all staff (which is on and not)
+ */
 public class Ammunition {
 
     private static final int ON_LIMIT = 2;

@@ -1,12 +1,16 @@
-package roguelike.logic;
+package roguelike.entities.client;
 
-import roguelike.printer.Printer;
+import roguelike.logic.UnitScript;
 
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 
 /**
  * Created by the7winds on 27.11.16.
+ */
+
+/**
+ * Some kind of connection with player
  */
 public class Client {
 
@@ -23,6 +27,9 @@ public class Client {
         rawCommand = dataInput.readLine();
     }
 
+    /**
+     * player's actions are hidden by this UnitScript
+     */
     public UnitScript getUnitScript() {
         return game -> {
             Command command;

@@ -1,6 +1,6 @@
 package roguelike;
 
-import roguelike.logic.Client;
+import roguelike.entities.client.Client;
 import roguelike.logic.Game;
 
 import java.io.IOException;

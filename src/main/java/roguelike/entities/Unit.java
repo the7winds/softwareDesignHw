@@ -44,10 +44,18 @@ public abstract class Unit extends GameObject {
         return health > 0;
     }
 
+    /**
+     * delegate movement to Direction object to make switch
+     * disappear it implicit invoke touch method, so as a
+     * result move if it can or react with the neighbour block
+     */
     public void move(Direction direction) {
         direction.move(this, getWorld());
     }
 
+    /**
+     * move if it can or react with the neighbour block
+     */
     public void touch(GameObject gameObject) {
         gameObject.accept(new TouchVisitor());
     }
@@ -56,6 +64,9 @@ public abstract class Unit extends GameObject {
         return health;
     }
 
+    /**
+     * to simplify reaction between two blocks
+     */
     class TouchVisitor extends Visitor {
 
         @Override

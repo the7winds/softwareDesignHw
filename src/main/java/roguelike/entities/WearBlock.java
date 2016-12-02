@@ -6,6 +6,10 @@ import roguelike.logic.World;
 /**
  * Created by the7winds on 27.11.16.
  */
+
+/**
+ * Wrapper for wear, to place it on the map
+ */
 public class WearBlock extends GameObject {
 
     private Wear wear;

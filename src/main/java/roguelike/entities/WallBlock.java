@@ -5,6 +5,10 @@ import roguelike.logic.World;
 /**
  * Created by the7winds on 29.11.16.
  */
+
+/**
+ * wall block on the map
+ */
 public class WallBlock extends GameObject {
 
     public WallBlock(World world) {

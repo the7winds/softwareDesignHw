@@ -1,7 +1,9 @@
-package roguelike.logic;
+package roguelike.entities.client;
 
 import roguelike.entities.hero.Ammunition;
 import roguelike.entities.hero.Wear;
+import roguelike.logic.Direction;
+import roguelike.logic.Game;
 
 import java.io.IOException;
 

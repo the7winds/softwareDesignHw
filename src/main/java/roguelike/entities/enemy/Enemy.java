@@ -13,6 +13,11 @@ import java.util.Random;
 /**
  * Created by the7winds on 27.11.16.
  */
+
+/**
+ * Just enemy, it has fixed health and strength
+ * Also when it dead it drops loot
+ */
 public class Enemy extends Unit {
 
     private static final int MAX_HEALTH = 60;
