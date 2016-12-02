@@ -21,9 +21,8 @@ public class Enemy extends Unit {
     private Wear loot;
 
     private Enemy(World world, Wear loot) {
-        super(world);
+        super(world, MAX_HEALTH);
         this.loot = loot;
-        super.health = MAX_HEALTH;
         world.allocatePosition().setGameObject(this);
     }
 

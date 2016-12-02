@@ -22,8 +22,7 @@ public class Hero extends Unit {
     private Ammunition ammunition = new Ammunition();
 
     private Hero(World world) {
-        super(world);
-        super.health = MAX_HEALTH;
+        super(world, MAX_HEALTH);
         world.allocatePosition().setGameObject(this);
     }
 
