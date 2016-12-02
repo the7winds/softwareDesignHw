@@ -2,8 +2,8 @@ package roguelike.entities;
 
 import roguelike.entities.enemy.Enemy;
 import roguelike.entities.hero.Hero;
+import roguelike.logic.Direction;
 import roguelike.logic.UnitScript;
-import roguelike.logic.Utils;
 import roguelike.logic.World;
 
 import java.io.IOException;
@@ -44,7 +44,7 @@ public abstract class Unit extends GameObject {
         return health > 0;
     }
 
-    public void move(Utils.Direction direction) {
+    public void move(Direction direction) {
         direction.move(this, getWorld());
     }
 

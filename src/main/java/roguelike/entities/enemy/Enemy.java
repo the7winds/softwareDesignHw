@@ -4,8 +4,8 @@ import roguelike.entities.Unit;
 import roguelike.entities.Visitor;
 import roguelike.entities.WearBlock;
 import roguelike.entities.hero.Wear;
+import roguelike.logic.Direction;
 import roguelike.logic.UnitScript;
-import roguelike.logic.Utils;
 import roguelike.logic.World;
 
 import java.util.Random;
@@ -43,7 +43,7 @@ public class Enemy extends Unit {
     @Override
     public UnitScript getUnitScript() {
         return world -> {
-            Utils.Direction values[] = Utils.Direction.values();
+            Direction values[] = Direction.values();
             move(values[new Random().nextInt(values.length)]);
         };
     }

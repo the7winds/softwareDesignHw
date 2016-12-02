@@ -25,10 +25,10 @@ public class Client {
 
     public UnitScript getUnitScript() {
         return game -> {
-            Utils.Command command;
-            for (Class<?> clazz : Utils.Command.class.getClasses()) {
+            Command command;
+            for (Class<?> clazz : Command.class.getClasses()) {
                 try {
-                    command = (Utils.Command) clazz.getConstructors()[0].newInstance();
+                    command = (Command) clazz.getConstructors()[0].newInstance();
                 } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
                     e.printStackTrace();
                     return;
