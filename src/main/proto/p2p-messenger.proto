@@ -1,5 +1,5 @@
 syntax = "proto3";
-option java_package="chat.controller.network.protocol";
+option java_package="chat.model.network.protocol";
 
 message TextMessage {
     string text = 1;

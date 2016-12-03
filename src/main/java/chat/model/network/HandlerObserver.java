@@ -16,8 +16,9 @@ public class HandlerObserver implements StreamObserver<P2PMessenger.Message> {
 
     private StreamObserver<P2PMessenger.Message> responseObserver;
 
-    public void setResponseObserver(StreamObserver<P2PMessenger.Message> responseObserver) {
+    public HandlerObserver setResponseObserver(StreamObserver<P2PMessenger.Message> responseObserver) {
         this.responseObserver = responseObserver;
+        return this;
     }
 
     public void addHandler(P2PMessenger.Message.BodyCase bodyCase, Handler handler) {
@@ -26,7 +27,7 @@ public class HandlerObserver implements StreamObserver<P2PMessenger.Message> {
 
     @Override
     public void onNext(P2PMessenger.Message value){
-
+        bodyCaseHandlerHashtable.get(value.getBodyCase()).handle(value);
     }
 
     @Override

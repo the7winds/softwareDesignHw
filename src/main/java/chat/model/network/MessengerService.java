@@ -20,7 +20,7 @@ public class MessengerService extends MessengerGrpc.MessengerImplBase implements
     @Override
     public StreamObserver<P2PMessenger.Message> chat(StreamObserver<P2PMessenger.Message> responseObserver) {
         this.output = responseObserver;
-        return handlerObserver;
+        return handlerObserver.setResponseObserver(responseObserver);
     }
 
     public MessengerService(int port, HandlerObserver handlerObserver) {

@@ -49,8 +49,12 @@ public class Controller {
         messenger.stop();
     }
 
-    public void startListening() throws IOException {
-        messenger.start();
+    public void startListening() {
+        try {
+            messenger.start();
+        } catch (IOException e) {
+            logger.warning(e.getMessage());
+        }
     }
 
     public void send(String nameStr, String text, long time) {
