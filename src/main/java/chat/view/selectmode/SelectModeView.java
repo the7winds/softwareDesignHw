@@ -46,9 +46,7 @@ public class SelectModeView extends JLayeredPane {
         serverStart.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
                 setEnabled(false);
-
                 controller.setAddress(Integer.valueOf(port.getText()));
                 controller.startListening();
             }
@@ -57,9 +55,7 @@ public class SelectModeView extends JLayeredPane {
         clientStart.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
                 setEnabled(false);
-
                 controller.setAddress(host.getText(), Integer.valueOf(port.getText()));
                 controller.startListening();
 

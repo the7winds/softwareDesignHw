@@ -10,10 +10,10 @@ import javax.swing.*;
  * shows one message unit
  */
 
-public class SingleMessageView extends JLabel {
+public class SingleMessageView extends JTextArea {
 
     public SingleMessageView(String time, String author, String text) {
         super();
-        setText(String.format("[%s|%s] %s", author, time, text));
+        setText(String.format("[%s] %s: %s", time, author, text));
     }
 }

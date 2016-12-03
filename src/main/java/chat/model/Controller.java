@@ -6,6 +6,8 @@ import chat.view.AppFrame;
 
 import javax.swing.*;
 import java.io.IOException;
+import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.util.logging.Logger;
 
 /**
@@ -58,9 +60,11 @@ public class Controller {
         appFrame.setChatModeView();
     }
 
-    public void send(String nameStr, String text, long time) {
-        messenger.sendPeerInfo(nameStr);
+    public void send(String name, String text) {
+        long time = Instant.now().toEpochMilli() / 1000;
+        messenger.sendPeerInfo(name);
         messenger.sendTextMessage(text, time);
+        SwingUtilities.invokeLater(() -> appFrame.addMessage(name, time, text));
     }
 
     public void addReceived(long date, String text) {

@@ -6,6 +6,7 @@ import chat.view.selectmode.SelectModeView;
 
 import javax.swing.*;
 import java.awt.event.WindowEvent;
+import java.time.*;
 
 /**
  * Created by the7winds on 26.10.16.
@@ -60,16 +61,8 @@ public class AppFrame extends JFrame {
      */
 
     public void addMessage(String author, long time, String txt) {
-        chatView.addMessage(author, Long.toString(time), txt);
-    }
-
-    /**
-     * shows message when conversation is finished and another user
-     * us unavailable
-     */
-
-    public void showBye() {
-        chatView.showBye();
+        String timeString = LocalDateTime.ofInstant(Instant.ofEpochMilli(time * 1000), ZoneId.systemDefault()).toString();
+        chatView.addMessage(author, timeString, txt);
     }
 
     /**

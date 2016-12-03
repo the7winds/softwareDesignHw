@@ -11,8 +11,8 @@ import java.util.logging.Logger;
  */
 public class HandlerObserver implements StreamObserver<P2PMessenger.Message> {
 
-    Logger logger = Logger.getLogger(getClass().getName());
-    Hashtable<P2PMessenger.Message.BodyCase, Handler> bodyCaseHandlerHashtable = new Hashtable<>();
+    private Logger logger = Logger.getLogger(getClass().getName());
+    private Hashtable<P2PMessenger.Message.BodyCase, Handler> bodyCaseHandlerHashtable = new Hashtable<>();
 
     private StreamObserver<P2PMessenger.Message> responseObserver;
 
@@ -36,7 +36,7 @@ public class HandlerObserver implements StreamObserver<P2PMessenger.Message> {
     }
 
     @Override
-    public void onCompleted(){
+    public void onCompleted() {
         responseObserver.onCompleted();
     }
 }

@@ -65,16 +65,8 @@ public class ChatView extends JLayeredPane {
         sendButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
                 if (name.getText().length() > 0 && enterMessageArea.getText().length() > 0) {
-                    String nameStr = name.getText();
-                    long time = System.currentTimeMillis() / 1000;
-                    String text = enterMessageArea.getText();
-
-                    controller.send(name.getText(), enterMessageArea.getText(), time);
-
-                    addMessage(nameStr, Long.toString(time), text);
-                    enterMessageArea.setText("");
+                    controller.send(name.getText(), enterMessageArea.getText());
                 }
             }
         });
