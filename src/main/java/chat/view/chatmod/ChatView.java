@@ -1,6 +1,6 @@
 package chat.view.chatmod;
 
-import chat.model.Model;
+import chat.model.Controller;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,7 +27,7 @@ public class ChatView extends JLayeredPane {
     private JTextField name;
     private JButton sendButton;
 
-    public ChatView(final Model model) {
+    public ChatView(final Controller controller) {
         setLayout(new GridBagLayout());
 
         messages = new JPanel();
@@ -71,7 +71,7 @@ public class ChatView extends JLayeredPane {
                     long time = System.currentTimeMillis() / 1000;
                     String text = enterMessageArea.getText();
 
-                    model.send(nameStr, text, time);
+                    controller.send(nameStr, text, time);
 
                     addMessage(nameStr, Long.toString(time), text);
                     enterMessageArea.setText("");

@@ -1,6 +1,6 @@
 package chat.view.selectmode;
 
-import chat.model.Model;
+import chat.model.Controller;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,7 +21,7 @@ public class SelectModeView extends JLayeredPane {
     private final JTextField host;
     private final JTextField port;
 
-    public SelectModeView(final Model model) {
+    public SelectModeView(final Controller controller) {
         setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -49,8 +49,8 @@ public class SelectModeView extends JLayeredPane {
                 super.mouseClicked(e);
                 setEnabled(false);
 
-                model.setAddress(port.getText());
-                model.startListening();
+                controller.setAddress(port.getText());
+                controller.startListening();
             }
         });
 
@@ -60,8 +60,8 @@ public class SelectModeView extends JLayeredPane {
                 super.mouseClicked(e);
                 setEnabled(false);
 
-                model.setAddress(port.getText(), host.getText());
-                model.startListening();
+                controller.setAddress(port.getText(), host.getText());
+                controller.startListening();
 
             }
         });

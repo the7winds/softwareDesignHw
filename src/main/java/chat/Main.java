@@ -1,6 +1,6 @@
 package chat;
 
-import chat.model.Model;
+import chat.model.Controller;
 import chat.view.AppFrame;
 
 import javax.swing.*;
@@ -15,9 +15,9 @@ public class Main {
      */
 
     public static void main(String[] args) {
-        Model model = new Model();
+        Controller controller = new Controller();
 
-        final AppFrame appFrame = new AppFrame(model);
+        final AppFrame appFrame = new AppFrame(controller);
 
         SwingUtilities.invokeLater(() -> appFrame.setVisible(true));
     }

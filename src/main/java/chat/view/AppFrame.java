@@ -1,6 +1,6 @@
 package chat.view;
 
-import chat.model.Model;
+import chat.model.Controller;
 import chat.view.chatmod.ChatView;
 import chat.view.selectmode.SelectModeView;
 
@@ -20,27 +20,27 @@ public class AppFrame extends JFrame {
 
     private SelectModeView selectModeView;
     private ChatView chatView;
-    private final Model model;
+    private final Controller controller;
 
-    public AppFrame(final Model model) {
-        model.setAppFrame(this);
+    public AppFrame(final Controller controller) {
+        controller.setAppFrame(this);
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        selectModeView = new SelectModeView(model);
-        chatView = new ChatView(model);
+        selectModeView = new SelectModeView(controller);
+        chatView = new ChatView(controller);
 
         setSize(600, 400);
         setResizable(false);
 
         addWindowStateListener(e -> {
             if (e.getID() == WindowEvent.WINDOW_CLOSING) {
-                model.prepareToClose();
+                controller.prepareToClose();
             }
         });
 
         add(selectModeView);
 
-        this.model = model;
+        this.controller = controller;
     }
 
     /**
@@ -48,7 +48,7 @@ public class AppFrame extends JFrame {
      */
 
     public void setSelectModeView() {
-        setContentPane(selectModeView = new SelectModeView(model));
+        setContentPane(selectModeView = new SelectModeView(controller));
         revalidate();
     }
 
@@ -77,7 +77,7 @@ public class AppFrame extends JFrame {
      */
 
     public void setChatModeView() {
-        setContentPane(chatView = new ChatView(model));
+        setContentPane(chatView = new ChatView(controller));
         revalidate();
     }
 }
