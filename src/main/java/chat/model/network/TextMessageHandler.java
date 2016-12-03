@@ -17,6 +17,6 @@ public class TextMessageHandler implements Handler {
     @Override
     public void handle(P2PMessenger.Message message) {
         P2PMessenger.TextMessage textMessage = message.getTextMessage();
-        controller.addReceived(textMessage.getText());
+        controller.addReceived(textMessage.getDate(), textMessage.getText());
     }
 }

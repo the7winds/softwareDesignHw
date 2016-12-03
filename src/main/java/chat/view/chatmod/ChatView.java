@@ -71,7 +71,7 @@ public class ChatView extends JLayeredPane {
                     long time = System.currentTimeMillis() / 1000;
                     String text = enterMessageArea.getText();
 
-                    controller.send(nameStr, text, time);
+                    controller.send(name.getText(), enterMessageArea.getText(), time);
 
                     addMessage(nameStr, Long.toString(time), text);
                     enterMessageArea.setText("");

@@ -32,10 +32,10 @@ public class Messenger implements ReceiverTransmitter {
         messenger.sendMessage(message);
     }
 
-    public void sendTextMessage(String textMessage) {
+    public void sendTextMessage(String textMessage, long time) {
         TextMessage.Builder textMessageBuilder = TextMessage.newBuilder()
                 .setText(textMessage)
-                .setDate(System.currentTimeMillis() / 1000);
+                .setDate(time);
         Message message = Message.newBuilder()
                 .setTextMessage(textMessageBuilder)
                 .build();

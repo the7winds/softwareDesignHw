@@ -4,6 +4,7 @@ import chat.model.network.*;
 import chat.model.network.protocol.P2PMessenger;
 import chat.view.AppFrame;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.util.logging.Logger;
 
@@ -19,6 +20,8 @@ public class Controller {
 
     private final Logger logger = Logger.getLogger(Controller.class.getSimpleName());
     private AppFrame appFrame;
+
+    private String companion;
 
     private final HandlerObserver handlerObserver = new HandlerObserver();
 
@@ -50,17 +53,17 @@ public class Controller {
         messenger.start();
     }
 
-    public void send(String nameStr, String text) {
+    public void send(String nameStr, String text, long time) {
         messenger.sendPeerInfo(nameStr);
-        messenger.sendTextMessage(text);
+        messenger.sendTextMessage(text, time);
     }
 
-    public void addReceived(String text) {
-        throw new UnsupportedOperationException();
+    public void addReceived(long date, String text) {
+        SwingUtilities.invokeLater(() -> appFrame.addMessage(companion, date, text));
     }
 
     public void changeCompanionName(String name) {
-        throw new UnsupportedOperationException();
+        companion = name;
     }
 
     public void notifyStartedTyping() {
