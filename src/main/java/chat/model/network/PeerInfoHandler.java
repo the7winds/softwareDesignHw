@@ -17,6 +17,6 @@ public class PeerInfoHandler implements Handler {
     @Override
     public void handle(P2PMessenger.Message message) {
         P2PMessenger.PeerInfo peerInfo = message.getPeerInfo();
-        controller.changeCompanionName(peerInfo.getName());
+        controller.setCompanionName(peerInfo.getName());
     }
 }

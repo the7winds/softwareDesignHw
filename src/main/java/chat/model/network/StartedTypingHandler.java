@@ -16,7 +16,6 @@ public class StartedTypingHandler implements Handler {
 
     @Override
     public void handle(P2PMessenger.Message message) {
-        P2PMessenger.StartedTyping startedTyping = message.getStartedTyping();
         controller.notifyStartedTyping();
     }
 }

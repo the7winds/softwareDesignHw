@@ -46,6 +46,10 @@ public class Controller {
         this.appFrame = appFrame;
     }
 
+    public AppFrame getAppFrame() {
+        return appFrame;
+    }
+
     public void prepareToClose() {
         messenger.stop();
     }
@@ -70,19 +74,19 @@ public class Controller {
         }
     }
 
-    public void addReceived(long date, String text) {
-        SwingUtilities.invokeLater(() -> appFrame.addMessage(companion, date, text));
-    }
-
-    public void changeCompanionName(String name) {
+    public void setCompanionName(String name) {
         companion = name;
     }
 
     public void notifyStartedTyping() {
-        throw new UnsupportedOperationException();
+        messenger.sendStartedTypting();
     }
 
     public void complete() {
         SwingUtilities.invokeLater(() -> appFrame.showBye());
+    }
+
+    public String getCompanion() {
+        return companion;
     }
 }

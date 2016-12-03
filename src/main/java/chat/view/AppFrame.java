@@ -6,7 +6,9 @@ import chat.view.selectmode.SelectModeView;
 
 import javax.swing.*;
 import java.awt.event.WindowEvent;
-import java.time.*;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 /**
  * Created by the7winds on 26.10.16.

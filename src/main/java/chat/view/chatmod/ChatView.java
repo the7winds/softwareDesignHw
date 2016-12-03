@@ -4,6 +4,8 @@ import chat.model.Controller;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalTime;
@@ -56,6 +58,19 @@ public class ChatView extends JLayeredPane {
 
         enterMessageArea = new JTextArea();
         enterMessageArea.setLineWrap(true);
+        enterMessageArea.addKeyListener(new KeyAdapter() {
+            private long previous = 0;
+            private long period = 3000;
+            @Override
+            public void keyTyped(KeyEvent e) {
+                super.keyTyped(e);
+
+                if (System.currentTimeMillis() - previous > period) {
+                    previous = System.currentTimeMillis();
+                    controller.notifyStartedTyping();
+                }
+            }
+        });
         gbc.gridx = 1;
         add(enterMessageArea, gbc);
 
