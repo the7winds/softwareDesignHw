@@ -56,7 +56,7 @@ public class Messenger implements ReceiverTransmitter {
         sendMessage(message);
     }
 
-    public void sendStartedTypting() {
+    public void sendStartedTyping() {
         P2PMessenger.StartedTyping startedTyping = P2PMessenger.StartedTyping.getDefaultInstance();
         Message message = Message.newBuilder()
                 .setStartedTyping(startedTyping)

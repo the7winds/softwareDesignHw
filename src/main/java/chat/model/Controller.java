@@ -79,7 +79,7 @@ public class Controller {
     }
 
     public void notifyStartedTyping() {
-        messenger.sendStartedTypting();
+        messenger.sendStartedTyping();
     }
 
     public void complete() {

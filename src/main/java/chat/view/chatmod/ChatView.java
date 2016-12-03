@@ -41,7 +41,7 @@ public class ChatView extends JLayeredPane {
         gbc.weightx = 0;
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.gridwidth = 2;
+        gbc.gridwidth = 3;
         add(new JScrollPane(messages, VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_NEVER), gbc);
 
         startedTypingIndicator = new JLabel();
@@ -69,7 +69,7 @@ public class ChatView extends JLayeredPane {
         enterMessageArea.setLineWrap(true);
         enterMessageArea.addKeyListener(new KeyAdapter() {
             private long previous = 0;
-            private long period = 3000;
+            private long period = 1000;
             @Override
             public void keyTyped(KeyEvent e) {
                 super.keyTyped(e);
