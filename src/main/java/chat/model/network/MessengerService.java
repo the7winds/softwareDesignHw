@@ -24,7 +24,7 @@ public class MessengerService extends MessengerGrpc.MessengerImplBase implements
     }
 
     public MessengerService(int port, HandlerObserver handlerObserver) {
-        server = ServerBuilder.forPort(port).build();
+        server = ServerBuilder.forPort(port).addService(this).build();
         this.handlerObserver = handlerObserver;
     }
 

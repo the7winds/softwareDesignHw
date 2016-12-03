@@ -55,6 +55,7 @@ public class Controller {
         } catch (IOException e) {
             logger.warning(e.getMessage());
         }
+        appFrame.setChatModeView();
     }
 
     public void send(String nameStr, String text, long time) {

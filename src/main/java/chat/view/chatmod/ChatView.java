@@ -81,7 +81,7 @@ public class ChatView extends JLayeredPane {
     }
 
     public void addMessage(String author, String time, String txt) {
-        messages.add(new SingleMessageView(author, time,  txt));
+        messages.add(new SingleMessageView(time, author, txt));
         revalidate();
     }
 

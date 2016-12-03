@@ -13,6 +13,7 @@ import javax.swing.*;
 public class SingleMessageView extends JLabel {
 
     public SingleMessageView(String time, String author, String text) {
-        super(String.format("[%s|%d] %s", author, time, text));
+        super();
+        setText(String.format("[%s|%s] %s", author, time, text));
     }
 }
