@@ -4,10 +4,7 @@ import chat.model.Controller;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.time.LocalTime;
 
 import static javax.swing.JScrollPane.HORIZONTAL_SCROLLBAR_NEVER;
@@ -29,6 +26,8 @@ public class ChatView extends JLayeredPane {
     private JTextArea enterMessageArea;
     private JTextField name;
     private JButton sendButton;
+    private JLabel startedTypingIndicator;
+    private Timer timer;
 
     public ChatView(final Controller controller) {
         setLayout(new GridBagLayout());
@@ -45,6 +44,16 @@ public class ChatView extends JLayeredPane {
         gbc.gridwidth = 2;
         add(new JScrollPane(messages, VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_NEVER), gbc);
 
+        startedTypingIndicator = new JLabel();
+        gbc.weighty = 0;
+        gbc.weightx = 0;
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        gbc.gridwidth = 1;
+        add(startedTypingIndicator, gbc);
+        timer = new Timer(3000, e -> startedTypingIndicator.setText(""));
+        timer.start();
+
         name = new JTextField("username");
         name.setPreferredSize(new Dimension(80, 20));
         name.setMinimumSize(new Dimension(80, 20));
@@ -53,7 +62,7 @@ public class ChatView extends JLayeredPane {
         gbc.gridwidth = 1;
         gbc.weightx = 1;
         gbc.gridx = 0;
-        gbc.gridy = 1;
+        gbc.gridy = 2;
         add(name, gbc);
 
         enterMessageArea = new JTextArea();
@@ -83,6 +92,7 @@ public class ChatView extends JLayeredPane {
             public void mouseClicked(MouseEvent e) {
                 if (name.getText().length() > 0 && enterMessageArea.getText().length() > 0) {
                     controller.send(name.getText(), enterMessageArea.getText());
+                    enterMessageArea.setText("");
                 }
             }
         });
@@ -105,5 +115,9 @@ public class ChatView extends JLayeredPane {
         setEnabled(false);
         addMessage("SYSTEM", LocalTime.now().toString(), "the conversation is finished");
         revalidate();
+    }
+
+    public void notifyStartedTyping() {
+        startedTypingIndicator.setText("your companion is typing...");
     }
 }

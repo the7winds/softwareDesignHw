@@ -79,4 +79,8 @@ public class AppFrame extends JFrame {
     public void showBye() {
         chatView.showBye();
     }
+
+    public void notifyStartedTyping() {
+        chatView.notifyStartedTyping();
+    }
 }

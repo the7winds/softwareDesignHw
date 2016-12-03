@@ -28,10 +28,6 @@ public class MessengerService extends MessengerGrpc.MessengerImplBase implements
         this.handlerObserver = handlerObserver;
     }
 
-    public StreamObserver<P2PMessenger.Message> getOutput() {
-        return output;
-    }
-
     @Override
     public void sendMessage(P2PMessenger.Message message) {
         output.onNext(message);

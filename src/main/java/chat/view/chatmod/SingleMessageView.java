@@ -14,6 +14,7 @@ public class SingleMessageView extends JTextArea {
 
     public SingleMessageView(String time, String author, String text) {
         super();
+        setLineWrap(true);
         setText(String.format("[%s] %s: %s", time, author, text));
     }
 }
