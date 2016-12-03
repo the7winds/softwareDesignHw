@@ -15,11 +15,11 @@ public class MessengerService extends MessengerGrpc.MessengerImplBase implements
 
     private Server server;
     private final HandlerObserver handlerObserver;
-    private StreamObserver<P2PMessenger.Message> output;
+    private volatile StreamObserver<P2PMessenger.Message> output;
 
     @Override
     public StreamObserver<P2PMessenger.Message> chat(StreamObserver<P2PMessenger.Message> responseObserver) {
-        this.output = responseObserver;
+        output = responseObserver;
         return handlerObserver.setResponseObserver(responseObserver);
     }
 
@@ -46,5 +46,10 @@ public class MessengerService extends MessengerGrpc.MessengerImplBase implements
     public void stop() {
         output.onCompleted();
         server.shutdownNow();
+    }
+
+    @Override
+    public boolean isConnected() {
+        return output != null;
     }
 }

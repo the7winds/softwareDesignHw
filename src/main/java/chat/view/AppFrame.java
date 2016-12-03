@@ -73,4 +73,8 @@ public class AppFrame extends JFrame {
         setContentPane(chatView = new ChatView(controller));
         revalidate();
     }
+
+    public void showBye() {
+        chatView.showBye();
+    }
 }

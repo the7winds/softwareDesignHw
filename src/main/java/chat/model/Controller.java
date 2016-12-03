@@ -7,7 +7,6 @@ import chat.view.AppFrame;
 import javax.swing.*;
 import java.io.IOException;
 import java.time.Instant;
-import java.time.OffsetDateTime;
 import java.util.logging.Logger;
 
 /**
@@ -25,7 +24,7 @@ public class Controller {
 
     private String companion;
 
-    private final HandlerObserver handlerObserver = new HandlerObserver();
+    private final HandlerObserver handlerObserver = new HandlerObserver(this);
 
     public Controller() {
         handlerObserver.addHandler(P2PMessenger.Message.BodyCase.PEERINFO, new PeerInfoHandler(this));
@@ -51,20 +50,24 @@ public class Controller {
         messenger.stop();
     }
 
-    public void startListening() {
+    public void start() {
         try {
             messenger.start();
         } catch (IOException e) {
             logger.warning(e.getMessage());
         }
+
         appFrame.setChatModeView();
     }
 
     public void send(String name, String text) {
         long time = Instant.now().toEpochMilli() / 1000;
-        messenger.sendPeerInfo(name);
-        messenger.sendTextMessage(text, time);
-        SwingUtilities.invokeLater(() -> appFrame.addMessage(name, time, text));
+
+        if (messenger.isConnected()) {
+            messenger.sendPeerInfo(name);
+            messenger.sendTextMessage(text, time);
+            SwingUtilities.invokeLater(() -> appFrame.addMessage(name, time, text));
+        }
     }
 
     public void addReceived(long date, String text) {
@@ -77,5 +80,9 @@ public class Controller {
 
     public void notifyStartedTyping() {
         throw new UnsupportedOperationException();
+    }
+
+    public void complete() {
+        SwingUtilities.invokeLater(() -> appFrame.showBye());
     }
 }

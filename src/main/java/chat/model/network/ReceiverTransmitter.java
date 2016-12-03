@@ -14,4 +14,6 @@ public interface ReceiverTransmitter {
     void stop();
 
     void sendMessage(P2PMessenger.Message message);
+
+    boolean isConnected();
 }

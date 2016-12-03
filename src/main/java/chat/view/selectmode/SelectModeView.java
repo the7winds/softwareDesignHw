@@ -48,7 +48,7 @@ public class SelectModeView extends JLayeredPane {
             public void mouseClicked(MouseEvent e) {
                 setEnabled(false);
                 controller.setAddress(Integer.valueOf(port.getText()));
-                controller.startListening();
+                controller.start();
             }
         });
 
@@ -57,7 +57,7 @@ public class SelectModeView extends JLayeredPane {
             public void mouseClicked(MouseEvent e) {
                 setEnabled(false);
                 controller.setAddress(host.getText(), Integer.valueOf(port.getText()));
-                controller.startListening();
+                controller.start();
 
             }
         });

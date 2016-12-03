@@ -32,6 +32,11 @@ public class Messenger implements ReceiverTransmitter {
         messenger.sendMessage(message);
     }
 
+    @Override
+    public boolean isConnected() {
+        return messenger.isConnected();
+    }
+
     public void sendTextMessage(String textMessage, long time) {
         TextMessage.Builder textMessageBuilder = TextMessage.newBuilder()
                 .setText(textMessage)

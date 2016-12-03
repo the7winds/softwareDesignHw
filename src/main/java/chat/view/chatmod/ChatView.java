@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.time.LocalTime;
 
 import static javax.swing.JScrollPane.HORIZONTAL_SCROLLBAR_NEVER;
 import static javax.swing.JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED;
@@ -87,7 +88,7 @@ public class ChatView extends JLayeredPane {
 
     public void showBye() {
         setEnabled(false);
-        addMessage("", "", "the conversation is finished");
+        addMessage("SYSTEM", LocalTime.now().toString(), "the conversation is finished");
         revalidate();
     }
 }

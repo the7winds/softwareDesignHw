@@ -15,7 +15,7 @@ public class MessengerClient implements ReceiverTransmitter {
     private MessengerStub messengerStub;
     private HandlerObserver handlerObserver;
     private ManagedChannel managedChannel;
-    private StreamObserver<P2PMessenger.Message> output;
+    private volatile StreamObserver<P2PMessenger.Message> output;
 
     public MessengerClient(String host, int port, HandlerObserver handlerObserver) {
         managedChannel = ManagedChannelBuilder.forAddress(host, port).usePlaintext(true).build();
@@ -31,6 +31,11 @@ public class MessengerClient implements ReceiverTransmitter {
     @Override
     public void sendMessage(P2PMessenger.Message message) {
         output.onNext(message);
+    }
+
+    @Override
+    public boolean isConnected() {
+        return output != null;
     }
 
     @Override
