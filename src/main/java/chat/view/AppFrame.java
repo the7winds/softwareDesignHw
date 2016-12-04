@@ -21,7 +21,6 @@ import java.time.ZoneId;
  */
 public class AppFrame extends JFrame {
 
-    private SelectModeView selectModeView;
     private ChatView chatView;
     private final Controller controller;
 
@@ -29,7 +28,7 @@ public class AppFrame extends JFrame {
         controller.setAppFrame(this);
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        selectModeView = new SelectModeView(controller);
+        SelectModeView selectModeView = new SelectModeView(controller);
         chatView = new ChatView(controller);
 
         setSize(600, 400);
@@ -44,15 +43,6 @@ public class AppFrame extends JFrame {
         add(selectModeView);
 
         this.controller = controller;
-    }
-
-    /**
-     *  tunes into selectMode
-     */
-
-    public void setSelectModeView() {
-        setContentPane(selectModeView = new SelectModeView(controller));
-        revalidate();
     }
 
     /**
@@ -76,6 +66,9 @@ public class AppFrame extends JFrame {
         revalidate();
     }
 
+    /**
+     * uses only with enabled chat mode
+     */
     public void showBye() {
         chatView.showBye();
     }

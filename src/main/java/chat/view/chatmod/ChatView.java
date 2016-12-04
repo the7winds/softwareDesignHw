@@ -3,6 +3,8 @@ package chat.view.chatmod;
 import chat.model.Controller;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.time.LocalTime;
@@ -54,7 +56,7 @@ public class ChatView extends JLayeredPane {
         timer = new Timer(3000, e -> startedTypingIndicator.setText(""));
         timer.start();
 
-        name = new JTextField("username");
+        name = new JTextField();
         name.setPreferredSize(new Dimension(80, 20));
         name.setMinimumSize(new Dimension(80, 20));
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -111,6 +113,9 @@ public class ChatView extends JLayeredPane {
         sendButton.setEnabled(enabled);
     }
 
+    /**
+     * disables interface
+     */
     public void showBye() {
         setEnabled(false);
         addMessage("SYSTEM", LocalTime.now().toString(), "the conversation is finished");

@@ -10,6 +10,13 @@ import java.util.logging.Logger;
 /**
  * Created by the7winds on 03.12.16.
  */
+
+/**
+ * Some kind of listener to new messages.
+ * It delegates handling to Handler's heirs,
+ * so to add new message you should just register
+ * new handler via addHandler method
+ */
 public class HandlerObserver implements StreamObserver<P2PMessenger.Message> {
 
     private Logger logger = Logger.getLogger(getClass().getName());
@@ -28,6 +35,9 @@ public class HandlerObserver implements StreamObserver<P2PMessenger.Message> {
     }
 
     public void addHandler(P2PMessenger.Message.BodyCase bodyCase, Handler handler) {
+        /**
+         * delegates handling to the handler
+         */
         bodyCaseHandlerHashtable.put(bodyCase, handler);
     }
 
@@ -37,8 +47,12 @@ public class HandlerObserver implements StreamObserver<P2PMessenger.Message> {
     }
 
     @Override
-    public void onError(Throwable t){
+    public void onError(Throwable t) {
         logger.warning(t.getMessage());
+
+        /**
+         * we should notify controller, to make the app in consistent state
+         */
         controller.complete();
     }
 

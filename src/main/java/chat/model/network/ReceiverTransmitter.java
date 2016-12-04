@@ -7,6 +7,10 @@ import java.io.IOException;
 /**
  * Created by the7winds on 03.12.16.
  */
+
+/**
+ * interface to generalize client and server
+ */
 public interface ReceiverTransmitter {
 
     void start() throws IOException;

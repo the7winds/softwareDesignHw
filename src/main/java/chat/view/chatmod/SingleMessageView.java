@@ -7,7 +7,7 @@ import javax.swing.*;
  */
 
 /**
- * shows one message unit
+ * shows one message on the screen
  */
 
 public class SingleMessageView extends JTextArea {

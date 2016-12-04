@@ -11,6 +11,10 @@ import java.io.IOException;
 /**
  * Created by the7winds on 03.12.16.
  */
+
+/**
+ * just wraps gRPC
+ */
 public class MessengerService extends MessengerGrpc.MessengerImplBase implements ReceiverTransmitter {
 
     private Server server;

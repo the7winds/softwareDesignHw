@@ -10,14 +10,26 @@ import static chat.model.network.protocol.P2PMessenger.TextMessage;
 /**
  * Created by the7winds on 03.12.16.
  */
+
+/**
+ * Receiver-Transmitter Implementation which hides difference between
+ * server and client, it just delegate all calls to them
+ */
+
 public class Messenger implements ReceiverTransmitter {
 
     private ReceiverTransmitter messenger;
 
+    /**
+     * Creates server inside
+     */
     public Messenger(int port, HandlerObserver handlerObserver) {
         messenger = new MessengerService(port, handlerObserver);
     }
 
+    /**
+     * Creates client inside
+     */
     public Messenger(String host, int port, HandlerObserver handlerObserver) {
         messenger = new MessengerClient(host, port, handlerObserver);
     }

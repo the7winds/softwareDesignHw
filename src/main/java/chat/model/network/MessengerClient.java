@@ -10,6 +10,10 @@ import io.grpc.stub.StreamObserver;
 /**
  * Created by the7winds on 03.12.16.
  */
+
+/**
+ * just wraps gRPC
+ */
 public class MessengerClient implements ReceiverTransmitter {
 
     private MessengerStub messengerStub;

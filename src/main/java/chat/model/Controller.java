@@ -14,25 +14,40 @@ import java.util.logging.Logger;
  */
 
 /**
- * operates listening to socket and get interface for network
+ * It's a layer between networking and gui
  */
 
 public class Controller {
 
     private final Logger logger = Logger.getLogger(Controller.class.getSimpleName());
+
+    /**
+     * gui reference
+     */
     private AppFrame appFrame;
 
+    /**
+     * network reference
+     */
+    private Messenger messenger;
+    private final HandlerObserver handlerObserver;
+
+    /**
+     * data (it's so small, that I don't create any other storage)
+     */
     private String companion;
 
-    private final HandlerObserver handlerObserver = new HandlerObserver(this);
 
+    /**
+     * registers message handlers
+     */
     public Controller() {
+        handlerObserver = new HandlerObserver(this);
+
         handlerObserver.addHandler(P2PMessenger.Message.BodyCase.PEERINFO, new PeerInfoHandler(this));
         handlerObserver.addHandler(P2PMessenger.Message.BodyCase.TEXTMESSAGE, new TextMessageHandler(this));
         handlerObserver.addHandler(P2PMessenger.Message.BodyCase.STARTEDTYPING, new StartedTypingHandler(this));
     }
-
-    private Messenger messenger;
 
     public void setAddress(String host, int port) {
         messenger = new Messenger(host, port, handlerObserver);
@@ -46,14 +61,23 @@ public class Controller {
         this.appFrame = appFrame;
     }
 
+    /**
+     * gives access to message handlers
+     */
     public AppFrame getAppFrame() {
         return appFrame;
     }
 
+    /**
+     * we should do some actions with network before exit from the app
+     */
     public void prepareToClose() {
         messenger.stop();
     }
 
+    /**
+     *
+     */
     public void start() {
         try {
             messenger.start();
@@ -64,13 +88,13 @@ public class Controller {
         appFrame.setChatModeView();
     }
 
-    public void send(String name, String text) {
+    public void send(String username, String text) {
         long time = Instant.now().toEpochMilli() / 1000;
 
         if (messenger.isConnected()) {
-            messenger.sendPeerInfo(name);
+            messenger.sendPeerInfo(username);
             messenger.sendTextMessage(text, time);
-            SwingUtilities.invokeLater(() -> appFrame.addMessage(name, time, text));
+            SwingUtilities.invokeLater(() -> appFrame.addMessage(username, time, text));
         }
     }
 
@@ -79,7 +103,9 @@ public class Controller {
     }
 
     public void notifyStartedTyping() {
-        messenger.sendStartedTyping();
+        if (messenger.isConnected()) {
+            messenger.sendStartedTyping();
+        }
     }
 
     public void complete() {
