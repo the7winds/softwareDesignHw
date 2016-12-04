@@ -18,15 +18,15 @@ public class Game {
 
     public Game(Random random, Client client) {
         this.client = client;
-        int x = client.getPrinter().getScreenWidth() / 2;
-        int y = client.getPrinter().getScreenHeight() / 2;
+        int x = client.getScreenWidth() / 2;
+        int y = client.getScreenHeight() / 2;
         world = World.generateWorld(random, x, y);
         world.getHero().bindToClient(client);
     }
 
     public void play() {
         try {
-            client.getPrinter().initialRender(world.getHero(), world.getWorldMap());
+            client.initialRender(world.getHero(), world.getWorldMap());
             while (!isFinished()) {
                 List<Unit> units = world.getUnits();
                 for (Unit unit : units) {
@@ -35,7 +35,7 @@ public class Game {
                 }
             }
         } catch (IOException e) {
-            client.getPrinter().log(e.getMessage());
+            client.log(e.getMessage());
         }
     }
 

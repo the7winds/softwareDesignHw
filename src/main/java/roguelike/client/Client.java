@@ -1,6 +1,8 @@
 package roguelike.client;
 
+import roguelike.entities.hero.Hero;
 import roguelike.logic.UnitScript;
+import roguelike.map.WorldMap;
 
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
@@ -47,13 +49,27 @@ public class Client {
                 }
             }
 
-            game.getClient()
-                    .getPrinter()
-                    .gameNotify("Unknown command\n");
+            printer.gameNotify("Unknown command\n");
         };
     }
 
-    public Printer getPrinter() {
+    public int getScreenWidth() {
+        return printer.getScreenWidth();
+    }
+
+    public int getScreenHeight() {
+        return printer.getScreenHeight();
+    }
+
+    public void log(String message) {
+        printer.log(message);
+    }
+
+    public void initialRender(Hero hero, WorldMap worldMap) throws IOException {
+        printer.initialRender(hero, worldMap);
+    }
+
+    Printer getPrinter() {
         return printer;
     }
 }

@@ -20,7 +20,7 @@ import java.io.PrintStream;
 /**
  * some-kind of TUI-driver
  */
-public class Printer {
+class Printer {
 
     private PrintStream printStream;
 
@@ -33,11 +33,11 @@ public class Printer {
     private static final int MAX_WIDTH = 100;
     private static final int MAX_HEIGHT = 50;
 
-    public Printer(PrintStream printStream) {
+    Printer(PrintStream printStream) {
         this.printStream = printStream;
     }
 
-    public void listInventory(Hero hero) {
+    void listInventory(Hero hero) {
         Ammunition ammunition = hero.getAmmunition();
         printStream.printf("--AMMUNITION--\n");
         printStream.printf("#\tS\tL\tO\n");
@@ -51,14 +51,14 @@ public class Printer {
         }
     }
 
-    public void printHeroCharacter(Hero hero) {
+    void printHeroCharacter(Hero hero) {
         printStream.printf("Health: %d\tStrength: %d\tLuck: %d\n", hero.getHealth(), hero.getStrength(), hero.getLuck());
     }
 
     /**
      * to notify if player do something wrong
      */
-    public void gameNotify(String message) {
+    void gameNotify(String message) {
         printStream.printf("GAME: %s", message);
     }
 
@@ -69,7 +69,7 @@ public class Printer {
         printStream.printf("LOG: %s", message);
     }
 
-    public void drawMap(WorldMap worldMap) throws IOException {
+    void drawMap(WorldMap worldMap) throws IOException {
         for (int i = 0; i < worldMap.getHeight(); ++i) {
             for (int j = 0; j < worldMap.getWidth(); ++j) {
 
@@ -127,7 +127,7 @@ public class Printer {
         return MAX_HEIGHT;
     }
 
-    public void clear() {
+    void clear() {
         printStream.print(CUP);
         for (int i = 0; i < MAX_HEIGHT; ++i) {
             printStream.print(DL1);
