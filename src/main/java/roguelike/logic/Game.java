@@ -1,7 +1,7 @@
 package roguelike.logic;
 
 import roguelike.entities.Unit;
-import roguelike.entities.client.Client;
+import roguelike.client.Client;
 
 import java.io.IOException;
 import java.util.List;

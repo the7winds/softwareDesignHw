@@ -2,7 +2,7 @@ package roguelike.entities.hero;
 
 import roguelike.entities.Unit;
 import roguelike.entities.Visitor;
-import roguelike.entities.client.Client;
+import roguelike.client.Client;
 import roguelike.logic.UnitScript;
 import roguelike.logic.World;
 

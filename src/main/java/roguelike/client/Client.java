@@ -1,4 +1,4 @@
-package roguelike.entities.client;
+package roguelike.client;
 
 import roguelike.logic.UnitScript;
 
@@ -14,7 +14,7 @@ import java.lang.reflect.InvocationTargetException;
  */
 public class Client {
 
-    protected String rawCommand;
+    private String rawCommand;
     private DataInput dataInput;
     private Printer printer;
 

@@ -1,4 +1,4 @@
-package roguelike.entities.client;
+package roguelike.client;
 
 import roguelike.entities.hero.Ammunition;
 import roguelike.entities.hero.Wear;

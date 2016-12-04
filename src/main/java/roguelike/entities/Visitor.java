@@ -1,6 +1,5 @@
 package roguelike.entities;
 
-import roguelike.entities.enemy.Enemy;
 import roguelike.entities.hero.Hero;
 
 /**

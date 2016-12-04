@@ -1,8 +1,5 @@
-package roguelike.entities.enemy;
+package roguelike.entities;
 
-import roguelike.entities.Unit;
-import roguelike.entities.Visitor;
-import roguelike.entities.WearBlock;
 import roguelike.entities.hero.Wear;
 import roguelike.logic.Direction;
 import roguelike.logic.UnitScript;

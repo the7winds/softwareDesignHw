@@ -1,10 +1,10 @@
-package roguelike.entities.client;
+package roguelike.client;
 
 import roguelike.entities.EmptyBlock;
 import roguelike.entities.Visitor;
 import roguelike.entities.WallBlock;
 import roguelike.entities.WearBlock;
-import roguelike.entities.enemy.Enemy;
+import roguelike.entities.Enemy;
 import roguelike.entities.hero.Ammunition;
 import roguelike.entities.hero.Hero;
 import roguelike.entities.hero.Wear;

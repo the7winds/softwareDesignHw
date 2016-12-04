@@ -1,7 +1,7 @@
 package roguelike.logic;
 
 import roguelike.entities.Unit;
-import roguelike.entities.enemy.Enemy;
+import roguelike.entities.Enemy;
 import roguelike.entities.hero.Hero;
 import roguelike.map.Position;
 import roguelike.map.WorldMap;
