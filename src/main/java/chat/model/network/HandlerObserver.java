@@ -38,11 +38,13 @@ public class HandlerObserver implements StreamObserver<P2PMessenger.Message> {
         /**
          * delegates handling to the handler
          */
+        logger.info(String.format("added new handler for %s", bodyCase.toString()));
         bodyCaseHandlerHashtable.put(bodyCase, handler);
     }
 
     @Override
-    public void onNext(P2PMessenger.Message value){
+    public void onNext(P2PMessenger.Message value) {
+        logger.info("received new message");
         bodyCaseHandlerHashtable.get(value.getBodyCase()).handle(value);
     }
 
@@ -58,6 +60,7 @@ public class HandlerObserver implements StreamObserver<P2PMessenger.Message> {
 
     @Override
     public void onCompleted() {
+        logger.info("complete method");
         controller.complete();
         responseObserver.onCompleted();
     }

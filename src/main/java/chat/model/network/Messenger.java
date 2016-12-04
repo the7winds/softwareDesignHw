@@ -3,6 +3,7 @@ package chat.model.network;
 import chat.model.network.protocol.P2PMessenger;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import static chat.model.network.protocol.P2PMessenger.Message;
 import static chat.model.network.protocol.P2PMessenger.TextMessage;
@@ -18,12 +19,14 @@ import static chat.model.network.protocol.P2PMessenger.TextMessage;
 
 public class Messenger implements ReceiverTransmitter {
 
+    private Logger logger = Logger.getLogger(getClass().getName());
     private ReceiverTransmitter messenger;
 
     /**
      * Creates server inside
      */
     public Messenger(int port, HandlerObserver handlerObserver) {
+        logger.info("create server messenger");
         messenger = new MessengerService(port, handlerObserver);
     }
 
@@ -31,11 +34,13 @@ public class Messenger implements ReceiverTransmitter {
      * Creates client inside
      */
     public Messenger(String host, int port, HandlerObserver handlerObserver) {
+        logger.info("create client messenger");
         messenger = new MessengerClient(host, port, handlerObserver);
     }
 
     @Override
     public void start() throws IOException {
+        logger.info("start messenger");
         messenger.start();
     }
 
@@ -50,6 +55,7 @@ public class Messenger implements ReceiverTransmitter {
     }
 
     public void sendTextMessage(String textMessage, long time) {
+        logger.info("send text message");
         TextMessage.Builder textMessageBuilder = TextMessage.newBuilder()
                 .setText(textMessage)
                 .setDate(time);
@@ -60,6 +66,7 @@ public class Messenger implements ReceiverTransmitter {
     }
 
     public void sendPeerInfo(String name) {
+        logger.info("send peer info");
         P2PMessenger.PeerInfo.Builder peerInfo = P2PMessenger.PeerInfo.newBuilder()
                 .setName(name);
         Message message = Message.newBuilder()
@@ -69,6 +76,7 @@ public class Messenger implements ReceiverTransmitter {
     }
 
     public void sendStartedTyping() {
+        logger.info("notify companion about typing");
         P2PMessenger.StartedTyping startedTyping = P2PMessenger.StartedTyping.getDefaultInstance();
         Message message = Message.newBuilder()
                 .setStartedTyping(startedTyping)
@@ -78,6 +86,7 @@ public class Messenger implements ReceiverTransmitter {
 
     @Override
     public void stop() {
+        logger.info("stop messenger");
         messenger.stop();
     }
 }

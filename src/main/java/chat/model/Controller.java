@@ -82,7 +82,8 @@ public class Controller {
         try {
             messenger.start();
         } catch (IOException e) {
-            logger.warning(e.getMessage());
+            logger.severe(e.getMessage());
+            complete();
         }
 
         appFrame.setChatModeView();
