@@ -1,8 +1,6 @@
 package chat.view;
 
 import chat.model.Controller;
-import chat.view.chatmod.ChatView;
-import chat.view.selectmode.SelectModeView;
 
 import javax.swing.*;
 import java.awt.event.WindowEvent;
@@ -18,6 +16,8 @@ import java.time.ZoneId;
  * Class describes app's window
  * It has two modes: selectMode(server/client) and chatMode
  * At the beginning it stays in selectMode
+ *
+ * I suppose it calls fasad
  */
 public class AppFrame extends JFrame {
 

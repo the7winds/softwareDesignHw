@@ -1,4 +1,4 @@
-package chat.view.selectmode;
+package chat.view;
 
 import chat.model.Controller;
 
@@ -21,7 +21,7 @@ public class SelectModeView extends JLayeredPane {
     private final JTextField host;
     private final JTextField port;
 
-    public SelectModeView(final Controller controller) {
+    SelectModeView(final Controller controller) {
         setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();

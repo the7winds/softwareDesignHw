@@ -1,10 +1,8 @@
-package chat.view.chatmod;
+package chat.view;
 
 import chat.model.Controller;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.time.LocalTime;
@@ -100,7 +98,7 @@ public class ChatView extends JLayeredPane {
         });
     }
 
-    public void addMessage(String author, String time, String txt) {
+    void addMessage(String author, String time, String txt) {
         messages.add(new SingleMessageView(time, author, txt));
         revalidate();
     }
@@ -116,13 +114,26 @@ public class ChatView extends JLayeredPane {
     /**
      * disables interface
      */
-    public void showBye() {
+    void showBye() {
         setEnabled(false);
         addMessage("SYSTEM", LocalTime.now().toString(), "the conversation is finished");
         revalidate();
     }
 
-    public void notifyStartedTyping() {
+    void notifyStartedTyping() {
         startedTypingIndicator.setText("your companion is typing...");
+    }
+
+    /**
+     * shows one message on the screen
+     */
+
+    public static class SingleMessageView extends JTextArea {
+
+        SingleMessageView(String time, String author, String text) {
+            super();
+            setLineWrap(true);
+            setText(String.format("[%s] %s: %s", time, author, text));
+        }
     }
 }
