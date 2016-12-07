@@ -7,6 +7,7 @@ import chat.view.AppFrame;
 import javax.swing.*;
 import java.io.IOException;
 import java.time.Instant;
+import java.util.concurrent.TimeoutException;
 import java.util.logging.Logger;
 
 /**
@@ -72,7 +73,11 @@ public class Controller {
      * we should do some actions with network before exit from the app
      */
     public void prepareToClose() {
-        messenger.stop();
+        try {
+            messenger.stop();
+        } catch (IOException | TimeoutException e) {
+            logger.severe(e.getMessage());
+        }
     }
 
     /**
@@ -81,7 +86,7 @@ public class Controller {
     public void start() {
         try {
             messenger.start();
-        } catch (IOException e) {
+        } catch (IOException | TimeoutException e) {
             logger.severe(e.getMessage());
             complete();
         }
@@ -90,12 +95,16 @@ public class Controller {
     }
 
     public void send(String username, String text) {
-        long time = Instant.now().toEpochMilli() / 1000;
+        try {
+            long time = Instant.now().toEpochMilli() / 1000;
 
-        if (messenger.isConnected()) {
-            messenger.sendPeerInfo(username);
-            messenger.sendTextMessage(text, time);
-            SwingUtilities.invokeLater(() -> appFrame.addMessage(username, time, text));
+            if (messenger.isConnected()) {
+                messenger.sendPeerInfo(username);
+                messenger.sendTextMessage(text, time);
+                SwingUtilities.invokeLater(() -> appFrame.addMessage(username, time, text));
+            }
+        } catch (IOException e) {
+            logger.severe(e.getMessage());
         }
     }
 
@@ -104,8 +113,12 @@ public class Controller {
     }
 
     public void notifyStartedTyping() {
-        if (messenger.isConnected()) {
-            messenger.sendStartedTyping();
+        try {
+            if (messenger.isConnected()) {
+                messenger.sendStartedTyping();
+            }
+        } catch (IOException e) {
+            logger.severe(e.getMessage());
         }
     }
 

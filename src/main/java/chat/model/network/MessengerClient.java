@@ -1,11 +1,10 @@
 package chat.model.network;
 
-import chat.model.network.protocol.MessengerGrpc;
-import chat.model.network.protocol.MessengerGrpc.MessengerStub;
 import chat.model.network.protocol.P2PMessenger;
-import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
-import io.grpc.stub.StreamObserver;
+import com.rabbitmq.client.*;
+
+import java.io.IOException;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Created by the7winds on 03.12.16.
@@ -16,35 +15,45 @@ import io.grpc.stub.StreamObserver;
  */
 public class MessengerClient implements ReceiverTransmitter {
 
-    private MessengerStub messengerStub;
+    private static final String SEND_QUEUE = "client_queue";
+    private static final String RECEIVE_QUEUE = "service_queue";
+    private final ConnectionFactory connectionFactory = new ConnectionFactory();
+    private Connection connection;
+    private Channel channel;
     private HandlerObserver handlerObserver;
-    private ManagedChannel managedChannel;
-    private volatile StreamObserver<P2PMessenger.Message> output;
 
     public MessengerClient(String host, int port, HandlerObserver handlerObserver) {
-        managedChannel = ManagedChannelBuilder.forAddress(host, port).usePlaintext(true).build();
-        messengerStub = MessengerGrpc.newStub(managedChannel);
+        connectionFactory.setHost(host);
         this.handlerObserver = handlerObserver;
     }
 
     @Override
-    public void start() {
-        output = messengerStub.chat(handlerObserver.setResponseObserver(output));
+    public void start() throws IOException, TimeoutException {
+        connection = connectionFactory.newConnection();
+        channel = connection.createChannel();
+        channel.queueDeclare(SEND_QUEUE, false, false, false, null);
+        channel.queueDeclare(RECEIVE_QUEUE, false, false, false, null);
+        channel.basicConsume(RECEIVE_QUEUE, true, new DefaultConsumer(channel) {
+            @Override
+            public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
+                handlerObserver.onNext(P2PMessenger.Message.parseFrom(body));
+            }
+        });
     }
 
     @Override
-    public void sendMessage(P2PMessenger.Message message) {
-        output.onNext(message);
+    public void sendMessage(P2PMessenger.Message message) throws IOException {
+        channel.basicPublish("", SEND_QUEUE, null, message.toByteArray());
     }
 
     @Override
     public boolean isConnected() {
-        return output != null;
+        return channel.isOpen();
     }
 
     @Override
-    public void stop() {
-        output.onCompleted();
-        managedChannel.shutdownNow();
+    public void stop() throws IOException, TimeoutException {
+        channel.close();
+        connection.close();
     }
 }

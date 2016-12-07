@@ -3,6 +3,7 @@ package chat.model.network;
 import chat.model.network.protocol.P2PMessenger;
 
 import java.io.IOException;
+import java.util.concurrent.TimeoutException;
 import java.util.logging.Logger;
 
 import static chat.model.network.protocol.P2PMessenger.Message;
@@ -39,13 +40,13 @@ public class Messenger implements ReceiverTransmitter {
     }
 
     @Override
-    public void start() throws IOException {
+    public void start() throws IOException, TimeoutException {
         logger.info("start messenger");
         messenger.start();
     }
 
     @Override
-    public void sendMessage(Message message) {
+    public void sendMessage(Message message) throws IOException {
         messenger.sendMessage(message);
     }
 
@@ -54,7 +55,7 @@ public class Messenger implements ReceiverTransmitter {
         return messenger.isConnected();
     }
 
-    public void sendTextMessage(String textMessage, long time) {
+    public void sendTextMessage(String textMessage, long time) throws IOException {
         logger.info("send text message");
         TextMessage.Builder textMessageBuilder = TextMessage.newBuilder()
                 .setText(textMessage)
@@ -65,7 +66,7 @@ public class Messenger implements ReceiverTransmitter {
         sendMessage(message);
     }
 
-    public void sendPeerInfo(String name) {
+    public void sendPeerInfo(String name) throws IOException {
         logger.info("send peer info");
         P2PMessenger.PeerInfo.Builder peerInfo = P2PMessenger.PeerInfo.newBuilder()
                 .setName(name);
@@ -75,7 +76,7 @@ public class Messenger implements ReceiverTransmitter {
         sendMessage(message);
     }
 
-    public void sendStartedTyping() {
+    public void sendStartedTyping() throws IOException {
         logger.info("notify companion about typing");
         P2PMessenger.StartedTyping startedTyping = P2PMessenger.StartedTyping.getDefaultInstance();
         Message message = Message.newBuilder()
@@ -85,7 +86,7 @@ public class Messenger implements ReceiverTransmitter {
     }
 
     @Override
-    public void stop() {
+    public void stop() throws IOException, TimeoutException {
         logger.info("stop messenger");
         messenger.stop();
     }

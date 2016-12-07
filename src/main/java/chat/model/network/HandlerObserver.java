@@ -2,6 +2,8 @@ package chat.model.network;
 
 import chat.model.Controller;
 import chat.model.network.protocol.P2PMessenger;
+import com.rabbitmq.client.Consumer;
+import com.rabbitmq.client.DefaultConsumer;
 import io.grpc.stub.StreamObserver;
 
 import java.util.Hashtable;
@@ -17,7 +19,7 @@ import java.util.logging.Logger;
  * so to add new message you should just register
  * new handler via addHandler method
  */
-public class HandlerObserver implements StreamObserver<P2PMessenger.Message> {
+public class HandlerObserver {
 
     private Logger logger = Logger.getLogger(getClass().getName());
     private Hashtable<P2PMessenger.Message.BodyCase, Handler> bodyCaseHandlerHashtable = new Hashtable<>();
@@ -42,26 +44,8 @@ public class HandlerObserver implements StreamObserver<P2PMessenger.Message> {
         bodyCaseHandlerHashtable.put(bodyCase, handler);
     }
 
-    @Override
     public void onNext(P2PMessenger.Message value) {
         logger.info("received new message");
         bodyCaseHandlerHashtable.get(value.getBodyCase()).handle(value);
-    }
-
-    @Override
-    public void onError(Throwable t) {
-        logger.warning(t.getMessage());
-
-        /**
-         * we should notify controller, to make the app in consistent state
-         */
-        controller.complete();
-    }
-
-    @Override
-    public void onCompleted() {
-        logger.info("complete method");
-        controller.complete();
-        responseObserver.onCompleted();
     }
 }
