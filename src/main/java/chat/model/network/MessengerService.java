@@ -23,7 +23,7 @@ public class MessengerService implements ReceiverTransmitter {
     private Channel channel;
     private ReceiveMessageHandler receiveMessageHandler;
 
-    public MessengerService(int port, ReceiveMessageHandler receiveMessageHandler) {
+    public MessengerService(ReceiveMessageHandler receiveMessageHandler) {
         connectionFactory.setHost("localhost");
         this.receiveMessageHandler = receiveMessageHandler;
     }
@@ -34,22 +34,29 @@ public class MessengerService implements ReceiverTransmitter {
     }
 
     @Override
-    public void start() throws IOException, TimeoutException {
-        connection = connectionFactory.newConnection();
+    public void start() throws IOException {
+        try {
+            connection = connectionFactory.newConnection();
+        } catch (TimeoutException e) {
+            throw new IOException(e);
+        }
+
         channel = connection.createChannel();
         channel.queueDeclare(SEND_QUEUE, false, false, false, null);
         channel.queueDeclare(RECEIVE_QUEUE, false, false, false, null);
         channel.basicConsume(RECEIVE_QUEUE, true, new DefaultConsumer(channel) {
             @Override
-            public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
+            public void handleDelivery(String consumerTag
+                    , Envelope envelope
+                    , AMQP.BasicProperties properties
+                    , byte[] body) throws IOException {
                 receiveMessageHandler.onNext(P2PMessenger.Message.parseFrom(body));
             }
         });
     }
 
     @Override
-    public void stop() throws IOException, TimeoutException {
-        channel.close();
+    public void stop() throws IOException {
         connection.close();
     }
 

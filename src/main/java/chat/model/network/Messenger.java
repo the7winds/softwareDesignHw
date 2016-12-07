@@ -4,7 +4,6 @@ import chat.model.network.protocol.P2PMessenger;
 import org.slf4j.Logger;
 
 import java.io.IOException;
-import java.util.concurrent.TimeoutException;
 
 import static chat.model.network.protocol.P2PMessenger.Message;
 import static chat.model.network.protocol.P2PMessenger.TextMessage;
@@ -28,7 +27,7 @@ public class Messenger implements ReceiverTransmitter {
      */
     public Messenger(int port, ReceiveMessageHandler receiveMessageHandler) {
         logger.info("create server messenger");
-        messenger = new MessengerService(port, receiveMessageHandler);
+        messenger = new MessengerService(receiveMessageHandler);
     }
 
     /**
@@ -40,7 +39,7 @@ public class Messenger implements ReceiverTransmitter {
     }
 
     @Override
-    public void start() throws IOException, TimeoutException {
+    public void start() throws IOException {
         logger.info("start messenger");
         messenger.start();
     }
@@ -86,7 +85,7 @@ public class Messenger implements ReceiverTransmitter {
     }
 
     @Override
-    public void stop() throws IOException, TimeoutException {
+    public void stop() throws IOException {
         logger.debug("stop messenger");
         messenger.stop();
     }

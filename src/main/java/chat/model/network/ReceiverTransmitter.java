@@ -14,9 +14,9 @@ import java.util.concurrent.TimeoutException;
  */
 public interface ReceiverTransmitter {
 
-    void start() throws IOException, TimeoutException;
+    void start() throws IOException;
 
-    void stop() throws IOException, TimeoutException;
+    void stop() throws IOException;
 
     void sendMessage(P2PMessenger.Message message) throws IOException;
 

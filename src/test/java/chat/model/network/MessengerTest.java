@@ -5,9 +5,8 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.LinkedList;
-import java.util.concurrent.TimeoutException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by the7winds on 04.12.16.
@@ -15,7 +14,7 @@ import static org.junit.Assert.*;
 public class MessengerTest {
 
     @Test(timeout = 2000)
-    public void SimpleTest() throws IOException, TimeoutException {
+    public void SimpleTest() throws IOException {
 
         final LinkedList<P2PMessenger.Message> received = new LinkedList<>();
 

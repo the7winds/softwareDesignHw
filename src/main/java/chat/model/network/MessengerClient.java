@@ -28,8 +28,13 @@ public class MessengerClient implements ReceiverTransmitter {
     }
 
     @Override
-    public void start() throws IOException, TimeoutException {
-        connection = connectionFactory.newConnection();
+    public void start() throws IOException {
+        try {
+            connection = connectionFactory.newConnection();
+        } catch (TimeoutException e) {
+            throw new IOException(e);
+        }
+
         channel = connection.createChannel();
         channel.queueDeclare(SEND_QUEUE, false, false, false, null);
         channel.queueDeclare(RECEIVE_QUEUE, false, false, false, null);
@@ -52,8 +57,8 @@ public class MessengerClient implements ReceiverTransmitter {
     }
 
     @Override
-    public void stop() throws IOException, TimeoutException {
-        channel.close();
+    public void stop() throws IOException {
+        // closes all channels
         connection.close();
     }
 }
