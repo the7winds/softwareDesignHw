@@ -2,6 +2,7 @@ package chat.model.network;
 
 import chat.model.network.protocol.P2PMessenger;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
@@ -19,14 +20,14 @@ import static chat.model.network.protocol.P2PMessenger.TextMessage;
 
 public class Messenger implements ReceiverTransmitter {
 
-    private final Logger logger = org.slf4j.LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
     private final ReceiverTransmitter messenger;
 
     /**
      * Creates server inside
      */
     public Messenger(ReceiveMessageHandler receiveMessageHandler) {
-        logger.info("create server messenger");
+        logger.debug("create server messenger");
         messenger = new MessengerService(receiveMessageHandler);
     }
 
@@ -34,13 +35,13 @@ public class Messenger implements ReceiverTransmitter {
      * Creates client inside
      */
     public Messenger(String host, ReceiveMessageHandler receiveMessageHandler) {
-        logger.info("create client messenger");
+        logger.debug("create client messenger");
         messenger = new MessengerClient(host, receiveMessageHandler);
     }
 
     @Override
     public void start() throws IOException {
-        logger.info("start messenger");
+        logger.debug("start messenger");
         messenger.start();
     }
 
@@ -76,7 +77,7 @@ public class Messenger implements ReceiverTransmitter {
     }
 
     public void sendStartedTyping() throws IOException {
-        logger.info("notify companion about typing");
+        logger.debug("notify companion about typing");
         P2PMessenger.StartedTyping startedTyping = P2PMessenger.StartedTyping.getDefaultInstance();
         Message message = Message.newBuilder()
                 .setStartedTyping(startedTyping)
