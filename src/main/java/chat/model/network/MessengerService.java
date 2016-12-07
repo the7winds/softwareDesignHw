@@ -1,11 +1,7 @@
 package chat.model.network;
 
-import chat.model.network.protocol.MessengerGrpc;
 import chat.model.network.protocol.P2PMessenger;
 import com.rabbitmq.client.*;
-import io.grpc.Server;
-import io.grpc.ServerBuilder;
-import io.grpc.stub.StreamObserver;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
@@ -25,11 +21,11 @@ public class MessengerService implements ReceiverTransmitter {
     private final ConnectionFactory connectionFactory = new ConnectionFactory();
     private Connection connection;
     private Channel channel;
-    private HandlerObserver handlerObserver;
+    private ReceiveMessageHandler receiveMessageHandler;
 
-    public MessengerService(int port, HandlerObserver handlerObserver) {
+    public MessengerService(int port, ReceiveMessageHandler receiveMessageHandler) {
         connectionFactory.setHost("localhost");
-        this.handlerObserver = handlerObserver;
+        this.receiveMessageHandler = receiveMessageHandler;
     }
 
     @Override
@@ -46,7 +42,7 @@ public class MessengerService implements ReceiverTransmitter {
         channel.basicConsume(RECEIVE_QUEUE, true, new DefaultConsumer(channel) {
             @Override
             public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
-                handlerObserver.onNext(P2PMessenger.Message.parseFrom(body));
+                receiveMessageHandler.onNext(P2PMessenger.Message.parseFrom(body));
             }
         });
     }

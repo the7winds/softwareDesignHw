@@ -1,10 +1,10 @@
 package chat.model.network;
 
 import chat.model.network.protocol.P2PMessenger;
+import org.slf4j.Logger;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
-import java.util.logging.Logger;
 
 import static chat.model.network.protocol.P2PMessenger.Message;
 import static chat.model.network.protocol.P2PMessenger.TextMessage;
@@ -20,23 +20,23 @@ import static chat.model.network.protocol.P2PMessenger.TextMessage;
 
 public class Messenger implements ReceiverTransmitter {
 
-    private Logger logger = Logger.getLogger(getClass().getName());
-    private ReceiverTransmitter messenger;
+    private final Logger logger = org.slf4j.LoggerFactory.getLogger(getClass());
+    private final ReceiverTransmitter messenger;
 
     /**
      * Creates server inside
      */
-    public Messenger(int port, HandlerObserver handlerObserver) {
+    public Messenger(int port, ReceiveMessageHandler receiveMessageHandler) {
         logger.info("create server messenger");
-        messenger = new MessengerService(port, handlerObserver);
+        messenger = new MessengerService(port, receiveMessageHandler);
     }
 
     /**
      * Creates client inside
      */
-    public Messenger(String host, int port, HandlerObserver handlerObserver) {
+    public Messenger(String host, int port, ReceiveMessageHandler receiveMessageHandler) {
         logger.info("create client messenger");
-        messenger = new MessengerClient(host, port, handlerObserver);
+        messenger = new MessengerClient(host, port, receiveMessageHandler);
     }
 
     @Override
@@ -56,7 +56,7 @@ public class Messenger implements ReceiverTransmitter {
     }
 
     public void sendTextMessage(String textMessage, long time) throws IOException {
-        logger.info("send text message");
+        logger.debug("send text message");
         TextMessage.Builder textMessageBuilder = TextMessage.newBuilder()
                 .setText(textMessage)
                 .setDate(time);
@@ -67,7 +67,7 @@ public class Messenger implements ReceiverTransmitter {
     }
 
     public void sendPeerInfo(String name) throws IOException {
-        logger.info("send peer info");
+        logger.debug("send peer info");
         P2PMessenger.PeerInfo.Builder peerInfo = P2PMessenger.PeerInfo.newBuilder()
                 .setName(name);
         Message message = Message.newBuilder()
@@ -87,7 +87,7 @@ public class Messenger implements ReceiverTransmitter {
 
     @Override
     public void stop() throws IOException, TimeoutException {
-        logger.info("stop messenger");
+        logger.debug("stop messenger");
         messenger.stop();
     }
 }

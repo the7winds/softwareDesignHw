@@ -20,11 +20,11 @@ public class MessengerClient implements ReceiverTransmitter {
     private final ConnectionFactory connectionFactory = new ConnectionFactory();
     private Connection connection;
     private Channel channel;
-    private HandlerObserver handlerObserver;
+    private ReceiveMessageHandler receiveMessageHandler;
 
-    public MessengerClient(String host, int port, HandlerObserver handlerObserver) {
+    public MessengerClient(String host, int port, ReceiveMessageHandler receiveMessageHandler) {
         connectionFactory.setHost(host);
-        this.handlerObserver = handlerObserver;
+        this.receiveMessageHandler = receiveMessageHandler;
     }
 
     @Override
@@ -36,7 +36,7 @@ public class MessengerClient implements ReceiverTransmitter {
         channel.basicConsume(RECEIVE_QUEUE, true, new DefaultConsumer(channel) {
             @Override
             public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
-                handlerObserver.onNext(P2PMessenger.Message.parseFrom(body));
+                receiveMessageHandler.onNext(P2PMessenger.Message.parseFrom(body));
             }
         });
     }
