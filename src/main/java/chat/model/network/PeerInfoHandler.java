@@ -2,8 +2,9 @@ package chat.model.network;
 
 import chat.model.Controller;
 import chat.model.network.protocol.P2PMessenger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.logging.Logger;
 
 /**
  * Created by the7winds on 03.12.16.
@@ -11,7 +12,7 @@ import java.util.logging.Logger;
 public class PeerInfoHandler implements Handler {
 
     private final Controller controller;
-    private final Logger logger = Logger.getLogger(getClass().getName());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     public PeerInfoHandler(Controller controller) {
         this.controller = controller;
@@ -19,7 +20,7 @@ public class PeerInfoHandler implements Handler {
 
     @Override
     public void handle(P2PMessenger.Message message) {
-        logger.info("handle");
+        logger.debug("handle");
         P2PMessenger.PeerInfo peerInfo = message.getPeerInfo();
         controller.setCompanionName(peerInfo.getName());
     }

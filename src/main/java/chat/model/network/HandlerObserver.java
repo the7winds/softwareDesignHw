@@ -3,9 +3,11 @@ package chat.model.network;
 import chat.model.Controller;
 import chat.model.network.protocol.P2PMessenger;
 import io.grpc.stub.StreamObserver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Hashtable;
-import java.util.logging.Logger;
+
 
 /**
  * Created by the7winds on 03.12.16.
@@ -19,9 +21,9 @@ import java.util.logging.Logger;
  */
 public class HandlerObserver implements StreamObserver<P2PMessenger.Message> {
 
-    private Logger logger = Logger.getLogger(getClass().getName());
-    private Hashtable<P2PMessenger.Message.BodyCase, Handler> bodyCaseHandlerHashtable = new Hashtable<>();
-    private Controller controller;
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final Hashtable<P2PMessenger.Message.BodyCase, Handler> bodyCaseHandlerHashtable = new Hashtable<>();
+    private final Controller controller;
 
     private StreamObserver<P2PMessenger.Message> responseObserver;
 
@@ -34,33 +36,32 @@ public class HandlerObserver implements StreamObserver<P2PMessenger.Message> {
         return this;
     }
 
+    /**
+     * delegates handling to the handler
+     */
     public void addHandler(P2PMessenger.Message.BodyCase bodyCase, Handler handler) {
-        /**
-         * delegates handling to the handler
-         */
-        logger.info(String.format("added new handler for %s", bodyCase.toString()));
+        logger.debug("added new handler for %s", bodyCase.toString());
         bodyCaseHandlerHashtable.put(bodyCase, handler);
     }
 
     @Override
     public void onNext(P2PMessenger.Message value) {
-        logger.info("received new message");
+        logger.debug("received new message");
         bodyCaseHandlerHashtable.get(value.getBodyCase()).handle(value);
     }
 
+    /**
+     * we should notify controller, to make the app in consistent state
+     */
     @Override
     public void onError(Throwable t) {
-        logger.warning(t.getMessage());
-
-        /**
-         * we should notify controller, to make the app in consistent state
-         */
+        logger.error("error", t);
         controller.complete();
     }
 
     @Override
     public void onCompleted() {
-        logger.info("complete method");
+        logger.debug("complete method");
         controller.complete();
         responseObserver.onCompleted();
     }

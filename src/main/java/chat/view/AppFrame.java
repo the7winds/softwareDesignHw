@@ -17,7 +17,7 @@ import java.time.ZoneId;
  * It has two modes: selectMode(server/client) and chatMode
  * At the beginning it stays in selectMode
  *
- * I suppose it calls fasad
+ * I suppose it calls facade
  */
 public class AppFrame extends JFrame {
 

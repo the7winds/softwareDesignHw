@@ -3,11 +3,12 @@ package chat.model;
 import chat.model.network.*;
 import chat.model.network.protocol.P2PMessenger;
 import chat.view.AppFrame;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.io.IOException;
 import java.time.Instant;
-import java.util.logging.Logger;
 
 /**
  * Created by the7winds on 26.10.16.
@@ -19,7 +20,7 @@ import java.util.logging.Logger;
 
 public class Controller {
 
-    private final Logger logger = Logger.getLogger(Controller.class.getSimpleName());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      * gui reference
@@ -82,7 +83,7 @@ public class Controller {
         try {
             messenger.start();
         } catch (IOException e) {
-            logger.severe(e.getMessage());
+            logger.error("can't start messenger", e);
             complete();
         }
 
