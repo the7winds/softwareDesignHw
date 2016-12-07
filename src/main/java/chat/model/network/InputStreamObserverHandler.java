@@ -1,8 +1,8 @@
 package chat.model.network;
 
 import chat.model.Controller;
+import chat.model.network.protocol.Handler;
 import chat.model.network.protocol.P2PMessenger;
-import io.grpc.stub.StreamObserver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,26 +14,18 @@ import java.util.Hashtable;
  */
 
 /**
- * Some kind of listener to new messages.
- * It delegates handling to Handler's heirs,
- * so to add new message you should just register
- * new handler via addHandler method
+ * Some kind of listener to new messages, but separated from networking
+ * It delegates handling to Handler's heirs, so to add new message
+ * you should just register new handler via addHandler method
  */
-public class HandlerObserver implements StreamObserver<P2PMessenger.Message> {
+public class InputStreamObserverHandler {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final Hashtable<P2PMessenger.Message.BodyCase, Handler> bodyCaseHandlerHashtable = new Hashtable<>();
     private final Controller controller;
 
-    private StreamObserver<P2PMessenger.Message> responseObserver;
-
-    public HandlerObserver(Controller controller) {
+    public InputStreamObserverHandler(Controller controller) {
         this.controller = controller;
-    }
-
-    public HandlerObserver setResponseObserver(StreamObserver<P2PMessenger.Message> responseObserver) {
-        this.responseObserver = responseObserver;
-        return this;
     }
 
     /**
@@ -44,25 +36,24 @@ public class HandlerObserver implements StreamObserver<P2PMessenger.Message> {
         bodyCaseHandlerHashtable.put(bodyCase, handler);
     }
 
-    @Override
+    /**
+     * we should handle data in message
+     */
     public void onNext(P2PMessenger.Message value) {
-        logger.debug("received new message");
         bodyCaseHandlerHashtable.get(value.getBodyCase()).handle(value);
     }
 
     /**
      * we should notify controller, to make the app in consistent state
      */
-    @Override
-    public void onError(Throwable t) {
-        logger.error("error", t);
+    public void onError() {
         controller.complete();
     }
 
-    @Override
+    /**
+     * we should notify controller, to stop the app
+     */
     public void onCompleted() {
-        logger.debug("complete method");
         controller.complete();
-        responseObserver.onCompleted();
     }
 }

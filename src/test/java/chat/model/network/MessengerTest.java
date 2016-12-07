@@ -1,7 +1,6 @@
 package chat.model.network;
 
 import chat.model.network.protocol.P2PMessenger;
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -19,10 +18,10 @@ public class MessengerTest {
 
         final LinkedList<P2PMessenger.Message> received = new LinkedList<>();
 
-        HandlerObserver receiver = new HandlerObserver(null);
+        InputStreamObserverHandler receiver = new InputStreamObserverHandler(null);
         receiver.addHandler(P2PMessenger.Message.BodyCase.TEXTMESSAGE, received::add);
 
-        HandlerObserver empty = new HandlerObserver(null);
+        InputStreamObserverHandler empty = new InputStreamObserverHandler(null);
 
         int port = 8000;
 

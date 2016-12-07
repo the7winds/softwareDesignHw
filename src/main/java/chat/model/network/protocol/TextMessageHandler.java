@@ -1,7 +1,6 @@
-package chat.model.network;
+package chat.model.network.protocol;
 
 import chat.model.Controller;
-import chat.model.network.protocol.P2PMessenger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

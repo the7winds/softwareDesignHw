@@ -1,5 +1,7 @@
-package chat.model.network;
+package chat.model.network.grpc;
 
+import chat.model.network.InputStreamObserverHandler;
+import chat.model.network.ReceiverTransmitter;
 import chat.model.network.protocol.MessengerGrpc;
 import chat.model.network.protocol.MessengerGrpc.MessengerStub;
 import chat.model.network.protocol.P2PMessenger;
@@ -17,19 +19,19 @@ import io.grpc.stub.StreamObserver;
 public class MessengerClient implements ReceiverTransmitter {
 
     private MessengerStub messengerStub;
-    private HandlerObserver handlerObserver;
+    private InputStreamObserverHandler inputStreamObserverHandler;
     private ManagedChannel managedChannel;
     private volatile StreamObserver<P2PMessenger.Message> output;
 
-    public MessengerClient(String host, int port, HandlerObserver handlerObserver) {
+    public MessengerClient(String host, int port, InputStreamObserverHandler inputStreamObserverHandler) {
         managedChannel = ManagedChannelBuilder.forAddress(host, port).usePlaintext(true).build();
         messengerStub = MessengerGrpc.newStub(managedChannel);
-        this.handlerObserver = handlerObserver;
+        this.inputStreamObserverHandler = inputStreamObserverHandler;
     }
 
     @Override
     public void start() {
-        output = messengerStub.chat(handlerObserver.setResponseObserver(output));
+        output = messengerStub.chat(new InputStreamObserver(inputStreamObserverHandler, output));
     }
 
     @Override

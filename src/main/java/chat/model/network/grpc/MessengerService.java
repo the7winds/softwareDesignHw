@@ -1,5 +1,7 @@
-package chat.model.network;
+package chat.model.network.grpc;
 
+import chat.model.network.InputStreamObserverHandler;
+import chat.model.network.ReceiverTransmitter;
 import chat.model.network.protocol.MessengerGrpc;
 import chat.model.network.protocol.P2PMessenger;
 import io.grpc.Server;
@@ -18,18 +20,18 @@ import java.io.IOException;
 public class MessengerService extends MessengerGrpc.MessengerImplBase implements ReceiverTransmitter {
 
     private Server server;
-    private final HandlerObserver handlerObserver;
+    private final InputStreamObserverHandler inputStreamObserverHandler;
     private volatile StreamObserver<P2PMessenger.Message> output;
 
     @Override
     public StreamObserver<P2PMessenger.Message> chat(StreamObserver<P2PMessenger.Message> responseObserver) {
         output = responseObserver;
-        return handlerObserver.setResponseObserver(responseObserver);
+        return new InputStreamObserver(inputStreamObserverHandler, responseObserver);
     }
 
-    public MessengerService(int port, HandlerObserver handlerObserver) {
+    public MessengerService(int port, InputStreamObserverHandler inputStreamObserverHandler) {
         server = ServerBuilder.forPort(port).addService(this).build();
-        this.handlerObserver = handlerObserver;
+        this.inputStreamObserverHandler = inputStreamObserverHandler;
     }
 
     @Override

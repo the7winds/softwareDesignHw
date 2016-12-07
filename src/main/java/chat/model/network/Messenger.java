@@ -1,5 +1,7 @@
 package chat.model.network;
 
+import chat.model.network.grpc.MessengerClient;
+import chat.model.network.grpc.MessengerService;
 import chat.model.network.protocol.P2PMessenger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,17 +28,17 @@ public class Messenger implements ReceiverTransmitter {
     /**
      * Creates server inside
      */
-    public Messenger(int port, HandlerObserver handlerObserver) {
+    public Messenger(int port, InputStreamObserverHandler inputStreamObserverHandler) {
         logger.debug("create server messenger");
-        messenger = new MessengerService(port, handlerObserver);
+        messenger = new MessengerService(port, inputStreamObserverHandler);
     }
 
     /**
      * Creates client inside
      */
-    public Messenger(String host, int port, HandlerObserver handlerObserver) {
+    public Messenger(String host, int port, InputStreamObserverHandler inputStreamObserverHandler) {
         logger.debug("create client messenger");
-        messenger = new MessengerClient(host, port, handlerObserver);
+        messenger = new MessengerClient(host, port, inputStreamObserverHandler);
     }
 
     @Override

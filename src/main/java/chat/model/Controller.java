@@ -1,7 +1,11 @@
 package chat.model;
 
-import chat.model.network.*;
+import chat.model.network.InputStreamObserverHandler;
+import chat.model.network.Messenger;
 import chat.model.network.protocol.P2PMessenger;
+import chat.model.network.protocol.PeerInfoHandler;
+import chat.model.network.protocol.StartedTypingHandler;
+import chat.model.network.protocol.TextMessageHandler;
 import chat.view.AppFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +35,7 @@ public class Controller {
      * network reference
      */
     private Messenger messenger;
-    private final HandlerObserver handlerObserver;
+    private final InputStreamObserverHandler inputStreamObserverHandler;
 
     /**
      * data (it's so small, that I don't create any other storage)
@@ -43,19 +47,19 @@ public class Controller {
      * registers message handlers
      */
     public Controller() {
-        handlerObserver = new HandlerObserver(this);
+        inputStreamObserverHandler = new InputStreamObserverHandler(this);
 
-        handlerObserver.addHandler(P2PMessenger.Message.BodyCase.PEERINFO, new PeerInfoHandler(this));
-        handlerObserver.addHandler(P2PMessenger.Message.BodyCase.TEXTMESSAGE, new TextMessageHandler(this));
-        handlerObserver.addHandler(P2PMessenger.Message.BodyCase.STARTEDTYPING, new StartedTypingHandler(this));
+        inputStreamObserverHandler.addHandler(P2PMessenger.Message.BodyCase.PEERINFO, new PeerInfoHandler(this));
+        inputStreamObserverHandler.addHandler(P2PMessenger.Message.BodyCase.TEXTMESSAGE, new TextMessageHandler(this));
+        inputStreamObserverHandler.addHandler(P2PMessenger.Message.BodyCase.STARTEDTYPING, new StartedTypingHandler(this));
     }
 
     public void setAddress(String host, int port) {
-        messenger = new Messenger(host, port, handlerObserver);
+        messenger = new Messenger(host, port, inputStreamObserverHandler);
     }
 
     public void setAddress(int port) {
-        messenger = new Messenger(port, handlerObserver);
+        messenger = new Messenger(port, inputStreamObserverHandler);
     }
 
     public void setAppFrame(AppFrame appFrame) {

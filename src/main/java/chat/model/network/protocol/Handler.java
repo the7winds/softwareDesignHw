@@ -1,6 +1,4 @@
-package chat.model.network;
-
-import chat.model.network.protocol.P2PMessenger;
+package chat.model.network.protocol;
 
 /**
  * Created by the7winds on 03.12.16.
