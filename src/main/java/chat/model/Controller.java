@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import javax.swing.*;
 import java.io.IOException;
 import java.time.Instant;
-import java.util.concurrent.TimeoutException;
 
 /**
  * Created by the7winds on 26.10.16.
@@ -51,12 +50,12 @@ public class Controller {
         receiveMessageHandler.addHandler(P2PMessenger.Message.BodyCase.STARTEDTYPING, new StartedTypingHandler(this));
     }
 
-    public void setAddress(String host, int port) {
-        messenger = new Messenger(host, port, receiveMessageHandler);
+    public void setAddress(String host) {
+        messenger = new Messenger(host, receiveMessageHandler);
     }
 
-    public void setAddress(int port) {
-        messenger = new Messenger(port, receiveMessageHandler);
+    public void setAddress() {
+        messenger = new Messenger(receiveMessageHandler);
     }
 
     public void setAppFrame(AppFrame appFrame) {
@@ -76,7 +75,7 @@ public class Controller {
     public void prepareToClose() {
         try {
             messenger.stop();
-        } catch (IOException | TimeoutException e) {
+        } catch (IOException e) {
             logger.error("can't stop messenger", e);
         }
     }
@@ -87,7 +86,7 @@ public class Controller {
     public void start() {
         try {
             messenger.start();
-        } catch (IOException | TimeoutException e) {
+        } catch (IOException e) {
             logger.error("can't start messenger", e);
             complete();
         }

@@ -23,12 +23,10 @@ public class MessengerTest {
 
         ReceiveMessageHandler empty = new ReceiveMessageHandler();
 
-        int port = 8000;
-
-        Messenger server = new Messenger(port, empty);
+        Messenger server = new Messenger(empty);
         server.start();
 
-        Messenger client = new Messenger("localhost", port, receiver);
+        Messenger client = new Messenger("localhost", receiver);
         client.start();
 
         String testString = "TEST";

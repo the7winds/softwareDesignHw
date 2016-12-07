@@ -25,7 +25,7 @@ public class Messenger implements ReceiverTransmitter {
     /**
      * Creates server inside
      */
-    public Messenger(int port, ReceiveMessageHandler receiveMessageHandler) {
+    public Messenger(ReceiveMessageHandler receiveMessageHandler) {
         logger.info("create server messenger");
         messenger = new MessengerService(receiveMessageHandler);
     }
@@ -33,9 +33,9 @@ public class Messenger implements ReceiverTransmitter {
     /**
      * Creates client inside
      */
-    public Messenger(String host, int port, ReceiveMessageHandler receiveMessageHandler) {
+    public Messenger(String host, ReceiveMessageHandler receiveMessageHandler) {
         logger.info("create client messenger");
-        messenger = new MessengerClient(host, port, receiveMessageHandler);
+        messenger = new MessengerClient(host, receiveMessageHandler);
     }
 
     @Override

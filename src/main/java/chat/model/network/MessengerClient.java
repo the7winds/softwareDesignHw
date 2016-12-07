@@ -22,7 +22,7 @@ public class MessengerClient implements ReceiverTransmitter {
     private Channel channel;
     private ReceiveMessageHandler receiveMessageHandler;
 
-    public MessengerClient(String host, int port, ReceiveMessageHandler receiveMessageHandler) {
+    public MessengerClient(String host, ReceiveMessageHandler receiveMessageHandler) {
         connectionFactory.setHost(host);
         this.receiveMessageHandler = receiveMessageHandler;
     }

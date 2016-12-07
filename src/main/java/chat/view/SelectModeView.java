@@ -19,7 +19,6 @@ public class SelectModeView extends JLayeredPane {
     private final JButton serverStart;
     private final JButton clientStart;
     private final JTextField host;
-    private final JTextField port;
 
     SelectModeView(final Controller controller) {
         setLayout(new GridBagLayout());
@@ -39,15 +38,11 @@ public class SelectModeView extends JLayeredPane {
         gbc.gridy = 2;
         add(host, gbc);
 
-        port = new JTextField("8000");
-        gbc.gridy = 3;
-        add(port, gbc);
-
         serverStart.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 setEnabled(false);
-                controller.setAddress(Integer.valueOf(port.getText()));
+                controller.setAddress();
                 controller.start();
             }
         });
@@ -56,7 +51,7 @@ public class SelectModeView extends JLayeredPane {
             @Override
             public void mouseClicked(MouseEvent e) {
                 setEnabled(false);
-                controller.setAddress(host.getText(), Integer.valueOf(port.getText()));
+                controller.setAddress(host.getText());
                 controller.start();
 
             }
@@ -71,7 +66,6 @@ public class SelectModeView extends JLayeredPane {
     public void setEnabled(boolean enabled) {
         serverStart.setEnabled(enabled);
         clientStart.setEnabled(enabled);
-        port.setEnabled(enabled);
         host.setEnabled(enabled);
     }
 }
