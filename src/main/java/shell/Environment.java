@@ -58,7 +58,7 @@ public class Environment {
     /**
      * change current path with new suffix
      *
-     * @param changeDir
+     * @param changeDir directory to change to
      */
     public void changeDir(String changeDir) {
         curDir = curDir.resolve(changeDir);

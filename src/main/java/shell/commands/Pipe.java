@@ -37,6 +37,7 @@ class Pipe extends Command {
 
     /**
      * transfers bytes from one command to another
+     *
      * @throws Exception
      */
     @Override

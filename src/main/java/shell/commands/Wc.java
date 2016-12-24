@@ -1,5 +1,7 @@
 package shell.commands;
 
+import shell.Environment;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -35,7 +37,7 @@ public class Wc extends Command {
                 printStream.printf("%d\t%d\t%d\n", lines, words, bytes);
             } else {
                 for (int i = 1; i < args.length; i++) {
-                    File file = new File(args[i]);
+                    final File file = Environment.getInstance().getCurDir().resolve(args[i]).toFile();
                     try (Scanner scanner = new Scanner(file)) {
                         while (scanner.hasNextLine()) {
                             String line = scanner.nextLine();

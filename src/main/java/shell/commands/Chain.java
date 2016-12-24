@@ -19,7 +19,7 @@ public class Chain {
 
     private final LinkedList<Command> commands = new LinkedList<>();
 
-    public Chain(List<CommandNode> commandNodes) throws Exception  {
+    public Chain(List<CommandNode> commandNodes) throws Exception {
 
         Pipe pipeInput = new Pipe(true, System.in);
         Command first = pipeInput;
@@ -37,6 +37,7 @@ public class Chain {
 
     /**
      * connects output first command and input second command via Pipe class
+     *
      * @throws IOException
      */
     private void connect(Command first, Command second) throws IOException {

@@ -2,6 +2,7 @@ package shell.commands;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
+import shell.Environment;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -36,6 +37,7 @@ public class Grep extends Command {
 
     /**
      * handles parses grep args and calls doGrep to search
+     *
      * @throws Exception - exactly FileNotFoundException
      */
 
@@ -48,7 +50,8 @@ public class Grep extends Command {
 
         Map<String, Scanner> files = new HashMap<>();
         for (String filename : filenames) {
-            files.put(filename, new Scanner(new File(filename)));
+            final File file = Environment.getInstance().getCurDir().resolve(filename).toFile();
+            files.put(filename, new Scanner(file));
         }
 
         files.put("stdin", new Scanner(inputStream));
@@ -59,8 +62,9 @@ public class Grep extends Command {
 
     /**
      * search pattern
+     *
      * @param inputPattern user's input pattern
-     * @param scanner scanner associated with one of input files or standard input
+     * @param scanner      scanner associated with one of input files or standard input
      */
     private void doGrep(String inputPattern, String filename, Scanner scanner) {
         if (ignoreCase) {

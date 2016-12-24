@@ -35,6 +35,7 @@ public class Other extends Command {
 
     /**
      * executes external command
+     *
      * @throws Exception
      */
     @Override

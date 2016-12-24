@@ -1,7 +1,6 @@
+package shell.syntax;
+
 import org.junit.Test;
-import shell.syntax.CommandNode;
-import shell.syntax.Parser;
-import shell.syntax.Token;
 
 import java.util.Arrays;
 import java.util.List;
