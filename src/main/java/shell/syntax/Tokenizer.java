@@ -18,6 +18,7 @@ public class Tokenizer {
 
     /**
      * gets string and separates it by '|' or ' ' if it wasn't quoted
+     *
      * @throws SyntaxException when it has problems with quotation
      */
     public static List<String> rawTokenize(String rawInput) throws SyntaxException {
@@ -120,6 +121,7 @@ public class Tokenizer {
     /**
      * substitutes variable value to string if input is an assignment,
      * changes only value part else changes all
+     *
      * @throws SyntaxException when there are problems with quotation
      */
     public static String substitution(String string) throws SyntaxException {
@@ -134,6 +136,7 @@ public class Tokenizer {
 
     /**
      * substitutes variable values to string without any string checking
+     *
      * @throws SyntaxException when quoting isn't finished
      */
     public static String rawSubstitution(String string) throws SyntaxException {
@@ -203,6 +206,7 @@ public class Tokenizer {
 
     /**
      * removes quotes from string if it wasn't quoted
+     *
      * @throws SyntaxException - when quotation isn't finished
      */
     public static String noQuotes(String string) throws SyntaxException {
@@ -247,6 +251,7 @@ public class Tokenizer {
 
     /**
      * makes first tokenization, then substitutes, then makes second tokenization and removes quotes
+     *
      * @throws SyntaxException - when it contains some syntax mistakes like unfinished quotation
      */
     public static List<String> tokenize2level(String rawInput) throws SyntaxException {

@@ -32,6 +32,7 @@ public class TokenizerTest {
         Environment.getInstance().variableAssignment("a", "42");
         assertEquals("42", Tokenizer.rawSubstitution("$a"));
     }
+
     @Test
     public void weakInnerQuotes01RawSubstitutionTest() throws SyntaxException {
         Environment.getInstance().variableAssignment("a", "42");
@@ -141,7 +142,7 @@ public class TokenizerTest {
         assertEquals(tokens, rawTokens);
 
         rawTokens = Tokenizer.rawTokenize("ec\"ho\" a|cat");
-        tokens = Arrays.asList("ec\"ho\"",  "a", "|", "cat");
+        tokens = Arrays.asList("ec\"ho\"", "a", "|", "cat");
         assertEquals(tokens, rawTokens);
 
         rawTokens = Tokenizer.rawTokenize("ec\"ho\" a|c'a't");

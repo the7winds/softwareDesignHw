@@ -22,6 +22,7 @@ public class Shell {
 
     /**
      * reads input from keyboard and calls functions to handle it
+     *
      * @throws IOException
      */
 
@@ -49,6 +50,7 @@ public class Shell {
 
     /**
      * handles raw input: parses then builds chain of commands then runs it
+     *
      * @throws Exception
      */
     private static void process(String rawInput) throws Exception {

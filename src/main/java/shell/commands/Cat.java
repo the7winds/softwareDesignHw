@@ -1,5 +1,7 @@
 package shell.commands;
 
+import shell.Environment;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -26,7 +28,8 @@ public class Cat extends Command {
                 }
             } else {
                 for (int i = 1; i < args.length; i++) {
-                    try (Scanner scanner = new Scanner(new File(args[i]))) {
+                    final File file = Environment.getInstance().getCurDir().resolve(args[i]).toFile();
+                    try (final Scanner scanner = new Scanner(file)) {
                         while (scanner.hasNextLine()) {
                             String line = scanner.nextLine();
                             printStream.println(line);

@@ -17,6 +17,7 @@ public class Parser {
 
     /**
      * create some kind of AST: groups command with it's args
+     *
      * @throws SyntaxException often when it has problems with quotes
      */
     public static List<CommandNode> parse(List<Token> tokens) throws SyntaxException {
