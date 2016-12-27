@@ -2,6 +2,7 @@ package shell.commands;
 
 import shell.Environment;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Files;
@@ -34,9 +35,9 @@ public class Cd extends Command {
         }
 
         if(p.isAbsolute()) {
-            env.setPwd(p);
+            env.setPwd(Paths.get(p.toFile().getCanonicalPath()));
         } else {
-            env.setPwd(Paths.get(env.getPwd().toString(), p.toString()));
+            env.setPwd(Paths.get(Paths.get(env.getPwd().toString(), p.toString()).toFile().getCanonicalPath()));
         }
     }
 }

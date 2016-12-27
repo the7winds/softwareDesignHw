@@ -28,6 +28,7 @@ public class Environment {
 
     private Path pwd = Paths.get(".").toAbsolutePath();
 
+    /// Obtain current work path.
     public Path getPwd() {
         return pwd;
     }

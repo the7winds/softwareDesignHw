@@ -47,6 +47,11 @@ public class Shell {
         }
     }
 
+    /// For testing purposes.
+    public static void runOneCmd(String input) throws Exception {
+        process(input);
+    }
+
     /**
      * handles raw input: parses then builds chain of commands then runs it
      * @throws Exception
