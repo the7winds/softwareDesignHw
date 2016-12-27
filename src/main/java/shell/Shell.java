@@ -56,7 +56,6 @@ public class Shell {
         List<Token> tokens = Tokenizer.tokenize(rawTokens);
         List<CommandNode> commandNodes = Parser.parse(tokens);
         Chain chain = new Chain(commandNodes);
-
         chain.run();
     }
 }

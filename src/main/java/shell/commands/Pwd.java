@@ -1,5 +1,7 @@
 package shell.commands;
 
+import shell.Environment;
+
 import java.io.IOException;
 import java.nio.file.Paths;
 
@@ -18,6 +20,6 @@ public class Pwd extends Command {
      */
     @Override
     void execute() throws Exception {
-        outputStream.write((Paths.get(".").toAbsolutePath().toString() + "\n").getBytes());
+        outputStream.write((Environment.getInstance().getCurrentPath().toString() + "\n").getBytes());
     }
 }
